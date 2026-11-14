@@ -1,4 +1,4 @@
-# MataCheck v0.6.1 - prototipe interaksi
+# MataCheck v0.6.2 - prototipe interaksi
 
 ## Menjalankan
 1. Buka terminal di folder proyek. Gunakan Node.js (pengujian lokal memakai v24.15.0).
@@ -43,3 +43,6 @@ Ini prototipe interaksi, bukan pemeriksaan klinis. Tiga respons per mata adalah 
 
 ## Posisi mata v0.6.1
 Panduan mengikuti sisi pengguna: mata kiri di kiri layar, mata kanan di kanan layar. Status ikon berubah sesuai mata yang dipakai. Panduan juga tampil pada jeda pergantian; kedua kartu tetap berdampingan di layar sempit. Perubahan ini masih lokal.
+
+## v0.6.2 lokal
+Tindak lanjut audit: batasan beranda lebih jelas, fokus judul terlihat, bantuan Tidak terlihat, urutan kembali pada ringkasan, dan pemisah catatan per mata. Pemeriksaan kode lulus; pengujian visual browser masih tertunda. Belum dipush/deploy.

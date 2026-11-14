@@ -1,5 +1,17 @@
 # Verifikasi MataCheck
 
+## v0.6.2 lokal - tindak lanjut audit OpenCode
+
+- audit-report.md dibaca dan dipertahankan tanpa perubahan. Laporan eksternal bukan hasil pengujian mandiri asisten.
+- Temuan validasi Lanjut bertentangan dengan tabel PASS dan keterangan "sudah benar". Tidak dianggap bug terbukti.
+- Fokus kontrol sudah memiliki outline; namun h1:focus sebelumnya outline:none. Kini fokus judul terlihat, outline kontrol ditebalkan dengan pemisah warna latar.
+- Tombol arah sudah memiliki min-height 72px dan lebar grid 72px pada aturan akhir; tidak dibesarkan tanpa bukti kebutuhan.
+- Batasan simulasi diperjelas di beranda. Bantuan Tidak terlihat selalu tampil dan terhubung melalui aria-describedby. Tombol kembali pada ringkasan dipindah ke urutan pertama seperti halaman lain.
+- Catatan per mata diberi batas kartu dan pemisah respons. Teks penutup dipersingkat tanpa klaim medis.
+- npm test, sinkronisasi preview, persiapan fixture, dan git diff --check lulus. Pengujian visual laptop/layar sempit v0.6.2 belum dijalankan karena alat browser tidak tersedia; persiapan fixture tidak dihitung sebagai lulus browser.
+- Belum dipush/deploy. Prioritas berikutnya: periksa fokus, bantuan, dan kartu ringkasan pada 1366x768, 375x812, 320x568.
+
+
 ## v0.6.1 lokal - posisi ilustrasi mata
 
 - Menindaklanjuti screenshot pengguna: mata kiri selalu di kiri layar dan mata kanan selalu di kanan, dengan status terbuka mengikuti mata yang sedang didemokan.

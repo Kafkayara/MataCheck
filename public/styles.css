@@ -80,8 +80,8 @@ body{margin:0;background:#e6e8e0}#mata{max-width:1100px;margin:0 auto;min-height
 #mata .poster .poster-title,#mata .poster .poster-caption{font-size:12px;letter-spacing:.04em}
 #mata .note{font-size:15px;max-width:720px}
 #mata button{font-size:16px;min-height:50px;border-color:var(--mc-control)}
-#mata button:focus-visible,#mata input:focus-visible,#mata summary:focus-visible{outline:3px solid var(--mc-focus);outline-offset:4px}
-#mata h1:focus{outline:none}
+#mata button:focus-visible,#mata input:focus-visible,#mata summary:focus-visible{outline:4px solid var(--mc-focus);outline-offset:4px;box-shadow:0 0 0 3px var(--mc-paper)}
+#mata h1:focus{outline:3px solid var(--mc-focus);outline-offset:6px}
 #mata label.check{border-color:var(--mc-control);font-size:17px;line-height:1.6;padding:20px;align-items:flex-start}
 #mata input[type=checkbox],#mata input[type=radio]{margin-top:4px}
 #mata label.check:has(input:checked){box-shadow:inset 3px 0 #315f43}
@@ -106,3 +106,5 @@ body{margin:0;background:#e6e8e0}#mata{max-width:1100px;margin:0 auto;min-height
 #mata .eye-guide svg{display:block;width:90px;height:54px;margin:0 auto 12px;fill:none;stroke:currentColor;stroke-width:4;stroke-linecap:round}
 
 #mata .eye-guide .eye-open{background:#e5eee4;border-width:3px}#mata .eye-guide svg{max-width:100%}
+
+#mata .response-log{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}#mata .response-log section{border:1px solid var(--mc-line);padding:20px;border-radius:5px}#mata .response-log li{padding:8px 0;border-bottom:1px solid var(--mc-line)}#mata .response-log li:last-child{border-bottom:0}@media(max-width:760px){#mata .response-log{grid-template-columns:1fr}}
