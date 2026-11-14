@@ -16,5 +16,16 @@ jobs:
           node-version: '24'
       - name: Validate source, preview and deployment configuration
         run: npm test
-      - name: Validate browser test syntax and prepare fixture
-        run: npm run test:browser:prepare
+      - name: Run both modes in Chrome at five viewport sizes
+        run: npm run test:browser
+      - name: Save browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-evidence
+          path: |
+            tests/artifacts/browser-report.txt
+            tests/artifacts/browser-stderr.txt
+            tests/artifacts/browser-output.html
+          if-no-files-found: warn
+          retention-days: 7

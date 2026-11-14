@@ -1,5 +1,17 @@
 # Verifikasi MataCheck
 
+## Lanjutan 15 November 2026 — status terbaru
+
+- Pemeriksaan sesi sebelumnya mencocokkan commit lokal, GitHub, dan produksi pada 953c970, CI lulus dan deployment READY. Ini catatan hasil sesi sebelumnya; akses remote belum diperiksa ulang dalam retry ini.
+- Retry lokal: npm test PASS. npm run test:browser berhasil menyiapkan fixture tetapi Chrome keluar dengan kode 2147483651 sebelum laporan tersedia. Tidak ada klaim PASS browser v0.6.2.
+- Runner baru mewajibkan lima laporan viewport PASS, menyimpan stdout/stderr, dan menghapus bukti lama sebelum percobaan baru agar laporan PASS lama tidak terbawa setelah crash.
+- Workflow lokal menjalankan browser serta mengunggah bukti. Belum dipush/dijalankan di GitHub; CI lama hanya menyiapkan fixture.
+- Dokumen arah produk dan panduan uji pengguna diperbarui. Belum ada uji pengguna nyata atau validasi klinis baru.
+- Masih tertunda: browser otomatis yang berhasil, inspeksi visual laptop/layar sempit, keyboard manual seluruh alur, refresh, reduced motion, dan pemeriksaan perangkat fisik.
+
+Bagian di bawah adalah riwayat; pernyataan belum dipush/deploy merujuk waktu masing-masing catatan dibuat.
+
+
 ## v0.6.2 lokal - tindak lanjut audit OpenCode
 
 - audit-report.md dibaca dan dipertahankan tanpa perubahan. Laporan eksternal bukan hasil pengujian mandiri asisten.
