@@ -102,3 +102,5 @@ body{margin:0;background:#e6e8e0}#mata{max-width:1100px;margin:0 auto;min-height
 @media(max-width:400px){#mata main,#mata header{padding-left:18px;padding-right:18px}#mata header{flex-direction:column;align-items:flex-start}#mata h1,#mata[data-screen='0'] h1{font-size:36px}#mata .actions{flex-direction:column;align-items:stretch}#mata .results div{padding:22px 18px}#mata footer{padding:18px}#mata .step-label{flex-wrap:wrap}}
 
 #mata .header-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px}#mata .header-actions button{font-size:13px;padding:8px 12px;min-height:44px}#mata header{flex-wrap:wrap}
+#mata .eye-guide{display:flex;flex-wrap:wrap;gap:16px;margin:24px 0}#mata .eye-guide span{flex:1;min-width:150px;padding:18px;border:2px solid var(--mc-ink);text-align:center;border-radius:4px}#mata .eye-guide strong{display:block;font-size:20px}#mata .response-log{margin:24px 0}#mata .response-log li{text-transform:none}
+#mata .eye-guide svg{display:block;width:90px;height:54px;margin:0 auto 12px;fill:none;stroke:currentColor;stroke-width:4;stroke-linecap:round}

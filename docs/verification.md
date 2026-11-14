@@ -1,4 +1,14 @@
-# Verifikasi MataCheck v0.4
+# Verifikasi MataCheck
+
+## v0.5 lokal - 14 November 2026
+
+- Workspace aktif dan uji tulis/baca/hapus file sementara berhasil. Working tree awal bersih.
+- Latihan arah E wajib sebelum mata kanan; jeda pergantian wajib dikonfirmasi sebelum mata kiri. Slider contoh dihapus, peran dijelaskan, panduan mata diberi ilustrasi SVG lokal, ringkasan menampilkan enam jawaban tanpa skor.
+- npm test: PASS sintaks, encoding, guard termasuk latihan/pergantian, regresi generator, konfigurasi deployment, dan sinkronisasi preview. git diff --check: PASS.
+- npm run test:browser:prepare: PASS persiapan fixture; bukan eksekusi browser. Skenario diperbarui untuk latihan, pergantian mata, rincian respons, dan reset latihan.
+- Chrome headless berhenti dengan exit -2147483645; Edge headless berhenti dengan exit -1073741819. Tidak ada laporan assertions yang dihasilkan. Penyebab crash belum teridentifikasi. Pengujian browser/visual v0.5 masih tertunda; hasil v0.4 di bawah tidak membuktikan v0.5 lulus.
+- Belum dipush atau dideploy; produksi tetap commit 93f9148 (v0.4).
+
 
 ## Status produksi terbaru - 14 November 2026
 

@@ -17,25 +17,28 @@
   };
   try {
     screen(0); fit(); assert(!find('nav'), 'Reviewer navigation present');
-    for (const n of [-1,6,1.5,'NaN',2,3,4,5]) { attempt(n); screen(0); }
+    for (const n of [-1,8,1.5,'NaN',2,3,4,5,6,7]) { attempt(n); screen(0); }
     click('[data-go="1"]'); screen(1); heading(); fit();
     assert(find('#next').disabled, 'Empty form allowed');
     check('[value="yes"]'); check('#consent');
     assert(!find('#stop').hidden, 'Stop message missing');
     assert(find('#next').disabled, 'Symptoms allowed');
-    for (const n of [2,3,4,5]) { attempt(n); screen(1); }
+    for (const n of [2,3,4,5,6,7]) { attempt(n); screen(1); }
     check('[value="no"]'); check('#consent', false);
     assert(find('#next').disabled, 'Consent missing');
     check('#consent'); click('#next'); screen(2); fit();
     attempt(3); screen(2); check('.setup');
     assert(find('#next').disabled, 'Only one preparation accepted');
     check('label.check:nth-of-type(2) .setup');
-    find('#size').value = '250'; find('#size').dispatchEvent(new Event('input', {bubbles:true}));
     click('[data-go="1"]');
     assert(find('[value="no"]').checked && find('#consent').checked, 'Initial form lost');
     click('#next');
     assert([...root.querySelectorAll('.setup')].every(e=>e.checked), 'Preparation lost');
-    assert(find('#size').value === '250', 'Slider state lost');
+    click('#next'); screen(6); fit();
+    assert(!find('#size'), 'Calibration slider present');
+    attempt(3); screen(6);
+    click('[data-practice="atas"]'); assert(find('#next').disabled, 'Wrong practice unlocked');
+    click('[data-practice="kanan"]'); assert(!find('#next').disabled, 'Practice did not unlock');
     click('#next'); screen(3); fit();
     attempt(4); screen(3); attempt(5); screen(3);
     for (let eye = 3; eye <= 4; eye++) {
@@ -55,23 +58,22 @@
         if (answer !== 'kiri') assert(document.activeElement.dataset.answer === answer, 'Answer focus lost');
       }
       heading();
+      if (eye===3) { screen(7); fit(); attempt(4); screen(7); assert(find('#next').disabled,'Switch confirmation missing'); check('#switch-eye'); click('#next'); screen(4); }
     }
-    screen(5); fit();
+    screen(5); fit(); assert(root.querySelectorAll('.response-log li').length===6,'Wrong response log');
     assert([...root.querySelectorAll('.results strong')].every(e=>e.textContent==='3 dari 3 respons'), 'Wrong counts');
     click('#restart'); screen(1);
     assert(!find('#consent').checked && !find('[name=condition]:checked'), 'Restart retained form');
     attempt(5); screen(1);
     check('[value="no"]'); check('#consent'); click('#next');
     assert([...root.querySelectorAll('.setup')].every(e=>!e.checked), 'Restart retained preparation');
-    assert(find('#size').value==='200', 'Restart retained slider');
     check('.setup'); check('label.check:nth-of-type(2) .setup'); click('#next');
-    click('#ready'); click('[data-answer="kanan"]'); click('#clear-session');
+    screen(6); assert(find('#next').disabled, 'Restart retained practice'); click('[data-practice="kanan"]'); click('#next'); click('#ready'); click('[data-answer="kanan"]'); click('#clear-session');
     screen(0); click('[data-go="1"]');
     assert(!find('#consent').checked && !find('[name=condition]:checked'), 'Clear retained form');
     attempt(5); screen(1);
     check('[value="no"]'); check('#consent'); click('#next');
     assert([...root.querySelectorAll('.setup')].every(e=>!e.checked), 'Clear retained preparation');
-    assert(find('#size').value==='200', 'Clear retained slider');
     attempt(4); screen(2); click('#clear-session'); screen(0); fit();
     const result = document.createElement('pre'); result.id='qa-result';
     result.textContent='PASS '+count+' assertions; guards, symptoms, retained inputs, both eyes, pause, focus, reset, overflow';

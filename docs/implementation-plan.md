@@ -24,3 +24,7 @@ Session data stays in memory. Refresh resets the application; this is deliberate
 - Added executable guard regression checks and expanded the browser fixture to five viewport sizes.
 - Keep browser results pending until observed. GitHub destination was supplied by the user; remote content, write access and Vercel account remain unverified.
 - Commit attribution must use the user's existing Git identity only, with no Co-authored-by trailer.
+
+## v0.5 - kejelasan penggunaan
+
+Rencana disetujui pengguna: beranda, pemeriksaan awal, persiapan, latihan menjawab, mata kanan, jeda pergantian, mata kiri, ringkasan catatan. Pertahankan sumber public/, desain krem/hijau, data dalam memori, serta tanpa diagnosis. Nomor internal halaman lama dipertahankan; urutan progres ditentukan oleh steps agar tidak mengubah identitas tahap lama.

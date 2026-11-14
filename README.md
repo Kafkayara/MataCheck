@@ -1,4 +1,4 @@
-# MataCheck v0.4 - prototipe interaksi
+# MataCheck v0.5 - prototipe interaksi
 
 ## Menjalankan
 1. Buka terminal di folder proyek. Gunakan Node.js (pengujian lokal memakai v24.15.0).
@@ -11,13 +11,16 @@
 ## Struktur
 - public/index.html: halaman aplikasi.
 - public/styles.css: desain yang sudah disetujui.
-- public/app.js: alur enam halaman dan state sesi.
+- public/app.js: alur delapan halaman dan state sesi.
 - scripts/build-preview.cjs: menghasilkan preview dari `public/` dan memeriksa sinkronisasinya.
 - tests/: pemeriksaan kode dan pengujian alur DOM melalui fixture browser.
 - vercel.json: direktori publik dan header keamanan.
 - docs/implementation-plan.md: cakupan tahap ini.
 - docs/verification.md: hasil yang benar-benar sudah diverifikasi dan batasannya.
 - docs/deployment.md: tujuan GitHub, atribusi commit, dan persiapan Vercel.
+
+## Perubahan v0.5 lokal
+Persiapan menjelaskan peran peserta/pendamping, latihan arah E wajib sebelum demo, jeda pergantian mata dengan konfirmasi, ilustrasi mata ditutup/terbuka, dan ringkasan enam jawaban sesuai urutan. Slider contoh dihapus. Versi ini belum dipush atau dideploy; alamat produksi di bawah masih merujuk versi sebelumnya.
 
 ## Deployment
 Website produksi: https://matacheck.vercel.app. Deployment commit `93f9148` berstatus READY dan diverifikasi pada 14 November 2026. Repository https://github.com/Kafkayara/MataCheck terhubung ke project Vercel `matacheck`, dengan framework Other, output `public`, serta build/install command kosong. Author dan committer commit tetap Kafkayara.
@@ -28,4 +31,4 @@ Workflow `.github/workflows/checks.yml` menjalankan `npm test` pada push ke main
 Menu peninjau desain dihapus. Prasyarat diperiksa sebelum perpindahan layar. Jawaban disimpan hanya dalam memori tab; refresh atau tutup halaman menghapus sesi. Mulai ulang juga menghapus semua isian. Kamera, mikrofon dan analitik tidak digunakan.
 
 ## Batasan
-Ini prototipe interaksi, bukan pemeriksaan klinis. Tiga respons per mata dan kontrol kalibrasi adalah demonstrasi. Tidak menghitung ketajaman, minus, plus, silinder atau resep. Validasi metode dengan profesional tetap tahap terpisah.
+Ini prototipe interaksi, bukan pemeriksaan klinis. Tiga respons per mata adalah demonstrasi; tidak ada kalibrasi fisik dalam versi ini. Tidak menghitung ketajaman, minus, plus, silinder atau resep. Validasi metode dengan profesional tetap tahap terpisah.
