@@ -10,6 +10,14 @@
   };
   const screen = n => assert(root.dataset.screen === String(n), 'Expected screen '+n);
   const fit = () => assert(document.documentElement.scrollWidth <= innerWidth, 'Overflow on screen '+root.dataset.screen);
+  const eyeGuide = active => {
+    const left=find('[data-eye="kiri"]'),right=find('[data-eye="kanan"]');
+    assert(left&&right,'Eye guide missing');
+    assert(left.getBoundingClientRect().right<=right.getBoundingClientRect().left,'Eye cards must stay left/right');
+    assert(left.getBoundingClientRect().top===right.getBoundingClientRect().top,'Eye cards stacked');
+    assert(left.classList.contains('eye-open')===(active==='kiri'),'Left eye state wrong');
+    assert(right.classList.contains('eye-open')===(active==='kanan'),'Right eye state wrong');
+  };
   const heading = () => assert(document.activeElement === find('h1'), 'Heading focus lost');
   const attempt = n => {
     const button = document.createElement('button'); button.dataset.go = String(n);
@@ -42,7 +50,7 @@
     click('#next'); screen(3); fit();
     attempt(4); screen(3); attempt(5); screen(3);
     for (let eye = 3; eye <= 4; eye++) {
-      screen(eye); assert(find('#ready') && !find('[data-answer]'), 'Eye confirmation skipped'); fit();
+      screen(eye); eyeGuide(eye===3?'kanan':'kiri'); assert(find('#ready') && !find('[data-answer]'), 'Eye confirmation skipped'); fit();
       click('#ready'); heading(); fit();
       const progress = find('.kicker').textContent;
       click('#pause'); fit();
@@ -58,7 +66,7 @@
         if (answer !== 'kiri') assert(document.activeElement.dataset.answer === answer, 'Answer focus lost');
       }
       heading();
-      if (eye===3) { screen(7); fit(); attempt(4); screen(7); assert(find('#next').disabled,'Switch confirmation missing'); check('#switch-eye'); click('#next'); screen(4); }
+      if (eye===3) { screen(7); eyeGuide('kiri'); fit(); attempt(4); screen(7); assert(find('#next').disabled,'Switch confirmation missing'); check('#switch-eye'); click('#next'); screen(4); }
     }
     screen(5); fit(); assert(root.querySelectorAll('.response-log li').length===6,'Wrong response log');
     assert([...root.querySelectorAll('.results strong')].every(e=>e.textContent==='3 dari 3 respons'), 'Wrong counts');

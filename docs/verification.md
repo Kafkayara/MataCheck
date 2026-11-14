@@ -1,5 +1,14 @@
 # Verifikasi MataCheck
 
+## v0.6.1 lokal - posisi ilustrasi mata
+
+- Menindaklanjuti screenshot pengguna: mata kiri selalu di kiri layar dan mata kanan selalu di kanan, dengan status terbuka mengikuti mata yang sedang didemokan.
+- Panduan yang sama ditambahkan pada jeda pergantian ke mata kiri. Dua kolom dipertahankan pada layar sempit agar arti posisi tidak berubah menjadi atas/bawah.
+- Pengujian fungsi asli memeriksa urutan, status, SVG terbuka/tertutup, dan penggunaan panduan pada tahap pergantian.
+- Fixture browser menambahkan pemeriksaan posisi kedua kartu pada lima viewport. Belum ada laporan eksekusi browser untuk perubahan ini; hasil persiapan fixture bukan hasil browser.
+- Belum dipush/deploy. Label teks tetap tersedia sebagai pelengkap aksesibilitas.
+
+
 ## v0.6 lokal - mode sendiri
 
 - Mode solo/helper wajib sebelum latihan; pergantian mode membersihkan kesiapan, latihan dan jawaban. Instruksi serta ringkasan mengikuti mode.
