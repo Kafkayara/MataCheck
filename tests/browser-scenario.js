@@ -27,7 +27,7 @@
     check('[value="no"]'); check('#consent', false);
     assert(find('#next').disabled, 'Consent missing');
     check('#consent'); click('#next'); screen(2); fit();
-    attempt(3); screen(2); check('.setup');
+    attempt(3); screen(2); check('[name=mode][value=helper]'); check('.setup');
     assert(find('#next').disabled, 'Only one preparation accepted');
     check('label.check:nth-of-type(2) .setup');
     click('[data-go="1"]');
@@ -67,7 +67,7 @@
     attempt(5); screen(1);
     check('[value="no"]'); check('#consent'); click('#next');
     assert([...root.querySelectorAll('.setup')].every(e=>!e.checked), 'Restart retained preparation');
-    check('.setup'); check('label.check:nth-of-type(2) .setup'); click('#next');
+    check('[name=mode][value=helper]'); check('.setup'); check('label.check:nth-of-type(2) .setup'); click('#next');
     screen(6); assert(find('#next').disabled, 'Restart retained practice'); click('[data-practice="kanan"]'); click('#next'); click('#ready'); click('[data-answer="kanan"]'); click('#clear-session');
     screen(0); click('[data-go="1"]');
     assert(!find('#consent').checked && !find('[name=condition]:checked'), 'Clear retained form');
@@ -75,6 +75,20 @@
     check('[value="no"]'); check('#consent'); click('#next');
     assert([...root.querySelectorAll('.setup')].every(e=>!e.checked), 'Clear retained preparation');
     attempt(4); screen(2); click('#clear-session'); screen(0); fit();
+    // Solo mode: actual DOM events, held keys, pause and both eyes.
+    click('[data-go="1"]');check('[value="no"]');check('#consent');click('#next');
+    check('[name=mode][value=solo]');check('.setup');check('label.check:nth-of-type(2) .setup');click('#next');screen(6);
+    const key=(value,release=true)=>{document.dispatchEvent(new KeyboardEvent('keydown',{key:value,bubbles:true}));if(release)document.dispatchEvent(new KeyboardEvent('keyup',{key:value,bubbles:true}));};
+    key('ArrowRight');assert(!find('#next').disabled,'Solo practice failed');click('#next');click('#ready');screen(3);
+    key('ArrowUp',false);const progress=find('.kicker').textContent;key('ArrowUp');assert(find('.kicker').textContent===progress,'Held key advanced');
+    key('p');key('ArrowDown');assert(find('.kicker').textContent===progress,'Paused key advanced');key('p');
+    key('n');key('ArrowLeft');screen(7);check('#switch-eye');click('#next');click('#ready');
+    key('ArrowUp');key('ArrowRight');key('n');screen(5);fit();
+    assert(root.querySelectorAll('.response-log li').length===6,'Solo summary missing');
+    click('#restart');check('[value="no"]');check('#consent');click('#next');
+    assert(!find('[name=mode]:checked'),'Reset retained mode');
+    check('[name=mode][value=solo]');check('.setup');check('label.check:nth-of-type(2) .setup');click('#next');key('ArrowRight');click('[data-go="2"]');
+    check('[name=mode][value=helper]');assert([...root.querySelectorAll('.setup')].every(e=>!e.checked),'Mode change retained preparation');attempt(3);screen(2);click('#clear-session');screen(0);
     const result = document.createElement('pre'); result.id='qa-result';
     result.textContent='PASS '+count+' assertions; guards, symptoms, retained inputs, both eyes, pause, focus, reset, overflow';
     document.body.append(result);

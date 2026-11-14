@@ -26,7 +26,7 @@ state.consent = true; state.setup = [false, false];
 assert.equal(canEnter(2), true);
 assert.equal(canEnter(3), false);
 state.setup = [true, false]; assert.equal(canEnter(3), false);
-state.setup = [true, true]; assert.equal(canEnter(6), true); assert.equal(canEnter(3), false);
+state.setup = [true, true]; assert.equal(canEnter(6), false); state.mode='invalid'; assert.equal(canEnter(6), false); state.mode='solo'; assert.equal(canEnter(6), true); state.mode='helper'; assert.equal(canEnter(6), true); assert.equal(canEnter(3), false);
 state.practiced = true; assert.equal(canEnter(3), true);
 assert.equal(canEnter(4), false);
 answers[0].push('kanan', 'atas'); assert.equal(canEnter(4), false);

@@ -1,4 +1,4 @@
-# MataCheck v0.5 - prototipe interaksi
+# MataCheck v0.6 - prototipe interaksi
 
 ## Menjalankan
 1. Buka terminal di folder proyek. Gunakan Node.js (pengujian lokal memakai v24.15.0).
@@ -19,7 +19,15 @@
 - docs/verification.md: hasil yang benar-benar sudah diverifikasi dan batasannya.
 - docs/deployment.md: tujuan GitHub, atribusi commit, dan persiapan Vercel.
 
-## Perubahan v0.5 lokal
+## Mode sendiri (v0.6 lokal)
+
+Pada Persiapan pilih Coba sendiri atau Dengan pendamping. Pilihan wajib; saat mode diganti, kesiapan, latihan, dan respons sebelumnya dibersihkan agar tidak tercampur. Kembali ke halaman sebelumnya tanpa mengganti mode mempertahankan isian.
+
+Mode sendiri: tombol panah untuk arah E, N untuk Tidak terlihat, P untuk jeda/lanjutkan. Tombol layar tetap tersedia. Shortcut aktif hanya di latihan dan demo yang sudah dimulai; tidak melewati konfirmasi mata. Tombol yang ditahan tidak mengisi percobaan berikutnya. Mode pendamping tetap memakai tombol layar.
+
+Sumber v0.6 dan preview telah diperbarui lokal, belum dipush/deploy. Produksi terakhir terverifikasi pada commit 255891d (v0.5).
+
+## Riwayat perubahan v0.5
 Persiapan menjelaskan peran peserta/pendamping, latihan arah E wajib sebelum demo, jeda pergantian mata dengan konfirmasi, ilustrasi mata ditutup/terbuka, dan ringkasan enam jawaban sesuai urutan. Slider contoh dihapus. Versi ini belum dipush atau dideploy; alamat produksi di bawah masih merujuk versi sebelumnya.
 
 ## Deployment

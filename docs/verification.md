@@ -1,5 +1,13 @@
 # Verifikasi MataCheck
 
+## v0.6 lokal - mode sendiri
+
+- Mode solo/helper wajib sebelum latihan; pergantian mode membersihkan kesiapan, latihan dan jawaban. Instruksi serta ringkasan mengikuti mode.
+- npm test lulus, termasuk pengujian handler keyboard asli dalam VM: pemetaan arah/N/P, tombol ditahan, jeda, konfirmasi, input form dan isolasi mode pendamping. Ini pengujian kode, bukan browser.
+- Preview sinkron dari public/. Fixture browser diperluas untuk mode sendiri, reset dan pergantian mode; sintaks/persiapan fixture lulus.
+- Pengujian browser v0.6 belum dijalankan; alat kontrol browser tidak tersedia pada sesi ini. Crash browser v0.5 dicatat di bawah dan tidak dianggap hasil v0.6. Belum dipush/deploy.
+
+
 ## v0.5 lokal - 14 November 2026
 
 - Workspace aktif dan uji tulis/baca/hapus file sementara berhasil. Working tree awal bersih.

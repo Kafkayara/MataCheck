@@ -1,4 +1,4 @@
-# Uji penggunaan MataCheck v0.5
+# Uji penggunaan MataCheck v0.6
 
 Gunakan preview lokal atau npm start untuk versi baru. Versi online belum diperbarui.
 
@@ -23,3 +23,7 @@ Amati secara manual:
 - Apakah mereka memahami ringkasan sebagai catatan jawaban, bukan hasil pemeriksaan?
 
 Catat tahap yang membingungkan, ucapan peserta, serta bantuan yang terpaksa diberikan. Jangan mengumpulkan nama atau data kesehatan. Prioritaskan perbaikan jika beberapa pasangan mengalami kebingungan yang sama.
+
+## Mode sendiri
+
+Coba tanpa pendamping. Pastikan panah kanan menyelesaikan latihan, menahan tombol tidak mencatat beberapa respons, N mencatat Tidak terlihat, dan P menjeda/melanjutkan. Saat jeda, tombol arah/N tidak boleh menambah respons. Pergantian mata tetap memerlukan konfirmasi layar. Ulangi dengan mode pendamping; shortcut huruf/panah tidak boleh memasukkan jawaban. Kembali ke persiapan dan ganti mode: konfirmasi kesiapan dan latihan harus dilakukan ulang.

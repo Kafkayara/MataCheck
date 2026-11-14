@@ -28,3 +28,7 @@ Session data stays in memory. Refresh resets the application; this is deliberate
 ## v0.5 - kejelasan penggunaan
 
 Rencana disetujui pengguna: beranda, pemeriksaan awal, persiapan, latihan menjawab, mata kanan, jeda pergantian, mata kiri, ringkasan catatan. Pertahankan sumber public/, desain krem/hijau, data dalam memori, serta tanpa diagnosis. Nomor internal halaman lama dipertahankan; urutan progres ditentukan oleh steps agar tidak mengubah identitas tahap lama.
+
+## v0.6 - mode sendiri
+
+Pilihan mode di persiapan, instruksi adaptif, shortcut panah/N/P selama latihan/demo, pencegahan pengulangan tombol yang ditahan, dan reset prasyarat saat mode diganti. Tahap latihan, konfirmasi mata, jeda pergantian serta ringkasan tetap terkunci. Kalibrasi fisik dan jarak ukur tidak ditambahkan karena metode belum divalidasi.
