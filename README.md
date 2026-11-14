@@ -19,10 +19,10 @@
 - docs/verification.md: hasil yang benar-benar sudah diverifikasi dan batasannya.
 - docs/deployment.md: tujuan GitHub, atribusi commit, dan persiapan Vercel.
 
-## Deploy yang disiapkan
-Sumber v0.4 sudah diverifikasi di https://github.com/Kafkayara/MataCheck pada commit `8b0d472`; author dan committer adalah Kafkayara. Hubungkan repository ke akun/tim Vercel milikmu yang sudah diverifikasi. Gunakan framework Other, output directory `public`, tanpa build command. Deployment belum diverifikasi.
+## Deployment
+Website produksi: https://matacheck.vercel.app. Deployment commit `93f9148` berstatus READY dan diverifikasi pada 14 November 2026. Repository https://github.com/Kafkayara/MataCheck terhubung ke project Vercel `matacheck`, dengan framework Other, output `public`, serta build/install command kosong. Author dan committer commit tetap Kafkayara.
 
-Workflow `.github/workflows/checks.yml` menjalankan `npm test` pada push ke main, pull request, atau pemicu manual. Workflow hanya menyiapkan fixture browser; hasilnya tidak boleh dianggap sebagai pengujian browser otomatis. Workflow baru akan tersedia di GitHub setelah perubahan lokal ini dipush.
+Workflow `.github/workflows/checks.yml` menjalankan `npm test` pada push ke main, pull request, atau pemicu manual. Run https://github.com/Kafkayara/MataCheck/actions/runs/43566614922 berhasil untuk commit `93f9148`. Workflow hanya menyiapkan fixture browser; hasilnya tidak boleh dianggap sebagai pengujian browser otomatis. Hasil pemeriksaan online dan batasannya tersedia di docs/verification.md.
 
 ## Perilaku
 Menu peninjau desain dihapus. Prasyarat diperiksa sebelum perpindahan layar. Jawaban disimpan hanya dalam memori tab; refresh atau tutup halaman menghapus sesi. Mulai ulang juga menghapus semua isian. Kamera, mikrofon dan analitik tidak digunakan.

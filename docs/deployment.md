@@ -1,5 +1,15 @@
 # Persiapan GitHub dan Vercel
 
+## Status produksi - 14 November 2026
+
+Situs https://matacheck.vercel.app sudah dideploy dari commit `93f9148aa874a7455b72e01853f275b15c439661`. Project `matacheck` berada pada team `dkydk263-3162s-projects` dan terhubung ke Kafkayara/MataCheck, production branch main. Deployment `dpl_5JKz6PECKVqnnoqxSeTrmiyjH3LM` berstatus READY.
+
+Pengaturan: framework Other, akar repository, output public, build/install command kosong. Tidak ada environment variable, database, atau analitik yang ditambahkan. Push berikutnya ke main dapat memicu deployment melalui integrasi Git. Workflow pengujian GitHub terpisah; belum dikonfigurasi sebagai gerbang wajib deployment.
+
+CI commit tersebut berhasil: https://github.com/Kafkayara/MataCheck/actions/runs/43566614922. Hasil pemeriksaan browser dan HTTP ada di verification.md. Perubahan dokumentasi status ini dibuat lokal setelah deployment dan belum termasuk commit produksi tersebut.
+
+Catatan persiapan di bawah adalah riwayat sebelum deployment; jangan mengulang inisialisasi atau impor project yang sudah ada.
+
 ## Tujuan dan atribusi
 
 Repository yang ditentukan pengguna: https://github.com/Kafkayara/MataCheck.

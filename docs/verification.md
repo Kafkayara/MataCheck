@@ -1,5 +1,20 @@
 # Verifikasi MataCheck v0.4
 
+## Status produksi terbaru - 14 November 2026
+
+- URL: https://matacheck.vercel.app.
+- Project: matacheck (`prj_flqjexVQseX0wYZZUlboCwHalq4m`), team `dkydk263-3162s-projects`.
+- Deployment `dpl_5JKz6PECKVqnnoqxSeTrmiyjH3LM`: READY, target production, commit `93f9148aa874a7455b72e01853f275b15c439661`, alias tanpa error.
+- Deteksi awal framework Node diganti menjadi Other (null), output public, build/install command kosong. Tidak ada perubahan sumber aplikasi atau penambahan dependency.
+- GitHub Actions run https://github.com/Kafkayara/MataCheck/actions/runs/43566614922: completed/success untuk commit yang sama. Author dan committer commit adalah Kafkayara.
+- Browser pada URL produksi berhasil menjalankan pemeriksaan awal, penghentian cabang keluhan, persiapan, konfirmasi kedua mata, tiga respons per mata, ringkasan 3/3 dan 3/3 tanpa hasil klinis, serta reset ke beranda.
+- Saat jeda, seluruh jawaban nonaktif dan simbol disembunyikan. Fokus terlihat pada tombol lanjutkan; setelah respons fokus kembali ke tombol jawaban. Refresh setelah reset tetap menampilkan beranda; ini bukan uji refresh di tengah sesi aktif.
+- Pemeriksaan HTTP melalui konektor Vercel: /, /app.js, /styles.css berstatus 200 dengan tipe konten sesuai. /package.json berstatus 404.
+- Respons HTML memiliki CSP sesuai vercel.json, Permissions-Policy menonaktifkan kamera/mikrofon/geolokasi, Referrer-Policy no-referrer, dan X-Content-Type-Options nosniff.
+- Batasan: uji viewport sempit online, keyboard manual penuh, reduced motion, tutup tab, dan ponsel fisik belum diverifikasi. Hasil 565 pemeriksaan viewport di bawah adalah fixture lokal. Tidak ada validasi klinis.
+
+Bagian berikut menyimpan riwayat pemeriksaan sebelum deployment; status produksi di atas menggantikan catatan lama yang menyatakan belum deploy atau CI belum dijalankan.
+
 Pembaruan: 14 November 2026. Workspace: C:\Users\Kafka\Documents\MataCheck.
 
 ## Bukti lokal
