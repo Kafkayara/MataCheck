@@ -1,5 +1,23 @@
 # Verifikasi MataCheck
 
+## Tambahan skenario reload — belum dieksekusi di browser
+
+- Fixture kini memulai sesi sendiri, memasukkan satu respons, lalu mengganti dokumen iframe dengan aplikasi bersih. Pemeriksaan mengharuskan beranda awal, persetujuan/kondisi kosong, dan tombol Lanjut terkunci.
+- Skenario baru berjalan setelah 174 assertions lama pada masing-masing viewport; kegagalan setup atau reload dilaporkan FAIL. Bukti 870 assertions pada commit 8557db9 di bawah tidak mencakup tambahan ini.
+- npm test, pembuatan fixture, sintaks JavaScript hasil generator, dan git diff --check lulus. Eksekusi browser skenario reload masih menunggu CI atau percobaan manual; refresh URL produksi, inspeksi visual, dan keyboard fisik belum diuji.
+- Panduan usability-check.md disederhanakan menjadi sesi 10 menit dengan satu teman, format catatan anonim, serta daftar pemeriksaan manual. Belum ada peserta atau temuan pengguna yang diklaim.
+
+## Browser CI terverifikasi — 15 November 2026
+
+- Commit 8557db9dc4ea84c3a21dd23f5684de1f9e437fd5: seluruh job berhasil pada https://github.com/Kafkayara/MataCheck/actions/runs/43620238930.
+- Log job 132524085159 mengonfirmasi PASS 174 assertions per viewport: 1366 x 768, 768 x 1024, 375 x 812, 320 x 568, dan 812 x 375. Total 870 assertions, mencakup kedua mode, prasyarat, keluhan, isian, kedua mata, jeda, fokus DOM, reset, dan overflow.
+- Tes kode serta penyimpanan artefak browser-evidence juga berhasil. Kegagalan Solo practice failed pada run sebelumnya terselesaikan setelah target KeyboardEvent fixture diperbaiki.
+- Ini eksekusi Chrome pada fixture preview di GitHub Actions, bukan pengujian interaksi langsung pada domain produksi atau perangkat fisik. Input keyboard fixture tetap sintetis.
+- Saat diperiksa, domain produksi masih menunjuk deployment READY commit f3e9ddb. Perbandingan git memastikan public/ dan MataCheck-Preview.html identik dengan 8557db9; perubahan terakhir hanya tes dan dokumentasi.
+- Masih perlu inspeksi visual manual, keyboard fisik seluruh alur, refresh di tengah sesi, reduced motion, dan uji pengguna nyata. Tidak ada validasi klinis.
+
+Catatan bertanggal sebelumnya di bawah merupakan riwayat; status browser tertunda di sana telah digantikan hasil CI ini.
+
 ## Perbaikan fixture keyboard — 15 November 2026
 
 - GitHub run 43619340822 untuk commit f3e9ddb: pemeriksaan kode PASS, browser FAIL setelah 153 assertions dengan pesan Solo practice failed. Bukti: https://github.com/Kafkayara/MataCheck/actions/runs/43619340822/job/132521232480

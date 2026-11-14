@@ -1,41 +1,51 @@
-# Uji penggunaan MataCheck v0.6
+# Uji penggunaan MataCheck v0.6.2
 
-Gunakan preview lokal atau npm start; untuk versi online gunakan https://matacheck.vercel.app dan catat commit deployment yang diuji. Jangan menganggap versi lokal dan online selalu sama.
+## Sesi pertama: 10 menit, satu teman
 
-## Pemeriksaan sebelum push
+Buka https://matacheck.vercel.app di laptop. Catat tanggal, browser, dan commit produksi jika diketahui; tulis tidak diketahui jika belum diperiksa. Pengamat mencatat, peserta mengoperasikan sendiri. Jangan menjelaskan letak tombol terlebih dahulu.
 
-1. Jalankan npm test dan npm run test:browser:prepare.
-2. Buka tests/artifacts/browser-test.html di Chrome/Edge. Pastikan lima laporan PASS, bukan RUNNING atau FAIL.
-3. Buka MataCheck-Preview.html. Coba seluruh alur dengan keyboard Tab, Shift+Tab, Enter dan Space. Fokus harus terlihat dan urutannya masuk akal.
-4. Periksa ilustrasi, teks, dan tombol pada lebar 1366, 768, 375 dan 320 piksel. Pastikan tidak terpotong atau bergeser horizontal.
-5. Refresh saat sudah memasukkan respons; sesi harus kembali kosong di beranda.
-6. Coba jeda, lanjutkan, ulangi sesi, dan hapus sesi. Latihan wajib diulang setelah reset.
+Bacakan hanya: "Coba simulasi ini sampai selesai menggunakan petunjuk di layar. Ceritakan apa yang sedang kamu pikirkan. Kita menguji kemudahan websitenya, bukan penglihatanmu. Kamu boleh berhenti kapan saja."
 
-## Uji dengan 3-5 pasangan
+| Waktu perkiraan | Tugas peserta | Yang diamati |
+| --- | --- | --- |
+| 0–2 menit | Baca beranda dan mulai | Apakah tujuan simulasi dipahami? |
+| 2–4 menit | Pilih Coba sendiri, siapkan tempat, selesaikan latihan | Apakah arah E dan cara menjawab jelas? |
+| 4–7 menit | Ikuti kedua mata sampai ringkasan | Mata yang ditutup, kebutuhan melihat keyboard, jeda, pergantian mata |
+| 7–10 menit | Jelaskan ringkasan dan pengalaman | Apa arti hasil menurut peserta? Bagian mana yang membingungkan? |
 
-Satu orang sebagai peserta, satu sebagai pendamping. Jelaskan hanya bahwa mereka diminta mencoba simulasi; biarkan instruksi website membantu mereka. Jangan memakai hasilnya untuk menilai penglihatan.
+Jika peserta meminta bantuan, catat pertanyaan dan bantuan yang diberikan. Jangan menyimpulkan kesalahan penglihatan dari jawaban. Setelah sesi pertama, ulangi dengan 2–4 orang lain. Coba mode pendamping pada sesi terpisah; catat bila peserta sudah mengenal alurnya.
 
-Amati secara manual:
-- Apakah pembagian peran dipahami?
-- Apakah arti arah kaki E dipahami setelah latihan?
-- Apakah mata yang ditutup sesuai instruksi?
-- Apakah mereka menemukan jeda dan tahu cara melanjutkan?
-- Apakah mereka memahami ringkasan sebagai catatan jawaban, bukan hasil pemeriksaan?
+## Catatan yang bisa langsung diisi
 
-Catat tahap yang membingungkan, ucapan peserta, serta bantuan yang terpaksa diberikan. Jangan mengumpulkan nama atau data kesehatan. Prioritaskan perbaikan jika beberapa pasangan mengalami kebingungan yang sama.
+- ID anonim: P01
+- Tanggal / URL / versi atau commit:
+- Browser / perangkat / ukuran layar:
+- Mode: sendiri / pendamping
+- Sudah pernah mencoba: ya / tidak
+- Selesai tanpa bantuan: ya / tidak / berhenti
+- Tahap yang membingungkan:
+- Tindakan dan kejadian aktual:
+- Bantuan pengamat:
+- Jawaban peserta untuk "Menurutmu ringkasan ini menunjukkan apa?":
+- Jawaban peserta untuk "Bagaimana kamu tahu mata mana yang ditutup?":
+- Saran peserta:
 
-## Mode sendiri
+Jangan catat nama atau data kesehatan. Catat ucapan sebenarnya, bukan testimoni buatan. Pisahkan bug yang bisa diulang, penilaian subjektif, dan dugaan. Masalah yang menghalangi alur, salah mata, atau salah memahami ringkasan diprioritaskan untuk diperbaiki.
 
-Coba tanpa pendamping. Pastikan panah kanan menyelesaikan latihan, menahan tombol tidak mencatat beberapa respons, N mencatat Tidak terlihat, dan P menjeda/melanjutkan. Saat jeda, tombol arah/N tidak boleh menambah respons. Pergantian mata tetap memerlukan konfirmasi layar. Ulangi dengan mode pendamping; shortcut huruf/panah tidak boleh memasukkan jawaban. Kembali ke persiapan dan ganti mode: konfirmasi kesiapan dan latihan harus dilakukan ulang.
+## Pemeriksaan manual oleh pemilik proyek
 
-## Sesi pengguna tanpa panduan
+Lakukan setelah sesi pengguna agar tidak memengaruhi percobaan pertama.
 
-Mulai dengan 3–5 orang mencoba mode sendiri; lakukan beberapa sesi tambahan dengan pendamping. Katakan: "Coba simulasi ini sampai selesai menggunakan instruksi di layar." Jangan memberi tutorial terlebih dahulu. Jika peserta meminta bantuan, catat tahap dan bantuan yang diberikan.
+1. Navigasi dengan Tab, Shift+Tab, Enter, dan Space. Fokus terlihat dan tidak terjebak.
+2. Mode sendiri: latihan panah kanan; pada demo gunakan panah, N, P. Menahan tombol tidak mengisi beberapa jawaban; saat jeda tidak ada jawaban tercatat.
+3. Mode pendamping: tombol layar bekerja, panah/N/P tidak memasukkan jawaban.
+4. Setelah satu jawaban, refresh. Harus kembali ke beranda; pemeriksaan awal kosong dan Lanjut terkunci.
+5. Ulangi sesi dan Hapus sesi mengosongkan jawaban, pilihan mode, kesiapan, serta latihan.
+6. Periksa beranda, persiapan, latihan, kedua panduan mata, demo, jeda, dan ringkasan pada 1366×768, 375×812, serta 320×568. Teks/tombol terbaca dan tidak terpotong. Simulasi viewport bukan bukti perangkat fisik.
+7. Aktifkan pengurangan animasi pada perangkat jika tersedia; catat apa yang benar-benar diperiksa. Jangan memberi PASS jika belum dicoba.
 
-Setelah selesai tanyakan: "Menurutmu ringkasan ini menunjukkan apa?", "Bagian mana yang membingungkan?", dan "Bagaimana kamu tahu mata mana yang perlu ditutup?" Catat ucapan aktual, bukan kesimpulan yang diasumsikan pengamat. Ini uji kemudahan penggunaan, bukan pengujian kemampuan penglihatan.
+## Pengujian otomatis
 
-| ID anonim | Tanggal/commit/URL | Mode/perangkat/viewport | Tahap dan tindakan | Yang terjadi | Bantuan diberikan | Pemahaman ringkasan | Prioritas |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| P01 | | | | | | | |
+Jalankan npm test dan npm run test:browser. Alternatif jika Chrome otomatis gagal diluncurkan: npm run test:browser:prepare, lalu buka tests/artifacts/browser-test.html di browser. Tunggu lima laporan selesai. Versi fixture terbaru juga harus menampilkan "reload after partial session PASS" pada setiap viewport.
 
-Jangan mencatat nama atau data kesehatan. Kelompokkan temuan menjadi bug yang dapat direproduksi, kebingungan penggunaan, dan dugaan yang perlu diuji. Prioritaskan alur yang terhenti, salah mata, dan salah memahami hasil. Setelah perbaikan, ulangi skenario yang bermasalah.
+Fixture memuat ulang dokumen iframe setelah satu respons; ini menguji inisialisasi aplikasi baru. Pengujian tombol refresh pada URL produksi tetap pemeriksaan manual terpisah. Hasil DOM otomatis tidak menggantikan inspeksi screenshot, keyboard fisik, atau pendapat peserta.
