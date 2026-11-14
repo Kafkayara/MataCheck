@@ -5,7 +5,7 @@
 2. Jalankan `npm start`, lalu buka http://127.0.0.1:4173.
 3. Alternatif offline: buka `MataCheck-Preview.html` langsung di browser.
 4. Edit sumber di `public/`, lalu jalankan `npm run build:preview` untuk memperbarui preview mandiri. Jangan edit preview secara terpisah.
-5. Jalankan `npm test`: sintaks, struktur, encoding, prasyarat navigasi, dan kesesuaian preview. Tidak perlu `npm install`.
+5. Jalankan `npm test`: sintaks, struktur, encoding, prasyarat navigasi, regresi generator preview, kesesuaian preview, dan konfigurasi deployment. Tidak perlu `npm install`.
 6. Jalankan `npm run test:browser:prepare`, kemudian buka `tests/artifacts/browser-test.html` di browser. Perintah ini hanya menyiapkan pengujian, bukan menjalankannya. Periksa kelima hasil PASS/FAIL.
 
 ## Struktur
@@ -20,7 +20,9 @@
 - docs/deployment.md: tujuan GitHub, atribusi commit, dan persiapan Vercel.
 
 ## Deploy yang disiapkan
-Tujuan yang diberikan pemilik: https://github.com/Kafkayara/MataCheck. Push belum terverifikasi. Setelah sumber ada di repository, hubungkan ke akun/tim Vercel milikmu yang sudah diverifikasi. Gunakan framework Other, output directory `public`, tanpa build command. Deployment belum dilakukan.
+Sumber v0.4 sudah diverifikasi di https://github.com/Kafkayara/MataCheck pada commit `8b0d472`; author dan committer adalah Kafkayara. Hubungkan repository ke akun/tim Vercel milikmu yang sudah diverifikasi. Gunakan framework Other, output directory `public`, tanpa build command. Deployment belum diverifikasi.
+
+Workflow `.github/workflows/checks.yml` menjalankan `npm test` pada push ke main, pull request, atau pemicu manual. Workflow hanya menyiapkan fixture browser; hasilnya tidak boleh dianggap sebagai pengujian browser otomatis. Workflow baru akan tersedia di GitHub setelah perubahan lokal ini dipush.
 
 ## Perilaku
 Menu peninjau desain dihapus. Prasyarat diperiksa sebelum perpindahan layar. Jawaban disimpan hanya dalam memori tab; refresh atau tutup halaman menghapus sesi. Mulai ulang juga menghapus semua isian. Kamera, mikrofon dan analitik tidak digunakan.

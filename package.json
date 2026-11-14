@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node server.cjs",
-    "test": "node tests/static-check.cjs && node tests/encoding-check.cjs && node tests/navigation-check.cjs && node scripts/build-preview.cjs --check",
-    "test:browser:prepare": "node scripts/build-preview.cjs --check && node tests/browser-fixture.cjs",
+    "test": "node tests/static-check.cjs && node tests/encoding-check.cjs && node tests/navigation-check.cjs && node tests/preview-build-check.cjs && node tests/deployment-check.cjs && node scripts/build-preview.cjs --check",
+    "test:browser:prepare": "node --check tests/browser-scenario.js && node scripts/build-preview.cjs --check && node tests/browser-fixture.cjs",
     "build:preview": "node scripts/build-preview.cjs"
   }
 }

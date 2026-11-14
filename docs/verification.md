@@ -43,8 +43,19 @@ Masih perlu: pengujian keyboard manual seluruh alur, refresh/tutup tab, reduced 
 - `git init -b main` berhasil, tetapi `git remote add origin` ditolak karena .git/config tidak dapat ditulis oleh lingkungan ini.
 - Git juga menolak pembuatan `.git/index.lock`, sehingga staging/commit lokal terblokir.
 - Plugin GitHub telah tersambung ke Kafkayara dan metadata repository menunjukkan pengguna memiliki izin push/admin. Namun percobaan membuat file melalui integrasi ditolak 403 `Resource not accessible by integration`. Izin akun pengguna dan izin integrasi berbeda.
-- Pada 14 November, pencarian branch melalui plugin masih mengembalikan daftar kosong; belum ada kode yang terkirim.
-- Belum ada commit atau push yang berhasil. Akun/tim dan project Vercel belum diverifikasi. Belum ada URL deployment yang diklaim online.
+- Pengguna kemudian melakukan push manual. Commit lokal dan GitHub main sama: `8b0d472e1645fb0c2c934c4b6e781ca42e4a7f98`, pesan `commit pertama`. Working tree bersih saat pemeriksaan awal lanjutan.
+- Commit pertama tidak memiliki parent. Author dan committer GitHub sama-sama terhubung ke Kafkayara; tidak ada trailer Co-authored-by.
+- Struktur remote berisi 19 file sumber/dokumentasi/config yang sama dengan commit lokal; tests/artifacts dan credential tidak ikut terlacak.
+- Akun/tim dan project Vercel belum diverifikasi. Belum ada URL deployment yang diklaim online.
+
+## Pemeriksaan pra-deployment tambahan (14 November)
+
+- Uji regresi generator pada direktori sementara mula-mula gagal: hilangnya tag stylesheet masih menghasilkan exit 0. Generator kini menolak anchor CSS/JS/body yang hilang atau berulang sebelum menulis preview.
+- `npm test` setelah perbaikan: PASS seluruh pemeriksaan, termasuk preview mandiri, sumber berubah membuat --check gagal tanpa menulis file, template tidak lengkap ditolak, serta outputDirectory dan header keamanan Vercel.
+- `npm run test:browser:prepare`: PASS pembuatan fixture dan pemeriksaan sintaks skenario. Perintah ini tidak menjalankan browser.
+- `git diff --check`: PASS. Tidak ada perubahan public/ atau preview aplikasi, sehingga hasil browser di atas masih merujuk artefak yang sama.
+- Workflow GitHub checks ditambahkan secara lokal. Belum dipush atau dijalankan di GitHub; tidak ada klaim CI lulus.
+- Pemeriksaan konfigurasi header tidak menggantikan pemeriksaan header HTTP setelah deployment.
 
 ## Riwayat
 
