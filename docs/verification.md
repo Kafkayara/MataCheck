@@ -1,5 +1,14 @@
 # Verifikasi MataCheck
 
+## Perbaikan fixture keyboard — 15 November 2026
+
+- GitHub run 43619340822 untuk commit f3e9ddb: pemeriksaan kode PASS, browser FAIL setelah 153 assertions dengan pesan Solo practice failed. Bukti: https://github.com/Kafkayara/MataCheck/actions/runs/43619340822/job/132521232480
+- Vercel mengonfirmasi commit yang sama READY pada domain produksi. CI gagal tidak memblokir deployment otomatis.
+- Penelusuran kode: fixture mengirim KeyboardEvent langsung ke document. Handler menggunakan e.target.matches untuk melindungi kontrol formulir; document bukan elemen dan tidak mempunyai matches. Ini kesalahan simulasi input, bukan bukti keyboard pengguna gagal.
+- Fixture diperbaiki agar keydown/keyup berasal dari document.activeElement, mengikuti perubahan fokus seperti input nyata. Uji regresi browser-input-check.cjs memeriksa target, bubbling, perubahan fokus dan tombol ditahan.
+- Perubahan ini hanya menyentuh pengujian dan dokumentasi. Hasil browser lengkap setelah perbaikan masih menunggu eksekusi CI; pemeriksaan Node tidak menggantikannya.
+
+
 ## Lanjutan 15 November 2026 — status terbaru
 
 - Pemeriksaan sesi sebelumnya mencocokkan commit lokal, GitHub, dan produksi pada 953c970, CI lulus dan deployment READY. Ini catatan hasil sesi sebelumnya; akses remote belum diperiksa ulang dalam retry ini.

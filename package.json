@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node server.cjs",
-    "test": "node tests/static-check.cjs && node tests/encoding-check.cjs && node tests/navigation-check.cjs && node tests/keyboard-check.cjs && node tests/eye-guide-check.cjs && node tests/preview-build-check.cjs && node tests/deployment-check.cjs && node scripts/build-preview.cjs --check",
+    "test": "node tests/static-check.cjs && node tests/encoding-check.cjs && node tests/navigation-check.cjs && node tests/keyboard-check.cjs && node tests/browser-input-check.cjs && node tests/eye-guide-check.cjs && node tests/preview-build-check.cjs && node tests/deployment-check.cjs && node scripts/build-preview.cjs --check",
     "test:browser:prepare": "node --check tests/browser-scenario.js && node scripts/build-preview.cjs --check && node tests/browser-fixture.cjs",
     "build:preview": "node scripts/build-preview.cjs",
     "test:browser": "npm run test:browser:prepare && node tests/run-browser.cjs"

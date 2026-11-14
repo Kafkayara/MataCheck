@@ -86,7 +86,8 @@
     // Solo mode: actual DOM events, held keys, pause and both eyes.
     click('[data-go="1"]');check('[value="no"]');check('#consent');click('#next');
     check('[name=mode][value=solo]');check('.setup');check('label.check:nth-of-type(2) .setup');click('#next');screen(6);
-    const key=(value,release=true)=>{document.dispatchEvent(new KeyboardEvent('keydown',{key:value,bubbles:true}));if(release)document.dispatchEvent(new KeyboardEvent('keyup',{key:value,bubbles:true}));};
+    // Real keyboard events start at the focused element and bubble to document.
+    const key=(value,release=true)=>{document.activeElement.dispatchEvent(new KeyboardEvent('keydown',{key:value,bubbles:true}));if(release)document.activeElement.dispatchEvent(new KeyboardEvent('keyup',{key:value,bubbles:true}));};
     key('ArrowRight');assert(!find('#next').disabled,'Solo practice failed');click('#next');click('#ready');screen(3);
     key('ArrowUp',false);const progress=find('.kicker').textContent;key('ArrowUp');assert(find('.kicker').textContent===progress,'Held key advanced');
     key('p');key('ArrowDown');assert(find('.kicker').textContent===progress,'Paused key advanced');key('p');
