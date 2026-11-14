@@ -1,0 +1,11 @@
+{
+  "name": "matacheck-prototype",
+  "version": "0.4.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.cjs",
+    "test": "node tests/static-check.cjs && node tests/encoding-check.cjs && node tests/navigation-check.cjs && node scripts/build-preview.cjs --check",
+    "test:browser:prepare": "node scripts/build-preview.cjs --check && node tests/browser-fixture.cjs",
+    "build:preview": "node scripts/build-preview.cjs"
+  }
+}

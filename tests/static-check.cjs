@@ -1,0 +1,3 @@
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const root=path.join(__dirname,'..','public');const html=fs.readFileSync(path.join(root,'index.html'),'utf8'),js=fs.readFileSync(path.join(root,'app.js'),'utf8');
+new Function(js);assert(!html.includes('NAVIGASI UNTUK PENINJAU'));assert(!js.includes('data-page='));assert(js.includes('canEnter'));assert(html.includes('styles.css'));assert(html.includes('app.js'));assert(!/fetch\(|getUserMedia|localStorage/.test(js));console.log('PASS: syntax, separated assets, no reviewer shortcuts, guarded navigation, no network or persistent storage');
