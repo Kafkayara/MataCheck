@@ -41,6 +41,7 @@
     attempt(3); screen(2); check('[name=mode][value=helper]'); check('.setup');
     assert(find('#next').disabled, 'Only one preparation accepted');
     check('label.check:nth-of-type(2) .setup');
+    find('#correction').value='glasses';find('#correction').dispatchEvent(new Event('change',{bubbles:true}));
     click('#distance-open');assert(find('#next').disabled,'Distance editing allowed practice');
     click('#distance-save');assert(find('#distance-error').textContent.includes('positif'),'Empty distance accepted');
     find('#distance-cm').value='150,5';click('#distance-save');assert(find('#distance-error').textContent.includes('ketiga'),'Distance accepted without confirmations');
@@ -96,6 +97,7 @@
     }
     screen(5); fit(); assert(root.querySelectorAll('.response-log li').length===6,'Wrong response log');
     assert(find('#session-quality').textContent.includes('150.5 cm'),'Summary lost distance');
+    assert(find('#session-quality').textContent.includes('Memakai kacamata'),'Summary lost correction');
       assert(find('#interruption-summary').textContent.includes('mata kanan 1 kali; mata kiri 1 kali'),'Wrong interruption counts');
       for(const title of ['Pengamatan','Kualitas sesi','Makna catatan','Tindak lanjut'])assert([...root.querySelectorAll('h2')].some(e=>e.textContent===title),'Missing summary section: '+title);
     assert([...root.querySelectorAll('.results strong')].every(e=>e.textContent==='3 dari 3 respons'), 'Wrong counts');
@@ -136,6 +138,7 @@
     key('ArrowUp');key('ArrowRight');key('n');screen(5);fit();
     assert(root.querySelectorAll('.response-log li').length===6,'Solo summary missing');
     assert(find('#session-quality').textContent.includes('belum dicatat'),'Restart retained distance');
+    assert(find('#session-quality').textContent.includes('Tidak dicatat'),'Restart retained correction');
       assert(find('#interruption-summary').textContent.includes('mata kanan 0 kali; mata kiri 0 kali'),'Restart retained interruption counts');
     click('#restart');check('[value="no"]');check('#consent');click('#next');
     assert(!find('[name=mode]:checked'),'Reset retained mode');
@@ -170,6 +173,11 @@
     click('#distance-open');click('#distance-skip');assert(!find('#distance-cm'),'Skip left editor open');
     click('#next');click('[data-practice="kanan"]');click('#next');click('#ready');
     for(let i=0;i<3;i++)click('[data-answer="atas"]');screen(7);
+    click('#correction-change');screen(2);assert(find('#correction').value==='unrecorded','Changed correction retained old condition');
+    assert(document.activeElement===find('#correction'),'Correction control not focused');attempt(4);screen(2);
+    find('#correction').value='contacts';find('#correction').dispatchEvent(new Event('change',{bubbles:true}));
+    check('.setup');check('label.check:nth-of-type(2) .setup');click('#next');assert(find('#next').disabled,'Correction change retained practice');
+    click('[data-practice="kanan"]');click('#next');click('#ready');
     click('#position-change');screen(2);assert([...root.querySelectorAll('.setup')].every(e=>!e.checked),'Position change retained setup');
     attempt(4);screen(2);check('.setup');check('label.check:nth-of-type(2) .setup');click('#next');assert(find('#next').disabled,'Position change retained practice');
     click('#clear-session');screen(0);

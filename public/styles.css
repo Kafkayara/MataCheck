@@ -134,3 +134,6 @@ body{margin:0;background:#e6e8e0}#mata{max-width:1100px;margin:0 auto;min-height
 #mata .demo-e{display:block;width:120px;height:120px;fill:#111;transform-origin:50% 50%}
 
 #mata #distance-cm{display:block;width:160px;min-height:44px;padding:8px;margin:8px 0 20px;border:1px solid var(--mc-control);background:white}
+
+#mata #correction{display:block;max-width:100%;min-height:48px;margin:10px 0;padding:10px;border:1px solid var(--mc-control);background:white;color:var(--mc-ink);font:inherit}
+#mata select:focus-visible{outline:4px solid var(--mc-focus);outline-offset:4px}

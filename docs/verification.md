@@ -213,3 +213,13 @@ Batas produk tetap: SVG 120 CSS px belum menggunakan kalibrasi fisik; tiga respo
 Uji manual tambahan: pilih mode, simpan jarak 150,5 cm setelah ketiga konfirmasi, selesaikan demo dan cocokkan ringkasan/unduhan. Pada sesi berikutnya selesaikan kanan lalu pilih Posisi peserta berubah; jangan sampai dapat langsung melanjutkan kiri dengan catatan kanan lama. Periksa lewati jarak tetap memungkinkan demo setelah persiapan. Ini pemeriksaan alur software, bukan validasi jarak nyata atau penglihatan.
 
 Review terpisah v0.8.0 sempat memeriksa ekspor, transisi, SVG dan print selector tanpa menemukan regresi konkret, tetapi proses review berhenti karena batas layanan sebelum laporan akhir. v0.9.0 diperiksa secara lokal, tanpa klaim review independen selesai.
+
+## v0.10.0 - kondisi kacamata/lensa kontak dan dokumentasi
+
+Baseline v0.9 commit `15c42b7` lulus [run 43741308481](https://github.com/Kafkayara/MataCheck/actions/runs/43741308481): 307 assertion per viewport, lima viewport (1535 total), ditambah reload setelah sesi parsial. Ini memverifikasi skenario DOM v0.9, bukan dialog unduh/cetak nyata atau pengukuran fisik.
+
+Pilihan kacamata/lensa kontak sekarang dicatat di Persiapan dan ringkasan. Nilai berbeda membuang respons serta latihan; nilai sama mempertahankan progres. Tombol perubahan saat sesi menghapus kedua mata bahkan jika pilihan sebelumnya Tidak dicatat, lalu kembali ke Persiapan. Kalibrasi dan jarak dipertahankan. Sesi baru dan perubahan mode membersihkan catatan koreksi.
+
+Tes lokal dan persiapan fixture lulus. Tes correction-check mencakup nilai tidak dikenal, pilihan sama, reset kedua mata, kondisi tidak dicatat, fokus kontrol dan retensi jarak/kalibrasi. Skenario browser ditambah pemeriksaan catatan pada ringkasan, reset sesi, serta perubahan setelah kanan selesai. Browser v0.10.0 belum dieksekusi; perlu CI setelah push.
+
+Uji manual: pilih kacamata, selesaikan kanan, laporkan perubahan, pilih kondisi baru dan pastikan latihan serta kanan diulang sebelum kiri. Catatan ringkasan/unduhan harus menampilkan kondisi terbaru saja. README telah disusun ulang menjadi panduan kondisi saat ini.
