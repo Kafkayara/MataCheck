@@ -1,4 +1,4 @@
-# MataCheck v0.7.2 - prototipe interaksi
+# MataCheck v0.9.0 - prototipe interaksi
 
 ## Interupsi demo (v0.7.1 lokal)
 
@@ -76,3 +76,16 @@ Rencana berikutnya: [arah produk](docs/product-direction.md) dan [panduan uji pe
 ## Ringkasan sesi v0.7.2
 
 Ringkasan dibagi menjadi pengamatan, kualitas sesi, makna catatan, dan tindak lanjut. Kualitas menampilkan status pencocokan layar, batasan jarak demo, serta jumlah interupsi otomatis per mata. Sinyal blur/hidden berulang selama satu interupsi dihitung sekali. Jeda manual tidak dihitung. Penghitung mencakup sesi berjalan, termasuk percobaan sebelum kalibrasi ulang; hapus sesi, ulangi simulasi, atau perubahan mode membersihkannya. Catatan respons hanya memuat percobaan terakhir yang diselesaikan.
+
+## v0.8.0: catatan portabel dan kesiapan sesi
+
+- Ringkasan selesai dapat diunduh sebagai teks UTF-8 atau dicetak/disimpan sebagai PDF melalui dialog browser. Isi teks berasal dari ringkasan yang tampil, termasuk seluruh batasannya. Tidak ada unggahan atau penyimpanan server. File yang sudah disimpan tidak ikut terhapus dengan Hapus sesi.
+- Bentuk E demo menggunakan SVG grid 5x5, berukuran tetap 120 CSS px. Tiga orientasi dipilih acak independen untuk setiap mata; orientasi boleh berulang. Urutan baru dibuat saat mata dimulai atau diulang setelah interupsi. Jeda manual mempertahankan simbol. Ini masih demo, bukan stimulus dengan ukuran fisik terkalibrasi atau penilaian ketajaman.
+- Gangguan saat pencocokan penggaris belum selesai mengulang pencocokan tanpa menambah jumlah gagal. Latihan dan konfirmasi pergantian mata harus diulang/dikonfirmasi kembali jika terinterupsi. Fokus kembali ke tombol ulang pada trial yang terputus.
+- `npm test` mencakup ekspor, geometri, pengacakan, dan perubahan state. `npm run test:browser` tetap diperlukan untuk pengujian DOM. Dialog unduh/cetak nyata dan layout PDF memerlukan pemeriksaan manual.
+
+## v0.9.0: catatan jarak manual
+
+Persiapan menyediakan editor jarak opsional setelah mode dipilih. Masukkan jarak aktual dari bidang layar ke mata dalam cm (koma/titik desimal didukung), lalu konfirmasi pengukuran fisik, posisi stabil, dan alat jawab dapat digunakan tanpa maju. Selama editor terbuka latihan tidak dapat dimulai; simpan atau pilih lanjut tanpa catatan jarak. Membuka Ubah catatan jarak langsung membuang catatan lama serta progres kedua mata/latihan agar tidak mencampur kondisi.
+
+Ringkasan dan unduhan menyebut jarak sebagai konfirmasi pengguna. Tidak ada target jarak klinis, verifikasi otomatis, atau penyesuaian ukuran simbol berdasarkan jarak. Tombol Posisi peserta berubah tersedia selama latihan, demo dan pergantian mata: respons kedua mata, latihan, catatan jarak dan checklist persiapan dibersihkan. Kalibrasi layar yang masih sesuai dipertahankan. Perubahan tampilan yang membatalkan kalibrasi juga membuang catatan jarak. Hapus sesi, ulangi simulasi dan perubahan mode membersihkannya.

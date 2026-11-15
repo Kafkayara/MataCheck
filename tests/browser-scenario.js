@@ -41,6 +41,11 @@
     attempt(3); screen(2); check('[name=mode][value=helper]'); check('.setup');
     assert(find('#next').disabled, 'Only one preparation accepted');
     check('label.check:nth-of-type(2) .setup');
+    click('#distance-open');assert(find('#next').disabled,'Distance editing allowed practice');
+    click('#distance-save');assert(find('#distance-error').textContent.includes('positif'),'Empty distance accepted');
+    find('#distance-cm').value='150,5';click('#distance-save');assert(find('#distance-error').textContent.includes('ketiga'),'Distance accepted without confirmations');
+    check('#distance-measured');check('#distance-stable');check('#distance-input');click('#distance-save');
+    assert(find('#distance-open').textContent==='Ubah catatan jarak','Distance not saved');
     click('[data-go="1"]');
     assert(find('[value="no"]').checked && find('#consent').checked, 'Initial form lost');
     click('#next');
@@ -50,6 +55,7 @@
     attempt(3); screen(6);
     click('[data-practice="atas"]'); assert(find('#next').disabled, 'Wrong practice unlocked');
     click('[data-practice="kanan"]'); assert(!find('#next').disabled, 'Practice did not unlock');
+    window.dispatchEvent(new Event('blur'));assert(find('#next').disabled,'Interrupted practice retained readiness');click('[data-practice="kanan"]');
     click('#next'); screen(3); fit();
     attempt(4); screen(3); attempt(5); screen(3);
     for (let eye = 3; eye <= 4; eye++) {
@@ -58,13 +64,20 @@
       else {assert(!find('#ready')&&find('[data-answer]'),'Left eye asks for a duplicate confirmation');assert(find('.step-label').textContent.includes('Langkah 5 dari 6'),'Left eye progress incorrect');}
       heading(); fit();
       const progress = find('.kicker').textContent;
+      assert(find('.demo-e')?.getAttribute('viewBox')==='0 0 5 5','Geometric symbol missing');
+      assert(find('.demo-e').getBoundingClientRect().width===120,'Demo symbol resized');
       click('[data-answer="atas"]');
-      window.dispatchEvent(new Event('blur'));
+      if(eye===3)window.dispatchEvent(new Event('blur'));
+      else{Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new Event('visibilitychange'));delete document.hidden;}
       assert(!find('.symbol b'),'Interruption left symbol visible');
       assert(find('#pause').textContent==='Ulangi mata ini','Interruption missing explicit restart');
+      Object.defineProperty(document,'hidden',{configurable:true,value:true});
+      document.dispatchEvent(new Event('visibilitychange'));delete document.hidden;
+      window.dispatchEvent(new Event('focus'));assert(document.activeElement===find('#pause'),'Interruption recovery focus missing');
       assert([...root.querySelectorAll('[data-answer]')].every(e=>e.disabled),'Interruption accepted responses');
       click('#pause');
       assert(find('.kicker').textContent===progress,'Interrupted eye did not restart at first trial');
+      const orientation=find('.demo-e').style.transform;
       click('#pause'); fit();
       assert(document.activeElement.id === 'pause', 'Pause focus lost');
       assert([...root.querySelectorAll('[data-answer]')].every(e=>e.disabled), 'Paused answers enabled');
@@ -73,17 +86,31 @@
       assert(find('.kicker').textContent === progress, 'Pause advanced trial');
       click('#pause'); assert(document.activeElement.id === 'pause', 'Resume focus lost');
       assert(find('.kicker').textContent === progress, 'Resume advanced trial');
+      assert(find('.demo-e').style.transform===orientation,'Manual pause changed stimulus');
       for (const answer of ['atas','tidak terlihat','kiri']) {
         click('[data-answer="'+answer+'"]'); fit();
         if (answer !== 'kiri') assert(document.activeElement.dataset.answer === answer, 'Answer focus lost');
       }
       heading();
-      if (eye===3) { screen(7); eyeGuide('kiri'); fit(); attempt(4); screen(7); assert(find('#next').disabled,'Switch confirmation missing'); check('#switch-eye'); click('#next'); screen(4); }
+      if (eye===3) { screen(7); eyeGuide('kiri'); fit(); attempt(4); screen(7); assert(find('#next').disabled,'Switch confirmation missing'); check('#switch-eye'); window.dispatchEvent(new Event('blur'));assert(find('#next').disabled&&!find('#switch-eye').checked,'Interrupted switch remained confirmed');check('#switch-eye'); click('#next'); screen(4); }
     }
     screen(5); fit(); assert(root.querySelectorAll('.response-log li').length===6,'Wrong response log');
+    assert(find('#session-quality').textContent.includes('150.5 cm'),'Summary lost distance');
       assert(find('#interruption-summary').textContent.includes('mata kanan 1 kali; mata kiri 1 kali'),'Wrong interruption counts');
       for(const title of ['Pengamatan','Kualitas sesi','Makna catatan','Tindak lanjut'])assert([...root.querySelectorAll('h2')].some(e=>e.textContent===title),'Missing summary section: '+title);
     assert([...root.querySelectorAll('.results strong')].every(e=>e.textContent==='3 dari 3 respons'), 'Wrong counts');
+    // Verify DOM wiring without starting a real download or opening a print dialog.
+    const originalCreate=URL.createObjectURL,originalClick=HTMLAnchorElement.prototype.click,originalPrint=window.print;
+    let exportedBlob,downloadName,printCalls=0;
+    try{
+      URL.createObjectURL=blob=>{exportedBlob=blob;return originalCreate.call(URL,blob);};
+      HTMLAnchorElement.prototype.click=function(){downloadName=this.download;};
+      window.print=()=>printCalls++;
+      click('#download-summary');assert(exportedBlob?.size>200,'Empty export');assert(downloadName==='MataCheck-catatan-simulasi.txt','Export filename missing');
+      assert(find('#export-status').textContent.includes('Permintaan unduh'),'Download status missing');
+      click('#print-summary');assert(printCalls===1,'Print action not connected');
+      assert(!find('#session-report').querySelector('button'),'Controls leaked into exported report');
+    }finally{URL.createObjectURL=originalCreate;HTMLAnchorElement.prototype.click=originalClick;window.print=originalPrint;}
     click('#restart'); screen(1);
     assert(!find('#consent').checked && !find('[name=condition]:checked'), 'Restart retained form');
     attempt(5); screen(1);
@@ -108,6 +135,7 @@
     key('n');key('ArrowLeft');screen(7);check('#switch-eye');click('#next');assert(!find('#ready')&&find('[data-answer]'),'Solo left eye asks for duplicate confirmation');
     key('ArrowUp');key('ArrowRight');key('n');screen(5);fit();
     assert(root.querySelectorAll('.response-log li').length===6,'Solo summary missing');
+    assert(find('#session-quality').textContent.includes('belum dicatat'),'Restart retained distance');
       assert(find('#interruption-summary').textContent.includes('mata kanan 0 kali; mata kiri 0 kali'),'Restart retained interruption counts');
     click('#restart');check('[value="no"]');check('#consent');click('#next');
     assert(!find('[name=mode]:checked'),'Reset retained mode');
@@ -118,6 +146,7 @@
     check('[name=mode][value=solo]');check('.setup');check('label.check:nth-of-type(2) .setup');
     click('#cal-open');screen(8);fit();
     const match=()=>{const slider=find('#cal-width');slider.value='200';slider.dispatchEvent(new Event('input',{bubbles:true}));assert(!find('#cal-match').disabled,'Fitting calibration line blocked');click('#cal-match');};
+    match();window.dispatchEvent(new Event('blur'));assert(find('#cal-message').textContent.includes('terhenti'),'Partial calibration survived interruption');
     match();match();find('#cal-x').value='50';find('#cal-y').value='50';click('#cal-verify');
     assert(find('#cal-message').textContent.includes('sudah dicocokkan'),'Calibration did not complete');
     click('[data-go="2"]');assert(!find('#next').disabled,'Valid calibration blocked demo');
@@ -138,6 +167,11 @@
     for(let i=0;i<2;i++){match();match();find('#cal-x').value='52';find('#cal-y').value='50';click('#cal-verify');}
     assert(!find('#cal-match')&&find('#cal-message').textContent.includes('Tiga'),'Failure limit bypassed');
     click('#cal-skip');click('#cal-open');assert(!find('#cal-match'),'Reopening bypassed failure limit');click('#cal-skip');
+    click('#distance-open');click('#distance-skip');assert(!find('#distance-cm'),'Skip left editor open');
+    click('#next');click('[data-practice="kanan"]');click('#next');click('#ready');
+    for(let i=0;i<3;i++)click('[data-answer="atas"]');screen(7);
+    click('#position-change');screen(2);assert([...root.querySelectorAll('.setup')].every(e=>!e.checked),'Position change retained setup');
+    attempt(4);screen(2);check('.setup');check('label.check:nth-of-type(2) .setup');click('#next');assert(find('#next').disabled,'Position change retained practice');
     click('#clear-session');screen(0);
     const result = document.createElement('pre'); result.id='qa-result';
     result.textContent='PASS '+count+' assertions; guards, symptoms, retained inputs, both eyes, pause, focus, reset, overflow';

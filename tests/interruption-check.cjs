@@ -13,3 +13,19 @@ ctx.ready=true;ctx.paused=true;ctx.q=1;ctx.answers=[['a'],[]];ctx.interruptSessi
 assert.equal(ctx.formState.interruptions[0],1);
 assert.equal(ctx.formState.interruptions[1],1);
 console.log('PASS: interruption resets active eye, preserves completed eye, ignores non-trial stages');
+
+const model=source.match(/\/\/ CALIBRATION MODEL START([\s\S]*?)\/\/ CALIBRATION MODEL END/)[1];
+vm.runInContext(model,ctx);
+ctx.page=8;ctx.formState.calibration=ctx.newCalibration();
+ctx.formState.calibration.failures=2;ctx.recordMatch(ctx.formState.calibration,380);
+ctx.interruptSession();
+assert.equal(ctx.formState.calibration.first,null);assert.equal(ctx.formState.calibration.stage,'match1');
+assert.equal(ctx.formState.calibration.failures,2,'Interruption is not a failed measurement');
+ctx.recordMatch(ctx.formState.calibration,380);ctx.recordMatch(ctx.formState.calibration,380);
+ctx.interruptSession();assert.equal(ctx.formState.calibration.scale,null);
+ctx.formState.calibration.status='valid';ctx.formState.calibration.scale=3.8;
+ctx.interruptSession();assert.equal(ctx.formState.calibration.scale,3.8);
+ctx.page=6;ctx.formState.practiced=true;ctx.interruptSession();assert.equal(ctx.formState.practiced,false);
+ctx.page=7;ctx.formState.switched=true;ctx.answers=[['a','b','c'],[]];ctx.interruptSession();
+assert.equal(ctx.formState.switched,false);assert.equal(ctx.answers[0].length,3);
+console.log('PASS: interrupted calibration restarts without penalty; practice and eye switch require reconfirmation');

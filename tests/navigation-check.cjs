@@ -7,7 +7,7 @@ const assert = require('node:assert/strict');
 const source = fs.readFileSync(path.join(__dirname, '..', 'public', 'app.js'), 'utf8');
 const guard = source.match(/function canEnter\(n\)\{.*?\}(?=\s*function go)/s);
 assert(guard, 'Navigation guard not found');
-const state = { condition: null, consent: false, setup: [false, false] };
+const state = { directions:[[],[]], condition: null, consent: false, setup: [false, false] };
 const answers = [[], []];
 const context = vm.createContext({ formState: state, answers });
 vm.runInContext(guard[0], context);
@@ -28,6 +28,7 @@ assert.equal(canEnter(3), false);
 state.setup = [true, false]; assert.equal(canEnter(3), false);
 state.setup = [true, true]; assert.equal(canEnter(6), false); state.mode='invalid'; assert.equal(canEnter(6), false); state.mode='solo'; assert.equal(canEnter(6), true); state.mode='helper'; assert.equal(canEnter(6), true); assert.equal(canEnter(3), false);
 state.practiced = true; assert.equal(canEnter(3), true);
+state.distanceEditing=true;assert.equal(canEnter(6),false);assert.equal(canEnter(3),false);state.distanceEditing=false;
 for(const status of ['pending','stale','blocked']){state.calibration={status};assert.equal(canEnter(6),false);assert.equal(canEnter(8),true);}
 for(const status of ['valid','skipped']){state.calibration={status};assert.equal(canEnter(6),true);}
 state.calibration=null;
@@ -43,7 +44,7 @@ console.log('PASS: invalid screens, symptoms, consent, preparation and both-eye 
 
 const navigate = source.match(/function go\(n\)\{.*?\}(?=\s*const solo)/s)[0];
 Object.assign(context, { page: 7, q: 0, ready: false, paused: false,
-  render() {}, checkCalibration() {}, main: { querySelector: () => ({ focus() {} }) } });
+  newDirections:()=>[0,1,2], render() {}, checkCalibration() {}, main: { querySelector: () => ({ focus() {} }) } });
 vm.runInContext(navigate, context);
 state.consent = true; state.switched = false;
 context.go(4);

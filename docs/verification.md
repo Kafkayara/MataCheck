@@ -185,3 +185,31 @@ Dokumentasi v0.3 menyebut uji browser desktop pada lebar 1070 lulus. Itu catatan
 - Penghitung interupsi per mata tidak bertambah lagi selama status interrupted aktif; tidak menghitung jeda manual. Direset oleh clear/restart/perubahan mode, dipertahankan selama kalibrasi ulang dalam sesi yang sama.
 - npm test dan npm run test:browser:prepare lulus. Unit test memeriksa deduplikasi sinyal dan isolasi penghitung per mata.
 - Skenario browser menambahkan pemeriksaan empat bagian, jumlah interupsi, dan penghitung kosong setelah restart. Skenario ini baru disiapkan, belum dieksekusi; layout dan interaksi browser versi ini belum terverifikasi.
+
+## v0.8.0 - catatan portabel, stimulus demo, dan pemulihan
+
+Baseline: commit `612f1ad0ede2ecb71ee5af66252a56fb734663c0` (v0.7.2), GitHub Actions run [43740282560](https://github.com/Kafkayara/MataCheck/actions/runs/43740282560) sukses. Log job 132891715020 menunjukkan 259 assertion pada masing-masing lima viewport (1295 total), ditambah reload setelah sesi parsial pada tiap viewport. Bukti ini hanya untuk baseline, bukan perubahan v0.8.0 yang belum dipush.
+
+Validasi lokal v0.8.0:
+- `npm test`: lulus, termasuk guard ekspor, isi Blob dari teks laporan, cleanup URL, kegagalan ekspor/cetak, geometri E dan pengacakan, serta kalibrasi/latihan/pergantian mata setelah interupsi.
+- `npm run test:browser:prepare`: lulus. Fixture menambahkan wiring unduh/cetak dengan mock, pemulihan fokus, visibilitychange, konfirmasi ulang, dan kestabilan simbol saat jeda.
+- Percobaan browser alternatif Microsoft Edge gagal diluncurkan (exit 3221225477). Tidak ada hasil DOM v0.8.0 yang diklaim lulus. File laporan lama dibersihkan oleh runner.
+- `git diff --check`: lulus; peringatan normalisasi CRLF bukan kegagalan.
+
+Pemeriksaan manual sesudah push:
+1. Selesaikan kedua mata; unduh teks. Cocokkan enam respons, kualitas, makna, tindak lanjut dan peringatan simulasi dengan layar. Cek teks Indonesia terbaca.
+2. Pilih Cetak / simpan PDF. Pastikan tombol/navigasi tidak tercetak, tidak ada isi terpotong, dan keterangan simulasi tetap terlihat. Batalkan dialog sekali dan pastikan sesi tidak berubah. Penyimpanan PDF bergantung pada fasilitas browser.
+3. Mulai sesi baru, cocokkan garis pertama, pindah tab, kembali: harus mengulang garis pertama tanpa menambah kegagalan. Kalibrasi yang sudah selesai tidak dibatalkan hanya karena pindah tab.
+4. Setelah latihan berhasil atau konfirmasi pergantian mata dicentang, pindah tab: kesiapan harus diminta lagi, jawaban mata kanan tetap ada.
+5. Saat menjawab, pindah tab dan kembali: simbol hilang, tombol ulang mendapat fokus, P tidak melanjutkan. Ulang memulai dari respons pertama. Urutan acak bisa kebetulan sama; itu bukan bukti pengacakan gagal.
+6. Hapus sesi dan periksa bahwa respons lama tidak kembali. File yang sudah diunduh tetap di perangkat, sesuai keterangan UI.
+
+Batas produk tetap: SVG 120 CSS px belum menggunakan kalibrasi fisik; tiga respons bukan protokol ketajaman; tidak ada skor/resep/diagnosis. Jarak dan penilaian memerlukan protokol yang ditinjau sebelum diaktifkan sebagai pengukuran.
+
+## v0.9.0 - catatan jarak manual
+
+`npm test`, `npm run test:browser:prepare`, dan pemeriksaan diff lulus. Tes state mencakup angka desimal koma/titik, input kosong/nol/negatif/overflow/format salah, tiga konfirmasi, guard latihan selama edit, reset kedua mata saat perubahan posisi/edit, lewati jarak, serta penghapusan jarak saat kalibrasi invalid. Fixture DOM menambahkan simpan jarak, kemunculan di ringkasan, reset sesi dan kembali ke persiapan setelah posisi berubah. Fixture terbaru belum dieksekusi di browser; pembatasan browser lokal v0.8.0 tetap berlaku.
+
+Uji manual tambahan: pilih mode, simpan jarak 150,5 cm setelah ketiga konfirmasi, selesaikan demo dan cocokkan ringkasan/unduhan. Pada sesi berikutnya selesaikan kanan lalu pilih Posisi peserta berubah; jangan sampai dapat langsung melanjutkan kiri dengan catatan kanan lama. Periksa lewati jarak tetap memungkinkan demo setelah persiapan. Ini pemeriksaan alur software, bukan validasi jarak nyata atau penglihatan.
+
+Review terpisah v0.8.0 sempat memeriksa ekspor, transisi, SVG dan print selector tanpa menemukan regresi konkret, tetapi proses review berhenti karena batas layanan sebelum laporan akhir. v0.9.0 diperiksa secara lokal, tanpa klaim review independen selesai.

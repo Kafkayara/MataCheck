@@ -113,3 +113,24 @@ body{margin:0;background:#e6e8e0}#mata{max-width:1100px;margin:0 auto;min-height
 #mata .eye-guide .eye-open{background:#e5eee4;border-width:3px}#mata .eye-guide svg{max-width:100%}
 
 #mata .response-log{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}#mata .response-log section{border:1px solid var(--mc-line);padding:20px;border-radius:5px}#mata .response-log li{padding:8px 0;border-bottom:1px solid var(--mc-line)}#mata .response-log li:last-child{border-bottom:0}@media(max-width:760px){#mata .response-log{grid-template-columns:1fr}}
+
+@media print{
+  @page{margin:16mm}
+  html,body{background:white!important;color:black!important}
+  #mata{width:100%;max-width:none;margin:0;border:0;background:white;box-shadow:none}
+  #mata header,#mata footer,#mata main>:not(#session-report){display:none!important}
+  #mata main{padding:0}
+  #mata:not([data-screen='5']) main::before{content:"Sesi belum selesai. Catatan simulasi tersedia setelah kedua mata selesai.";display:block}
+  #mata #session-report{color:black;font-size:11pt}
+  #mata #session-report h1{font-size:24pt;line-height:1.2}
+  #mata #session-report h2{font-size:14pt;break-after:avoid}
+  #mata #session-report p,#mata #session-report li{font-size:11pt;line-height:1.45;color:black}
+  #mata #session-report .results,#mata #session-report .response-log{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  #mata #session-report section,#mata #session-report .results{break-inside:avoid}
+  #mata #session-report .note{background:white;color:black;border:1px solid #555}
+}
+
+#mata .symbol b{display:block;line-height:0}
+#mata .demo-e{display:block;width:120px;height:120px;fill:#111;transform-origin:50% 50%}
+
+#mata #distance-cm{display:block;width:160px;min-height:44px;padding:8px;margin:8px 0 20px;border:1px solid var(--mc-control);background:white}

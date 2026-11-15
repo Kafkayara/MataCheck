@@ -15,11 +15,11 @@ c=create();ctx.recordMatch(c,380);ctx.recordMatch(c,380);assert.equal(ctx.verify
 console.log('PASS: calibration scale, two axes, invalid measurements, three-failure lock');
 
 const invalidate=source.slice(source.indexOf('function invalidateCalibration()'),source.indexOf('function checkCalibration()'));
-const state={calibration:{status:'valid',scale:3.82,first:380,snapshot:'old'},practiced:true,switched:true};
+const state={distance:{mm:1500},distanceEditing:true,calibration:{status:'valid',scale:3.82,first:380,snapshot:'old'},practiced:true,switched:true};
 Object.assign(ctx,{formState:state,page:4,answers:[['a','b','c'],['a']],q:1,ready:true,paused:false,render(){},main:{querySelector:()=>({focus(){}})}});
 vm.runInContext(invalidate,ctx);ctx.invalidateCalibration();
 assert.equal(ctx.page,8);assert.equal(state.calibration.status,'stale');assert.equal(state.calibration.scale,null);
-assert.equal(ctx.answers.flat().length,0);assert.equal(ctx.ready,false);assert.equal(state.practiced,false);
+assert.equal(state.distance,null);assert.equal(state.distanceEditing,false);assert.equal(ctx.answers.flat().length,0);assert.equal(ctx.ready,false);assert.equal(state.practiced,false);
 state.calibration.status='skipped';ctx.page=3;ctx.invalidateCalibration();assert.equal(ctx.page,3);
 console.log('PASS: display change clears responses and readiness; skipped demo remains available');
 const check=source.match(/function checkCalibration\(\)\{[^\n]+/)[0];
