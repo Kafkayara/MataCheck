@@ -38,11 +38,14 @@
     check('[value="no"]'); check('#consent', false);
     assert(find('#next').disabled, 'Consent missing');
     check('#consent'); click('#next'); screen(2); fit();
+    assert(find('#preparation-status').textContent.includes('Pilih cara'),'Missing mode explanation');
+    assert(find('#cal-open').compareDocumentPosition(find('#next'))&Node.DOCUMENT_POSITION_FOLLOWING,'Continue appears before optional setup');
     attempt(3); screen(2); check('[name=mode][value=helper]'); check('.setup');
     assert(find('#next').disabled, 'Only one preparation accepted');
     check('label.check:nth-of-type(2) .setup');
     find('#correction').value='glasses';find('#correction').dispatchEvent(new Event('change',{bubbles:true}));
     click('#distance-open');assert(find('#next').disabled,'Distance editing allowed practice');
+    assert(find('#preparation-status').textContent.includes('catatan jarak'),'Missing unfinished distance explanation');
     click('#distance-save');assert(find('#distance-error').textContent.includes('positif'),'Empty distance accepted');
     find('#distance-cm').value='150,5';click('#distance-save');assert(find('#distance-error').textContent.includes('ketiga'),'Distance accepted without confirmations');
     check('#distance-measured');check('#distance-stable');check('#distance-input');click('#distance-save');
@@ -67,7 +70,16 @@
       const progress = find('.kicker').textContent;
       assert(find('.demo-e')?.getAttribute('viewBox')==='0 0 5 5','Geometric symbol missing');
       assert(find('.demo-e').getBoundingClientRect().width===120,'Demo symbol resized');
-      click('[data-answer="atas"]');
+      if(eye===3){
+        find('[data-answer="atas"]').dispatchEvent(new MouseEvent('click',{bubbles:true,detail:1}));
+        const afterFirst=find('.kicker').textContent;
+        find('[data-answer="atas"]').dispatchEvent(new MouseEvent('click',{bubbles:true,detail:2}));
+        find('[data-answer="atas"]').dispatchEvent(new MouseEvent('click',{bubbles:true,detail:1}));
+        assert(find('.kicker').textContent===afterFirst,'Double click answered another symbol');
+        let nativeRepeated=false;const heldEnter=new KeyboardEvent('keydown',{key:'Enter',repeat:true,bubbles:true,cancelable:true});
+        find('[data-answer="atas"]').dispatchEvent(heldEnter);nativeRepeated=heldEnter.defaultPrevented;
+        assert(nativeRepeated,'Held Enter native click not blocked');
+      }else click('[data-answer="atas"]');
       if(eye===3)window.dispatchEvent(new Event('blur'));
       else{Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new Event('visibilitychange'));delete document.hidden;}
       assert(!find('.symbol b'),'Interruption left symbol visible');

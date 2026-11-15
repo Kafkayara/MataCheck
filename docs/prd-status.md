@@ -1,6 +1,6 @@
 # Pemetaan implementasi terhadap PRD MataCheck v0.1
 
-Acuan: PRD yang diberikan pengguna, bagian 6, 7, 8 dan 10. Status kode: v0.12.0. Status ini memisahkan prototipe yang berfungsi dari persyaratan pengukuran yang belum terpenuhi; bukan persentase kesiapan klinis.
+Acuan: PRD yang diberikan pengguna, bagian 6, 7, 8 dan 10. Status kode: v0.13.0. Status ini memisahkan prototipe yang berfungsi dari persyaratan pengukuran yang belum terpenuhi; bukan persentase kesiapan klinis.
 
 | ID | Status | Sudah ada | Masih diperlukan |
 | --- | --- | --- | --- |
@@ -9,7 +9,7 @@ Acuan: PRD yang diberikan pengguna, bagian 6, 7, 8 dan 10. Status kode: v0.12.0.
 | FR-03 | Sebagian | Penggaris dua pencocokan, verifikasi dua sumbu, batas gagal, invalidasi tampilan | Kalibrasi belum mengatur ukuran fisik simbol demo; uji perangkat fisik dan toleransi final |
 | FR-04 | Sebagian | Catatan jarak aktual dengan meteran, konfirmasi posisi dan alat jawab | Target/toleransi protokol belum ditetapkan; jarak belum memengaruhi stimulus |
 | FR-05 | Sebagian | Dua mata terpisah, SVG E, arah acak, latihan dan pencatatan respons | Tingkat ukuran, jumlah respons, adaptasi, aturan berhenti dan penilaian sesuai protokol |
-| FR-06 | Sebagian | Gangguan tab/fokus, perubahan tampilan/posisi/koreksi, pengulangan, reset | Uji perangkat nyata dan ketidakpastian kondisi; browser tidak mendeteksi semua perubahan monitor/posisi |
+| FR-06 | Sebagian | Gangguan tab/fokus, perubahan tampilan/posisi/koreksi, pengulangan, reset, perlindungan klik ganda dan tombol ditahan | Uji perangkat nyata dan ketidakpastian kondisi; browser tidak mendeteksi semua perubahan monitor/posisi |
 | FR-07 | Sebagian | Empat bagian ringkasan; sesi parsial ditandai belum lengkap; tidak ada angka tebakan atau kesimpulan klinis | Hasil pengukuran dan tindak lanjut yang ditinjau; aturan kualitas final dan validasi metode |
 | FR-08 | Ditunda, fitur tambahan | Jalur manual tersedia; kamera tidak diminta | Kamera pendamping, izin/penolakan, pengujian posisi dan penghentian stream belum diimplementasikan |
 | FR-09 | Terimplementasi untuk catatan simulasi | Unduh teks dan cetak/PDF berisi tanggal, kondisi, respons dan batasan; label parsial ikut diekspor | Dialog unduh/cetak nyata dan layout PDF masih perlu pemeriksaan manual; bukan hasil pengukuran tervalidasi |

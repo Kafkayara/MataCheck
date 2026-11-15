@@ -239,3 +239,11 @@ Baseline v0.11 commit 080ff72 lulus [run 43742924420](https://github.com/Kafkaya
 Waktu mulai dicatat ketika membuka sesi baru, waktu akhir ketika masuk ringkasan selesai atau parsial. Ringkasan menampilkan zona waktu perangkat serta versi aplikasi; unduhan/cetakan memakai isi yang sama. Tidak ada sinkronisasi jam server. Reset membersihkan kedua timestamp. Pemetaan PRD diperbarui dalam prd-status.md berdasarkan pembacaan ulang PRD v0.1.
 
 npm test dan test:browser:prepare lulus. Tes jam tiruan memeriksa waktu akhir tetap saat ringkasan dibuka ulang, waktu berhenti parsial, reset, fallback tanggal, serta versi kode sesuai package.json. Skenario browser memeriksa timestamp valid, keterangan jam perangkat, tanggal tidak berubah saat ekspor, dan label Dihentikan pada sesi parsial. Browser v0.12.0 belum dieksekusi; tunggu CI setelah push. Uji manual tambahan: cocokkan tanggal/zona waktu pada ringkasan, file teks dan cetakan dengan jam perangkat.
+
+## v0.13.0 - persiapan dan input jawaban
+
+Baseline v0.12 commit 83217cd lulus [run 43743270253](https://github.com/Kafkayara/MataCheck/actions/runs/43743270253): 354 assertion per viewport (1770 total), ditambah reload setelah sesi parsial.
+
+Tombol lanjut Persiapan dipindahkan setelah seluruh pengaturan. Status menjelaskan prasyarat yang belum selesai. Handler jawaban kini memeriksa nilai, keterpasangan tombol pada DOM, kesiapan, jeda dan batas trial. Klik pointer berulang dalam 300 ms serta detail multi-click diabaikan; pengulangan native Enter/Spasi pada tombol jawaban dicegah. Batas 300 ms adalah pilihan UX, bukan batas klinis; dapat mengabaikan klik sengaja yang sangat cepat dan perlu uji penggunaan nyata.
+
+npm test dan test:browser:prepare lulus. Unit test memeriksa klik berulang, tombol lama, respons tidak dikenal, jeda, aktivasi keyboard serta status persiapan. Fixture menambah urutan tombol lanjut, pesan editor jarak, klik detail 1/2 berulang dan pencegahan Enter ditahan. Browser versi ini belum dieksekusi. Setelah push, periksa CI dan coba klik ganda/tahan Enter dengan perangkat nyata. Tidak ada perubahan aturan pengukuran atau skor.

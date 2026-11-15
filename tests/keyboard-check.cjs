@@ -21,3 +21,6 @@ context.solo=()=>false;context.heldKeys.clear();press('ArrowRight');assert.equal
 console.log('PASS: keyboard mapping, held keys, pause, confirmation, form and mode isolation');
 context.solo=()=>true;context.page=3;context.ready=true;context.interrupted=true;context.heldKeys.clear();
 const before=clicked.length;press('p');assert.equal(clicked.length,before,'P resumed interrupted session without confirmation');
+let prevented=0;
+for(const key of ['Enter',' '])context.handleKey({key,repeat:true,preventDefault(){prevented++;},target:{matches:selector=>selector==='button[data-answer]'}});
+assert.equal(prevented,2,'Native held activation must be prevented on answer buttons');

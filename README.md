@@ -1,4 +1,4 @@
-# MataCheck v0.12.0
+# MataCheck v0.13.0
 
 Simulasi penglihatan terpandu dengan mode sendiri atau pendamping. Bukan pemeriksaan klinis: tidak menghasilkan ketajaman penglihatan, diagnosis, ukuran kacamata, atau resep.
 
@@ -32,6 +32,12 @@ Preview dihasilkan otomatis; jangan diedit terpisah. Tes browser menggunakan Chr
 - Catatan kacamata/lensa kontak opsional, tanpa ukuran resep. Pilihan ikut dalam ringkasan, unduhan dan cetakan.
 - Ringkasan: pengamatan, kualitas sesi, makna catatan dan tindak lanjut. Unduh teks UTF-8 atau gunakan dialog cetak/simpan PDF browser.
 
+## Persiapan dan perlindungan input
+
+Tombol lanjut berada setelah seluruh pengaturan Persiapan. Pesan status menyebut pilihan mode, checklist, editor jarak atau kalibrasi yang masih perlu diselesaikan. Pilihan opsional tetap opsional untuk demo.
+
+Klik jawaban berulang dalam 300 ms dan klik lanjutan dalam rangkaian multi-click diabaikan. Input dari tombol yang sudah tidak berada di layar, nilai tidak dikenal, atau sesi dijeda ditolak. Pengulangan Enter/Spasi saat tombol jawaban fokus dicegah; pintasan panah/N tetap memakai aturan lepas tombol. Jeda klik adalah perlindungan antarmuka, bukan ambang respons klinis.
+
 ## Mengakhiri sesi lebih awal
 
 Pilih **Berhenti & lihat catatan** pada latihan, persiapan mata, demo atau pergantian mata. Respons yang sudah diberikan dipertahankan; ringkasan ditandai belum lengkap dan tidak menganggap jawaban yang belum diberikan sebagai Tidak terlihat. Catatan parsial dapat diunduh/dicetak dengan peringatan yang sama. Sesi yang diakhiri tidak dapat dilanjutkan; mulai sesi baru untuk mencoba lagi. Memilih Mulai simulasi dari beranda membersihkan data sesi sebelumnya.
@@ -63,7 +69,7 @@ Data hanya dalam memori tab; refresh/tutup tab menghapus sesi. Tidak ada akun, u
 
 Repository: https://github.com/Kafkayara/MataCheck. Website: https://matacheck.vercel.app.
 
-Baseline v0.11 commit `080ff72` lulus [CI run 43742924420](https://github.com/Kafkayara/MataCheck/actions/runs/43742924420): 350 assertion per viewport, lima viewport (1750 total), ditambah reload setelah sesi parsial. Ini bukan bukti pengujian browser v0.10.0.
+Baseline v0.12 commit `83217cd` lulus [CI run 43743270253](https://github.com/Kafkayara/MataCheck/actions/runs/43743270253): 354 assertion per viewport, lima viewport (1770 total), ditambah reload setelah sesi parsial. Ini bukan bukti pengujian browser v0.10.0.
 
 Workflow menjalankan tes kode dan browser pada push main, pull request dan pemicu manual. CI belum menghalangi deployment Vercel secara otomatis. Kelulusan CI tidak membuktikan status deployment. Lihat [bukti pengujian](docs/verification.md).
 
