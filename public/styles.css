@@ -81,7 +81,12 @@ body{margin:0;background:#e6e8e0}#mata{max-width:1100px;margin:0 auto;min-height
 #mata .note{font-size:15px;max-width:720px}
 #mata button{font-size:16px;min-height:50px;border-color:var(--mc-control)}
 #mata button:focus-visible,#mata input:focus-visible,#mata summary:focus-visible{outline:4px solid var(--mc-focus);outline-offset:4px;box-shadow:0 0 0 3px var(--mc-paper)}
-#mata h1:focus{outline:3px solid var(--mc-focus);outline-offset:6px}
+#mata h1:focus{outline:none}
+#mata .cal-area{max-width:100%;overflow:hidden;margin:24px 0;border:1px solid var(--mc-line);padding:6px 0}
+#mata .cal-line{display:block;max-width:none;flex:none;overflow:visible;margin:12px 0;stroke:var(--mc-ink);stroke-width:1;fill:none}
+#mata #cal-width{width:min(100%,480px)}
+#mata #cal-x,#mata #cal-y{display:block;width:140px;min-height:44px;margin:8px 0 20px;padding:8px;border:1px solid var(--mc-control);background:white}
+#mata .cal-summary{margin-top:28px;border-top:1px solid var(--mc-line);padding-top:20px}
 #mata label.check{border-color:var(--mc-control);font-size:17px;line-height:1.6;padding:20px;align-items:flex-start}
 #mata input[type=checkbox],#mata input[type=radio]{margin-top:4px}
 #mata label.check:has(input:checked){box-shadow:inset 3px 0 #315f43}

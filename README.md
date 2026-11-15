@@ -1,4 +1,16 @@
-# MataCheck v0.6.2 - prototipe interaksi
+# MataCheck v0.7.0 - prototipe interaksi
+
+## Kalibrasi penggaris (v0.7.0 lokal)
+
+Pada Persiapan, pilih **Cocokkan dengan penggaris**. Samakan jarak antartanda dengan 10 cm pada penggaris fisik dua kali, lalu ukur garis horizontal dan vertikal verifikasi dalam milimeter. Setelah berhasil, kembali ke Persiapan untuk menjalankan demo.
+
+Kalibrasi masih opsional untuk demo; tombol **Lanjut demo tanpa kalibrasi** menandai sesi sebagai tidak dikalibrasi. Ukuran yang dicocokkan belum dipakai menghitung kemampuan penglihatan atau mengubah simbol demo. Ambang 2% dan 49–51 mm adalah toleransi uji rekayasa, belum tervalidasi klinis.
+
+Perubahan ukuran jendela, zoom/DPR yang terdeteksi, orientasi, atau fullscreen setelah pencocokan meminta ulang dan membersihkan respons sesi yang sedang berjalan. Pergantian monitor yang tidak terdeteksi dilaporkan lewat tombol perubahan layar pada halaman kalibrasi dan sesi terkalibrasi. Ringkasan sesi yang sudah selesai dipertahankan sebagai catatan historis.
+
+Tiga kegagalan menghentikan percobaan kalibrasi untuk sesi itu. Reset garis atau keluar-masuk melalui jalur demo tidak menghapus hitungannya; **Hapus sesi** memulai sesi baru. Pengujian fisik: samakan 10 cm dengan penggaris, baca kembali kedua garis verifikasi, lalu ubah zoom dan pastikan diminta ulang. Jangan menekan panel dengan penggaris. Jika garis tidak muat, jangan menyusutkan tampilan untuk memaksakan kalibrasi.
+
+Tes kode lulus; eksekusi browser v0.7 dan kecocokan ukuran fisik belum terverifikasi. Perubahan ini belum dipush/deploy. Rancangan lengkap: [protokol dan kalibrasi](docs/protocol-and-calibration.md).
 
 ## Menjalankan
 1. Buka terminal di folder proyek. Gunakan Node.js (pengujian lokal memakai v24.15.0).

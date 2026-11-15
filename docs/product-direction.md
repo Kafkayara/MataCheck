@@ -2,6 +2,8 @@
 
 Tanggal: 15 November 2026. Dokumen keputusan produk dan rencana riset, bukan metode pemeriksaan atau bukti validasi klinis.
 
+Rancangan lanjutan berdasarkan PRD lengkap: [spesifikasi protokol dan kalibrasi manual](protocol-and-calibration.md). Dokumen tersebut menetapkan alur rekayasa dan mencatat parameter yang masih memerlukan peninjauan profesional; belum merupakan implementasi atau validasi.
+
 ## Sasaran terdekat: prototipe yang bisa dipakai tanpa dibimbing
 
 Pengguna dapat memilih mode sendiri atau pendamping, menyelesaikan latihan, mengikuti panduan mata, menjeda sesi, dan memahami ringkasan sebagai catatan respons. Pertahankan desain krem/hijau, delapan tahap, serta data dalam memori. Belum perlu akun, database, kamera, atau AI diagnosis.

@@ -1,5 +1,22 @@
 # Verifikasi MataCheck
 
+## v0.7.0 lokal — kalibrasi penggaris
+
+- Subhalaman Persiapan menyediakan dua pencocokan 100 mm, konsistensi maksimal 2%, verifikasi horizontal/vertikal 49–51 mm, dan batas tiga kegagalan. Sesi dapat memilih demo tanpa kalibrasi secara eksplisit.
+- Ukuran endpoint SVG diukur dari DOM. Garis yang tidak muat tidak boleh dikonfirmasi; tidak memakai CSS cm sebagai milimeter fisik. Reset garis mempertahankan kegagalan dan membuka kembali jalur kalibrasi setelah skip tidak melewati blokir.
+- Snapshot DPR/viewport/scale/orientasi/fullscreen memicu invalidasi. Perubahan selama demo menghapus respons kedua mata dan latihan. Pergantian monitor tanpa perubahan sinyal tetap keterbatasan; tersedia tombol manual.
+- npm test lulus: model perhitungan, input nonfinite, verifikasi dua sumbu, blokir, guard dan invalidasi state. Fixture mencakup alur berhasil/gagal/skip serta pengulangan tanpa konfirmasi kiri kedua.
+- npm run test:browser:prepare lulus. npm run test:browser gagal meluncurkan Chrome lokal (exit 2147483651); belum ada PASS DOM v0.7.0 atau bukti pengukuran penggaris fisik. CI lama tidak mencakup perubahan ini.
+- Simbol demo dan ringkasan tidak menggunakan faktor kalibrasi untuk hasil penglihatan. Tidak ada jarak klinis, skor standar, kamera, penyimpanan persisten atau unggah jawaban yang ditambahkan.
+
+## Tindak lanjut pengguna — konfirmasi mata kiri dan outline judul
+
+- Masukan pengguna: langkah pergantian dan persiapan mata kiri terasa berulang; kotak fokus judul mengganggu tampilan.
+- Pergantian mata dan demo mata kiri kini berbagi langkah 5 dari 6. Setelah checkbox kesiapan dan tombol Mulai demo mata kiri, sesi langsung aktif tanpa halaman konfirmasi kedua. Prasyarat kanan selesai dan konfirmasi pergantian tetap wajib.
+- Outline hanya di h1 dihapus. Fokus programatik judul tetap dipertahankan; outline focus-visible tombol, input, dan summary tetap ada.
+- Uji regresi transisi mula-mula gagal pada ready=false; setelah perbaikan lulus, termasuk respons kiri kosong dan respons kanan tetap utuh. npm test lulus dan preview diperbarui.
+- Fixture kedua mode diperbarui untuk alur baru, enam langkah, serta outline judul. Eksekusi browser/inspeksi visual perubahan ini belum terverifikasi dan belum dideploy. Hasil 870 pemeriksaan lama tidak mencakup perubahan ini.
+
 ## Tambahan skenario reload — belum dieksekusi di browser
 
 - Fixture kini memulai sesi sendiri, memasukkan satu respons, lalu mengganti dokumen iframe dengan aplikasi bersih. Pemeriksaan mengharuskan beranda awal, persetujuan/kondisi kosong, dan tombol Lanjut terkunci.
