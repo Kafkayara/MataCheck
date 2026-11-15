@@ -120,7 +120,7 @@ body{margin:0;background:#e6e8e0}#mata{max-width:1100px;margin:0 auto;min-height
   #mata{width:100%;max-width:none;margin:0;border:0;background:white;box-shadow:none}
   #mata header,#mata footer,#mata main>:not(#session-report){display:none!important}
   #mata main{padding:0}
-  #mata:not([data-screen='5']) main::before{content:"Sesi belum selesai. Catatan simulasi tersedia setelah kedua mata selesai.";display:block}
+  #mata:not([data-screen='5']) main::before{content:"Catatan simulasi tersedia setelah sesi selesai atau dihentikan.";display:block}
   #mata #session-report{color:black;font-size:11pt}
   #mata #session-report h1{font-size:24pt;line-height:1.2}
   #mata #session-report h2{font-size:14pt;break-after:avoid}

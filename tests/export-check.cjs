@@ -19,5 +19,7 @@ vm.runInContext(block,ctx);
   ctx.exportSummary('print');assert.equal(printed,1);
   fail=true;ctx.exportSummary('text');assert(status.textContent.includes('belum berhasil'));assert.equal(removed,2);timers.shift()();assert.equal(revoked,2);
   ctx.window.print=()=>{throw Error('blocked');};ctx.exportSummary('print');assert(status.textContent.includes('tidak dapat'));
-  console.log('PASS: export uses visible report, guards incomplete sessions, releases URL and handles errors');
+  fail=false;report.innerText='Sesi dihentikan / Belum lengkap\nSesi belum lengkap.\nMata kanan: 3 dari 3 respons\nMata kiri: 1 dari 3 respons';
+  ctx.exportSummary('text');assert((await blob.text()).includes('Sesi belum lengkap.'));timers.shift()();
+  console.log('PASS: export uses visible report including partial-session warning, guards access, releases URL and handles errors');
 })().catch(e=>{console.error(e);process.exitCode=1;});

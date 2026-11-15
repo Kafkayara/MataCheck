@@ -181,6 +181,24 @@
     click('#position-change');screen(2);assert([...root.querySelectorAll('.setup')].every(e=>!e.checked),'Position change retained setup');
     attempt(4);screen(2);check('.setup');check('label.check:nth-of-type(2) .setup');click('#next');assert(find('#next').disabled,'Position change retained practice');
     click('#clear-session');screen(0);
+    // Stop midway through the left eye: retain the three right responses and one left response.
+    click('[data-go="1"]');check('[value="no"]');check('#consent');click('#next');
+    check('[name=mode][value=solo]');check('.setup');check('label.check:nth-of-type(2) .setup');click('#next');
+    click('[data-practice="kanan"]');click('#next');click('#ready');
+    for(let i=0;i<3;i++)click('[data-answer="atas"]');
+    check('#switch-eye');click('#next');click('[data-answer="kiri"]');click('#end-session');screen(5);fit();
+    assert(find('#incomplete-session'),'Partial session warning missing');
+    assert(root.querySelectorAll('.response-log li').length===4,'Stop lost or invented responses');
+    assert(!find('.session-line'),'Stopped session marked all steps complete');
+    assert(!find('[data-answer]'),'Ended session still accepts answers');
+    attempt(4);screen(5);
+    click('[data-go="0"]');click('[data-go="1"]');screen(1);
+    assert(!find('#consent').checked&&!find('[name=condition]:checked'),'Home start retained session');
+    check('[value="no"]');check('#consent');click('#next');check('[name=mode][value=helper]');
+    check('.setup');check('label.check:nth-of-type(2) .setup');click('#next');click('#end-session');screen(5);
+    assert(root.querySelectorAll('.response-log li').length===0,'Practice counted as a response');
+    assert(find('#incomplete-session'),'Stopped practice missing warning');
+    click('#clear-session');screen(0);
     const result = document.createElement('pre'); result.id='qa-result';
     result.textContent='PASS '+count+' assertions; guards, symptoms, retained inputs, both eyes, pause, focus, reset, overflow';
     document.body.append(result);

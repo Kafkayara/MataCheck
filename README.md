@@ -1,4 +1,4 @@
-# MataCheck v0.10.0
+# MataCheck v0.11.0
 
 Simulasi penglihatan terpandu dengan mode sendiri atau pendamping. Bukan pemeriksaan klinis: tidak menghasilkan ketajaman penglihatan, diagnosis, ukuran kacamata, atau resep.
 
@@ -32,6 +32,10 @@ Preview dihasilkan otomatis; jangan diedit terpisah. Tes browser menggunakan Chr
 - Catatan kacamata/lensa kontak opsional, tanpa ukuran resep. Pilihan ikut dalam ringkasan, unduhan dan cetakan.
 - Ringkasan: pengamatan, kualitas sesi, makna catatan dan tindak lanjut. Unduh teks UTF-8 atau gunakan dialog cetak/simpan PDF browser.
 
+## Mengakhiri sesi lebih awal
+
+Pilih **Berhenti & lihat catatan** pada latihan, persiapan mata, demo atau pergantian mata. Respons yang sudah diberikan dipertahankan; ringkasan ditandai belum lengkap dan tidak menganggap jawaban yang belum diberikan sebagai Tidak terlihat. Catatan parsial dapat diunduh/dicetak dengan peringatan yang sama. Sesi yang diakhiri tidak dapat dilanjutkan; mulai sesi baru untuk mencoba lagi. Memilih Mulai simulasi dari beranda membersihkan data sesi sebelumnya.
+
 ## Perubahan kondisi dan privasi
 
 Pindah tab/jendela saat demo menyembunyikan simbol dan mengulang mata aktif; mata yang selesai dipertahankan. Pilih Ulangi mata ini; P tidak melewati konfirmasi. Gangguan kalibrasi parsial mengulang pencocokan tanpa penalti. Latihan/pergantian mata perlu dikonfirmasi lagi setelah gangguan.
@@ -59,7 +63,7 @@ Data hanya dalam memori tab; refresh/tutup tab menghapus sesi. Tidak ada akun, u
 
 Repository: https://github.com/Kafkayara/MataCheck. Website: https://matacheck.vercel.app.
 
-Baseline v0.9 commit `15c42b7` lulus [CI run 43741308481](https://github.com/Kafkayara/MataCheck/actions/runs/43741308481): 307 assertion per viewport, lima viewport (1535 total), ditambah reload setelah sesi parsial. Ini bukan bukti pengujian browser v0.10.0.
+Baseline v0.10 commit `918aee6` lulus [CI run 43742378573](https://github.com/Kafkayara/MataCheck/actions/runs/43742378573): 319 assertion per viewport, lima viewport (1595 total), ditambah reload setelah sesi parsial. Ini bukan bukti pengujian browser v0.10.0.
 
 Workflow menjalankan tes kode dan browser pada push main, pull request dan pemicu manual. CI belum menghalangi deployment Vercel secara otomatis. Kelulusan CI tidak membuktikan status deployment. Lihat [bukti pengujian](docs/verification.md).
 

@@ -223,3 +223,11 @@ Pilihan kacamata/lensa kontak sekarang dicatat di Persiapan dan ringkasan. Nilai
 Tes lokal dan persiapan fixture lulus. Tes correction-check mencakup nilai tidak dikenal, pilihan sama, reset kedua mata, kondisi tidak dicatat, fokus kontrol dan retensi jarak/kalibrasi. Skenario browser ditambah pemeriksaan catatan pada ringkasan, reset sesi, serta perubahan setelah kanan selesai. Browser v0.10.0 belum dieksekusi; perlu CI setelah push.
 
 Uji manual: pilih kacamata, selesaikan kanan, laporkan perubahan, pilih kondisi baru dan pastikan latihan serta kanan diulang sebelum kiri. Catatan ringkasan/unduhan harus menampilkan kondisi terbaru saja. README telah disusun ulang menjadi panduan kondisi saat ini.
+
+## v0.11.0 - berhenti lebih awal dan reset sesi
+
+Baseline v0.10 commit 918aee6 lulus [run 43742378573](https://github.com/Kafkayara/MataCheck/actions/runs/43742378573): 319 assertion per viewport (1595 total), ditambah reload setelah sesi parsial pada kelima viewport.
+
+Sesi dapat diakhiri dari latihan, persiapan mata, demo atau pergantian mata. Hanya respons yang sudah diberikan ditampilkan. Ringkasan parsial diberi peringatan belum lengkap; progress enam langkah tidak ditampilkan sebagai selesai. Ekspor/cetak membawa peringatan tersebut. Sesi diakhiri tidak dapat dilanjutkan. Reset sesi kini dipakai bersama oleh Hapus sesi, Ulangi simulasi dan Mulai simulasi dari beranda agar data lama tidak ikut terbawa.
+
+Tes lokal lulus; fixture browser siap, belum dieksekusi untuk v0.11.0. Tes state menguji stop pada keempat tahap, retensi respons parsial, penguncian sesi, invalidasi kalibrasi sebelum stop, dan reset seluruh data. Tes ekspor memeriksa peringatan parsial ikut dalam teks. Skenario browser mencakup kanan selesai/kiri satu respons, stop saat latihan tanpa respons, serta sesi baru melalui beranda. Uji manual berikutnya: pastikan ringkasan parsial dan PDF tidak menyatakan kedua mata selesai.
