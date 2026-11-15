@@ -1,5 +1,13 @@
 # Verifikasi MataCheck
 
+## Rilis kalibrasi dan lanjutan interupsi — 16 November 2026
+
+- Commit 72d248a88322c064d44478b9954d954c0c423b00 terverifikasi di produksi Vercel READY.
+- GitHub Actions https://github.com/Kafkayara/MataCheck/actions/runs/43679337465 lulus: 241 assertions pada masing-masing lima viewport (1.205 total), ditambah reload after partial session PASS. Ini fixture browser, bukan bukti ukuran milimeter pada perangkat fisik.
+- Lanjutan v0.7.1 lokal: blur/halaman tersembunyi saat demo mengosongkan respons mata aktif, menyembunyikan simbol, dan memerlukan tombol Ulangi mata ini. P tidak melewati konfirmasi. Mata yang sudah selesai dipertahankan bila kalibrasi tetap berlaku.
+- Jeda manual tanpa meninggalkan halaman mempertahankan progres demo sebelumnya; kebijakan jeda pengukuran klinis belum diaktifkan. Perubahan kalibrasi tetap menghapus kedua mata.
+- Tes model interupsi, keyboard, dan pemeriksaan kode lulus. Fixture diperluas untuk interupsi kedua mata. Belum ada hasil browser v0.7.1; hasil CI di atas hanya untuk 72d248a. Belum dipush/deploy.
+
 ## v0.7.0 lokal — kalibrasi penggaris
 
 - Subhalaman Persiapan menyediakan dua pencocokan 100 mm, konsistensi maksimal 2%, verifikasi horizontal/vertikal 49–51 mm, dan batas tiga kegagalan. Sesi dapat memilih demo tanpa kalibrasi secara eksplisit.
@@ -170,3 +178,10 @@ Masih perlu: pengujian keyboard manual seluruh alur, refresh/tutup tab, reduced 
 ## Riwayat
 
 Dokumentasi v0.3 menyebut uji browser desktop pada lebar 1070 lulus. Itu catatan versi lama, bukan bukti untuk versi saat ini. Tidak ada validasi klinis dalam seluruh pengujian perangkat lunak ini.
+
+## v0.7.2 - ringkasan dan kualitas sesi
+
+- Empat bagian ringkasan mengikuti bagian 9 spesifikasi protokol; belum menampilkan skor penglihatan.
+- Penghitung interupsi per mata tidak bertambah lagi selama status interrupted aktif; tidak menghitung jeda manual. Direset oleh clear/restart/perubahan mode, dipertahankan selama kalibrasi ulang dalam sesi yang sama.
+- npm test dan npm run test:browser:prepare lulus. Unit test memeriksa deduplikasi sinyal dan isolasi penghitung per mata.
+- Skenario browser menambahkan pemeriksaan empat bagian, jumlah interupsi, dan penghitung kosong setelah restart. Skenario ini baru disiapkan, belum dieksekusi; layout dan interaksi browser versi ini belum terverifikasi.

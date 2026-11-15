@@ -1,4 +1,10 @@
-# MataCheck v0.7.0 - prototipe interaksi
+# MataCheck v0.7.2 - prototipe interaksi
+
+## Interupsi demo (v0.7.1 lokal)
+
+Jika halaman disembunyikan atau jendela kehilangan fokus saat demo, simbol menghilang dan jawaban mata yang sedang dikerjakan dibersihkan. Pilih **Ulangi mata ini** untuk mulai mata tersebut dari awal; tombol P tidak melewati konfirmasi ini. Mata yang sudah selesai dipertahankan selama kalibrasi tidak berubah. Tombol Jeda biasa tetap mempertahankan progres selama halaman tidak ditinggalkan.
+
+Kalibrasi v0.7.0 sudah terdeploy pada commit 72d248a dan lulus 241 pemeriksaan browser per viewport, ditambah pemeriksaan reload. Catatan belum deploy untuk v0.7.0 di bawah adalah riwayat. Interupsi v0.7.1 baru lulus tes kode; browser versi baru belum diverifikasi.
 
 ## Kalibrasi penggaris (v0.7.0 lokal)
 
@@ -66,3 +72,7 @@ Jalankan `npm run test:browser` untuk menyiapkan fixture dan menjalankan Chrome/
 Workflow lokal kini menjalankan tes browser dan menyimpan browser-evidence selama tujuh hari; belum ada hasil CI untuk perubahan workflow ini. Keterangan workflow/deployment lama di atas adalah riwayat. CI belum menghalangi auto-deploy Vercel.
 
 Rencana berikutnya: [arah produk](docs/product-direction.md) dan [panduan uji pengguna](docs/usability-check.md).
+
+## Ringkasan sesi v0.7.2
+
+Ringkasan dibagi menjadi pengamatan, kualitas sesi, makna catatan, dan tindak lanjut. Kualitas menampilkan status pencocokan layar, batasan jarak demo, serta jumlah interupsi otomatis per mata. Sinyal blur/hidden berulang selama satu interupsi dihitung sekali. Jeda manual tidak dihitung. Penghitung mencakup sesi berjalan, termasuk percobaan sebelum kalibrasi ulang; hapus sesi, ulangi simulasi, atau perubahan mode membersihkannya. Catatan respons hanya memuat percobaan terakhir yang diselesaikan.

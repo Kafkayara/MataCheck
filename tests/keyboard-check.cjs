@@ -3,7 +3,7 @@ const source=fs.readFileSync(require('node:path').join(__dirname,'../public/app.
 const handler=source.slice(source.indexOf('function handleKey(e)'),source.indexOf("document.addEventListener('keydown'"));
 assert(handler.startsWith('function handleKey'));
 const clicked=[];
-const context=vm.createContext({solo:()=>true,page:3,ready:true,paused:false,heldKeys:new Set(),main:{querySelector:s=>({click:()=>clicked.push(s)})}});
+const context=vm.createContext({solo:()=>true,page:3,ready:true,paused:false,interrupted:false,heldKeys:new Set(),main:{querySelector:s=>({click:()=>clicked.push(s)})}});
 vm.runInContext(handler,context);
 const press=(key,extra={})=>context.handleKey({key,preventDefault(){},target:{matches:()=>false},...extra});
 press('ArrowUp');press('ArrowUp');press('ArrowUp',{repeat:true});
@@ -19,3 +19,5 @@ context.ready=true;press('ArrowDown',{ctrlKey:true});press('ArrowDown',{target:{
 context.page=6;context.heldKeys.clear();press('ArrowRight');assert.equal(clicked.at(-1),'[data-practice="kanan"]');
 context.solo=()=>false;context.heldKeys.clear();press('ArrowRight');assert.equal(clicked.length,n+1,'Helper mode intercepted keyboard');
 console.log('PASS: keyboard mapping, held keys, pause, confirmation, form and mode isolation');
+context.solo=()=>true;context.page=3;context.ready=true;context.interrupted=true;context.heldKeys.clear();
+const before=clicked.length;press('p');assert.equal(clicked.length,before,'P resumed interrupted session without confirmation');

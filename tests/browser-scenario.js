@@ -58,6 +58,13 @@
       else {assert(!find('#ready')&&find('[data-answer]'),'Left eye asks for a duplicate confirmation');assert(find('.step-label').textContent.includes('Langkah 5 dari 6'),'Left eye progress incorrect');}
       heading(); fit();
       const progress = find('.kicker').textContent;
+      click('[data-answer="atas"]');
+      window.dispatchEvent(new Event('blur'));
+      assert(!find('.symbol b'),'Interruption left symbol visible');
+      assert(find('#pause').textContent==='Ulangi mata ini','Interruption missing explicit restart');
+      assert([...root.querySelectorAll('[data-answer]')].every(e=>e.disabled),'Interruption accepted responses');
+      click('#pause');
+      assert(find('.kicker').textContent===progress,'Interrupted eye did not restart at first trial');
       click('#pause'); fit();
       assert(document.activeElement.id === 'pause', 'Pause focus lost');
       assert([...root.querySelectorAll('[data-answer]')].every(e=>e.disabled), 'Paused answers enabled');
@@ -74,6 +81,8 @@
       if (eye===3) { screen(7); eyeGuide('kiri'); fit(); attempt(4); screen(7); assert(find('#next').disabled,'Switch confirmation missing'); check('#switch-eye'); click('#next'); screen(4); }
     }
     screen(5); fit(); assert(root.querySelectorAll('.response-log li').length===6,'Wrong response log');
+      assert(find('#interruption-summary').textContent.includes('mata kanan 1 kali; mata kiri 1 kali'),'Wrong interruption counts');
+      for(const title of ['Pengamatan','Kualitas sesi','Makna catatan','Tindak lanjut'])assert([...root.querySelectorAll('h2')].some(e=>e.textContent===title),'Missing summary section: '+title);
     assert([...root.querySelectorAll('.results strong')].every(e=>e.textContent==='3 dari 3 respons'), 'Wrong counts');
     click('#restart'); screen(1);
     assert(!find('#consent').checked && !find('[name=condition]:checked'), 'Restart retained form');
@@ -99,6 +108,7 @@
     key('n');key('ArrowLeft');screen(7);check('#switch-eye');click('#next');assert(!find('#ready')&&find('[data-answer]'),'Solo left eye asks for duplicate confirmation');
     key('ArrowUp');key('ArrowRight');key('n');screen(5);fit();
     assert(root.querySelectorAll('.response-log li').length===6,'Solo summary missing');
+      assert(find('#interruption-summary').textContent.includes('mata kanan 0 kali; mata kiri 0 kali'),'Restart retained interruption counts');
     click('#restart');check('[value="no"]');check('#consent');click('#next');
     assert(!find('[name=mode]:checked'),'Reset retained mode');
     check('[name=mode][value=solo]');check('.setup');check('label.check:nth-of-type(2) .setup');click('#next');key('ArrowRight');click('[data-go="2"]');
