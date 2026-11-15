@@ -231,3 +231,11 @@ Baseline v0.10 commit 918aee6 lulus [run 43742378573](https://github.com/Kafkaya
 Sesi dapat diakhiri dari latihan, persiapan mata, demo atau pergantian mata. Hanya respons yang sudah diberikan ditampilkan. Ringkasan parsial diberi peringatan belum lengkap; progress enam langkah tidak ditampilkan sebagai selesai. Ekspor/cetak membawa peringatan tersebut. Sesi diakhiri tidak dapat dilanjutkan. Reset sesi kini dipakai bersama oleh Hapus sesi, Ulangi simulasi dan Mulai simulasi dari beranda agar data lama tidak ikut terbawa.
 
 Tes lokal lulus; fixture browser siap, belum dieksekusi untuk v0.11.0. Tes state menguji stop pada keempat tahap, retensi respons parsial, penguncian sesi, invalidasi kalibrasi sebelum stop, dan reset seluruh data. Tes ekspor memeriksa peringatan parsial ikut dalam teks. Skenario browser mencakup kanan selesai/kiri satu respons, stop saat latihan tanpa respons, serta sesi baru melalui beranda. Uji manual berikutnya: pastikan ringkasan parsial dan PDF tidak menyatakan kedua mata selesai.
+
+## v0.12.0 - tanggal catatan sesuai FR-09
+
+Baseline v0.11 commit 080ff72 lulus [run 43742924420](https://github.com/Kafkayara/MataCheck/actions/runs/43742924420): 350 assertion pada masing-masing lima viewport (1750 total), ditambah reload setelah sesi parsial.
+
+Waktu mulai dicatat ketika membuka sesi baru, waktu akhir ketika masuk ringkasan selesai atau parsial. Ringkasan menampilkan zona waktu perangkat serta versi aplikasi; unduhan/cetakan memakai isi yang sama. Tidak ada sinkronisasi jam server. Reset membersihkan kedua timestamp. Pemetaan PRD diperbarui dalam prd-status.md berdasarkan pembacaan ulang PRD v0.1.
+
+npm test dan test:browser:prepare lulus. Tes jam tiruan memeriksa waktu akhir tetap saat ringkasan dibuka ulang, waktu berhenti parsial, reset, fallback tanggal, serta versi kode sesuai package.json. Skenario browser memeriksa timestamp valid, keterangan jam perangkat, tanggal tidak berubah saat ekspor, dan label Dihentikan pada sesi parsial. Browser v0.12.0 belum dieksekusi; tunggu CI setelah push. Uji manual tambahan: cocokkan tanggal/zona waktu pada ringkasan, file teks dan cetakan dengan jam perangkat.

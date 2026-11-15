@@ -1,4 +1,4 @@
-# MataCheck v0.11.0
+# MataCheck v0.12.0
 
 Simulasi penglihatan terpandu dengan mode sendiri atau pendamping. Bukan pemeriksaan klinis: tidak menghasilkan ketajaman penglihatan, diagnosis, ukuran kacamata, atau resep.
 
@@ -63,9 +63,13 @@ Data hanya dalam memori tab; refresh/tutup tab menghapus sesi. Tidak ada akun, u
 
 Repository: https://github.com/Kafkayara/MataCheck. Website: https://matacheck.vercel.app.
 
-Baseline v0.10 commit `918aee6` lulus [CI run 43742378573](https://github.com/Kafkayara/MataCheck/actions/runs/43742378573): 319 assertion per viewport, lima viewport (1595 total), ditambah reload setelah sesi parsial. Ini bukan bukti pengujian browser v0.10.0.
+Baseline v0.11 commit `080ff72` lulus [CI run 43742924420](https://github.com/Kafkayara/MataCheck/actions/runs/43742924420): 350 assertion per viewport, lima viewport (1750 total), ditambah reload setelah sesi parsial. Ini bukan bukti pengujian browser v0.10.0.
 
 Workflow menjalankan tes kode dan browser pada push main, pull request dan pemicu manual. CI belum menghalangi deployment Vercel secara otomatis. Kelulusan CI tidak membuktikan status deployment. Lihat [bukti pengujian](docs/verification.md).
+
+## Kesesuaian PRD
+
+Lihat [pemetaan FR-01 sampai FR-10](docs/prd-status.md) untuk status implementasi dan syarat yang belum terpenuhi. Catatan sesi kini memuat waktu mulai/akhir beserta zona waktu dan versi aplikasi. Waktu mengikuti jam perangkat dan tidak berubah ketika diunduh ulang. Menghapus atau memulai sesi baru membersihkan waktu sesi lama.
 
 ## Pekerjaan berikutnya
 

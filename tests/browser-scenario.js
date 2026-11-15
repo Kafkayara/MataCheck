@@ -97,6 +97,9 @@
     }
     screen(5); fit(); assert(root.querySelectorAll('.response-log li').length===6,'Wrong response log');
     assert(find('#session-quality').textContent.includes('150.5 cm'),'Summary lost distance');
+    const started=find('#session-start').getAttribute('datetime'),ended=find('#session-end').getAttribute('datetime');
+    assert(Number.isFinite(Date.parse(started))&&Number.isFinite(Date.parse(ended)),'Missing session timestamps');
+    assert(find('#session-metadata').textContent.includes('jam perangkat'),'Missing device-clock explanation');
     assert(find('#session-quality').textContent.includes('Memakai kacamata'),'Summary lost correction');
       assert(find('#interruption-summary').textContent.includes('mata kanan 1 kali; mata kiri 1 kali'),'Wrong interruption counts');
       for(const title of ['Pengamatan','Kualitas sesi','Makna catatan','Tindak lanjut'])assert([...root.querySelectorAll('h2')].some(e=>e.textContent===title),'Missing summary section: '+title);
@@ -112,6 +115,7 @@
       assert(find('#export-status').textContent.includes('Permintaan unduh'),'Download status missing');
       click('#print-summary');assert(printCalls===1,'Print action not connected');
       assert(!find('#session-report').querySelector('button'),'Controls leaked into exported report');
+      assert(find('#session-start').getAttribute('datetime')===started&&find('#session-end').getAttribute('datetime')===ended,'Export changed session time');
     }finally{URL.createObjectURL=originalCreate;HTMLAnchorElement.prototype.click=originalClick;window.print=originalPrint;}
     click('#restart'); screen(1);
     assert(!find('#consent').checked && !find('[name=condition]:checked'), 'Restart retained form');
@@ -188,6 +192,7 @@
     for(let i=0;i<3;i++)click('[data-answer="atas"]');
     check('#switch-eye');click('#next');click('[data-answer="kiri"]');click('#end-session');screen(5);fit();
     assert(find('#incomplete-session'),'Partial session warning missing');
+    assert(find('#session-metadata').textContent.includes('Dihentikan'),'Partial report mislabeled as completed');
     assert(root.querySelectorAll('.response-log li').length===4,'Stop lost or invented responses');
     assert(!find('.session-line'),'Stopped session marked all steps complete');
     assert(!find('[data-answer]'),'Ended session still accepts answers');

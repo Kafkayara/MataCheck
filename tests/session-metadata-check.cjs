@@ -1,0 +1,20 @@
+const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
+const source=fs.readFileSync(path.join(__dirname,'../public/app.js'),'utf8');
+const pkg=JSON.parse(fs.readFileSync(path.join(__dirname,'../package.json'),'utf8'));
+let now='2026-11-15T17:00:00.000Z';
+class Clock extends Date{constructor(value){super(value===undefined?now:value);}}
+const state={condition:'no',consent:true,mode:'solo',setup:[true,true],practiced:true,switched:true,directions:[[],[]],startedAt:now,completedAt:null};
+const ctx=vm.createContext({Date:Clock,formState:state,page:4,q:3,ready:true,paused:false,interrupted:false,answers:[['a','b','c'],['a','b','c']],heldKeys:new Set(),checkCalibration(){},render(){},main:{querySelector:()=>({focus(){}})},root:{addEventListener(){}}});
+vm.runInContext(source.match(/\/\/ SESSION METADATA START([\s\S]*?)\/\/ SESSION METADATA END/)[1],ctx);
+assert.equal(vm.runInContext('APP_VERSION',ctx),pkg.version);
+for(const value of [null,undefined,'invalid'])assert.equal(ctx.formatSessionTime(value),'Tidak tercatat');
+assert(ctx.formatSessionTime(now).includes('2026'));
+vm.runInContext(source.match(/function canEnter\(n\)\{[\s\S]*?(?=const solo)/)[0],ctx);
+vm.runInContext(source.match(/\/\/ SESSION END START([\s\S]*?)\/\/ SESSION END END/)[1],ctx);
+now='2026-11-15T17:05:00.000Z';ctx.go(5);assert.equal(state.completedAt,now);assert.equal(state.startedAt,'2026-11-15T17:00:00.000Z');
+now='2026-11-15T18:00:00.000Z';ctx.go(5);assert.equal(state.completedAt,'2026-11-15T17:05:00.000Z','Revisiting summary must not update end time');
+ctx.resetSession(0);assert.equal(state.startedAt,null);assert.equal(state.completedAt,null);
+ctx.resetSession(1);assert.equal(state.startedAt,now);assert.equal(state.completedAt,null);
+Object.assign(state,{condition:'no',consent:true,mode:'solo',setup:[true,true]});ctx.page=6;
+now='2026-11-15T18:01:00.000Z';ctx.endSession();assert.equal(state.completedAt,now);assert.equal(state.endedEarly,true);
+console.log('PASS: stable start/end timestamps, stopped session time, reset, display fallback and version consistency');
