@@ -10,6 +10,27 @@
   };
   const screen = n => assert(root.dataset.screen === String(n), 'Expected screen '+n);
   const fit = () => assert(document.documentElement.scrollWidth <= innerWidth, 'Overflow on screen '+root.dataset.screen);
+  // Capture download contents synchronously while retaining the browser's real Blob.
+  const verifyTextExport = expectedResponses => {
+    const OriginalBlob=window.Blob,originalClick=HTMLAnchorElement.prototype.click;
+    let contents,filename;
+    try{
+      window.Blob=class extends OriginalBlob {
+        constructor(parts,options){super(parts,options);contents=parts.join('');}
+      };
+      HTMLAnchorElement.prototype.click=function(){filename=this.download;};
+      click('#download-summary');
+      const report=find('#session-report');
+      assert(contents==='\uFEFFMataCheck - Catatan simulasi\nBukan pemeriksaan mata atau resep.\n\n'+report.innerText,'Export differs from visible session report');
+      assert(filename==='MataCheck-catatan-simulasi.txt','Export filename missing');
+      assert(report.querySelectorAll('.response-log li').length===expectedResponses,'Export report has wrong response count');
+      for(const row of report.querySelectorAll('.response-log li'))assert(contents.includes(row.innerText),'Export lost a symbol/response pair');
+      for(const selector of ['#session-start','#session-end','#session-quality','#quality-resets'])assert(contents.includes(find(selector).innerText),'Export missing '+selector);
+      const warning=find('#incomplete-session');
+      if(warning)assert(contents.includes(warning.innerText),'Export lost incomplete-session warning');
+      assert(!report.querySelector('button'),'Export report contains controls');
+    }finally{window.Blob=OriginalBlob;HTMLAnchorElement.prototype.click=originalClick;}
+  };
   const eyeGuide = active => {
     const left=find('[data-eye="kiri"]'),right=find('[data-eye="kanan"]');
     assert(left&&right,'Eye guide missing');
@@ -125,6 +146,9 @@
       assert(find('#interruption-summary').textContent.includes('mata kanan 1 kali; mata kiri 1 kali'),'Wrong interruption counts');
       for(const title of ['Pengamatan','Kualitas sesi','Makna catatan','Tindak lanjut'])assert([...root.querySelectorAll('h2')].some(e=>e.textContent===title),'Missing summary section: '+title);
     assert([...root.querySelectorAll('.results strong')].every(e=>e.textContent==='3 dari 3 respons'), 'Wrong counts');
+    assert(!find('#incomplete-session'),'Completed helper session marked incomplete');
+    assert(!find('#end-session'),'Completed session still offers early stop');
+    verifyTextExport(6);
     // Verify DOM wiring without starting a real download or opening a print dialog.
     const originalCreate=URL.createObjectURL,originalClick=HTMLAnchorElement.prototype.click,originalPrint=window.print;
     let exportedBlob,downloadName,printCalls=0;
@@ -162,6 +186,8 @@
     key('n');key('ArrowLeft');screen(7);check('#switch-eye');click('#next');assert(!find('#ready')&&find('[data-answer]'),'Solo left eye asks for duplicate confirmation');
     key('ArrowUp');key('ArrowRight');key('n');screen(5);fit();
     assert(root.querySelectorAll('.response-log li').length===6,'Solo summary missing');
+    assert(!find('#incomplete-session'),'Completed solo session marked incomplete');
+    verifyTextExport(6);
     assert(find('#session-quality').textContent.includes('belum dicatat'),'Restart retained distance');
     assert(find('#session-quality').textContent.includes('Tidak dicatat'),'Restart retained correction');
       assert(find('#interruption-summary').textContent.includes('mata kanan 0 kali; mata kiri 0 kali'),'Restart retained interruption counts');
@@ -222,6 +248,7 @@
     assert(!find('#quality-resets li'),'New session retained old quality resets');
     assert(find('#session-metadata').textContent.includes('Dihentikan'),'Partial report mislabeled as completed');
     assert(root.querySelectorAll('.response-log li').length===4,'Stop lost or invented responses');
+    verifyTextExport(4);
     assert(!find('.session-line'),'Stopped session marked all steps complete');
     assert(!find('[data-answer]'),'Ended session still accepts answers');
     attempt(4);screen(5);
@@ -231,6 +258,7 @@
     check('.setup');check('label.check:nth-of-type(2) .setup');click('#next');click('#end-session');screen(5);
     assert(root.querySelectorAll('.response-log li').length===0,'Practice counted as a response');
     assert(find('#incomplete-session'),'Stopped practice missing warning');
+    verifyTextExport(0);
     click('#clear-session');screen(0);
     assert(window.__privacyAudit.calls.length===0,'Unexpected privacy API calls: '+window.__privacyAudit.calls.join(', '));
     const result = document.createElement('pre'); result.id='qa-result';

@@ -271,3 +271,11 @@ Baseline v0.15 commit 4b93eb4 lulus [run 43910212740](https://github.com/Kafkaya
 Fixture memasang privacy-guard sebelum script aplikasi, termasuk pada dokumen baru untuk uji reload. API tersedia yang dipantau: fetch, XHR.open, WebSocket, EventSource, sendBeacon, getUserMedia/getDisplayMedia, Storage.setItem, setter cookie, indexedDB.open, caches.open, serviceWorker.register. Panggilan dicatat sebagai nama API lalu ditolak; pemeriksaan akhir gagal meskipun aplikasi menangkap error. Pemeriksa hanya berada di tests dan tidak masuk preview produksi.
 
 npm test dan test:browser:prepare lulus. Self-test mengirim panggilan contoh ke setiap API tiruan, memastikan API asli tidak berjalan dan payload tidak masuk laporan. Fixture browser terbaru belum dieksekusi; CI setelah push harus memuat privacy API guards PASS. Keterbatasan: tidak mencakup semua jalur jaringan/storage, resource HTML/CSS, aktivitas async setelah skenario selesai, maupun trafik website produksi. Inspeksi Network/storage pada deployment tetap belum digantikan.
+
+## Tindak lanjut evaluasi OpenCode v0.16.0 - isi ekspor
+
+Laporan OpenCode mengacu pada commit 12a070174c83655322413e7ff036ff5ab6147a63. Stale element reference, keterbatasan Find, dan dialog cetak yang menunggu belum membuktikan bug aplikasi. Tidak ada perubahan perilaku produksi atau kenaikan versi pada tindak lanjut ini.
+
+Fixture browser kini mencocokkan seluruh teks unduhan dengan artikel ringkasan yang terlihat, termasuk awalan, BOM UTF-8, waktu, kondisi sesi, alasan pengulangan, dan pasangan simbol/respons. Skenario meliputi sesi lengkap mode pendamping dan sendiri (6 respons), berhenti saat mata kiri (4 respons), dan berhenti saat latihan (0 respons). Sesi lengkap juga diperiksa agar tidak menampilkan peringatan belum lengkap atau tombol berhenti lebih awal.
+
+Validasi lokal: npm test, npm run test:browser:prepare, dan git diff --check lulus. Skenario browser tambahan belum dieksekusi; perlu hasil CI setelah push. Penangkapan Blob dan klik unduhan merupakan instrumentasi tes, bukan bukti file tersimpan di disk. Pemeriksaan fisik kalibrasi/jarak, file unduhan aktual, serta tata letak PDF tetap memerlukan uji manual.
