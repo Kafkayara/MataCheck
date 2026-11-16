@@ -1,6 +1,6 @@
 # Pemetaan implementasi terhadap PRD MataCheck v0.1
 
-Acuan: PRD yang diberikan pengguna, bagian 6, 7, 8 dan 10. Status kode: v0.15.0. Status ini memisahkan prototipe yang berfungsi dari persyaratan pengukuran yang belum terpenuhi; bukan persentase kesiapan klinis.
+Acuan: PRD yang diberikan pengguna, bagian 6, 7, 8 dan 10. Status kode: v0.16.0. Status ini memisahkan prototipe yang berfungsi dari persyaratan pengukuran yang belum terpenuhi; bukan persentase kesiapan klinis.
 
 | ID | Status | Sudah ada | Masih diperlukan |
 | --- | --- | --- | --- |
@@ -21,7 +21,7 @@ Acuan: PRD yang diberikan pengguna, bagian 6, 7, 8 dan 10. Status kode: v0.15.0.
 - Penolakan izin kamera belum dapat diuji karena fitur kamera belum tersedia; jangan menandainya selesai hanya karena jalur manual berjalan.
 - Invalidasi tampilan berjalan, tetapi kesesuaian milimeter memerlukan penggaris dan perangkat nyata.
 - Ringkasan parsial tidak memberi kesimpulan. Seluruh keluaran tetap simulasi; nilai SPH/CYL/AXIS tidak dihitung.
-- Kode tidak meminta kamera atau mengunggah respons; pemeriksaan jaringan browser nyata tetap bagian penerimaan privasi.
+- Kode tidak meminta kamera atau mengunggah respons. Fixture kini memantau API jaringan, media dan penyimpanan sebelum aplikasi berjalan, tetapi v0.16 masih menunggu CI. Ini bukan bukti audit trafik produksi; pemeriksaan jaringan browser nyata tetap bagian penerimaan privasi.
 - Protokol, teks hasil dan tindak lanjut belum memperoleh peninjauan profesional. MVP pengukuran belum dinyatakan siap.
 
 ## Urutan berikutnya

@@ -4,9 +4,12 @@ const crypto = require('node:crypto');
 const root = path.join(__dirname, '..');
 const preview = fs.readFileSync(path.join(root, 'MataCheck-Preview.html'), 'utf8');
 const scenario = fs.readFileSync(path.join(__dirname, 'browser-scenario.js'), 'utf8');
+const privacyGuard = fs.readFileSync(path.join(__dirname, 'privacy-guard.cjs'), 'utf8');
+require('node:assert/strict').equal(preview.split('<script>').length, 2, 'Expected exactly one inline app script');
+const instrumented = preview.replace('<script>', () => '<script>' + privacyGuard + '</script><script>');
 const hash = crypto.createHash('sha256').update(preview).digest('hex');
-const payload = JSON.stringify(preview.replace('</body>', () => '<script>' + scenario + '</script></body>')).replace(/</g, '\\u003c');
-const cleanPayload = JSON.stringify(preview).replace(/</g, '\\u003c');
+const payload = JSON.stringify(instrumented.replace('</body>', () => '<script>' + scenario + '</script></body>')).replace(/</g, '\\u003c');
+const cleanPayload = JSON.stringify(instrumented).replace(/</g, '\\u003c');
 const html = `<!doctype html><html lang="id"><meta charset="utf-8"><title>MataCheck browser checks</title>
 <style>body{font:16px/1.5 sans-serif;margin:24px}iframe{display:block;border:1px solid #777;max-width:none;margin:20px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere}li{margin:12px 0}</style>
 <h1>MataCheck browser checks</h1><p>Preview SHA-256: ${hash}</p>
@@ -42,6 +45,7 @@ function next() {
           fresh.querySelector('[data-go="1"]').click();
           if(fresh.querySelector('#consent').checked||fresh.querySelector('[name="condition"]:checked'))throw Error('Reload retained consent or condition');
           if(!fresh.querySelector('#next').disabled)throw Error('Reload bypassed prerequisites');
+          if(!frame.contentWindow.__privacyAudit||frame.contentWindow.__privacyAudit.calls.length)throw Error('Privacy API used during reload');
           item.textContent=width+' x '+height+': '+summary+'; reload after partial session PASS';
         } catch(error){item.textContent=width+' x '+height+': FAIL reload: '+error.message;}
         next();

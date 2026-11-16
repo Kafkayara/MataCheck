@@ -263,3 +263,11 @@ Baseline v0.14 commit 7389449 lulus [run 43909663565](https://github.com/Kafkaya
 Ringkasan per mata memasangkan arah aktual simbol (rotasi 0/90/180/270 derajat = kanan/bawah/kiri/atas) dengan respons untuk setiap trial yang dijawab. Tidak ada skor ketajaman atau penilaian benar/salah. Trial belum dijawab tidak menghasilkan baris. Nilai yang tidak dikenal ditandai Tidak tercatat, tidak ditebak atau dimasukkan sebagai HTML. Catatan hanya muncul setelah sesi selesai/dihentikan; unduhan/cetakan memakai isi yang sama.
 
 npm test dan test:browser:prepare lulus. Unit test mencakup empat orientasi, Tidak terlihat, sesi parsial, metadata hilang dan nilai tidak dikenal. Fixture browser merekam rotasi SVG sebelum setiap jawaban, lalu mencocokkan enam pasangan pada ringkasan setelah pengulangan akibat interupsi. Browser v0.15.0 belum dieksekusi; perlu CI setelah push dan inspeksi keterbacaan cetakan secara manual.
+
+## v0.16.0 - regresi privasi runtime
+
+Baseline v0.15 commit 4b93eb4 lulus [run 43910212740](https://github.com/Kafkayara/MataCheck/actions/runs/43910212740). Perubahan kali ini memperkuat PRD bagian 8 dan kriteria privasi bagian 10, tanpa mengaktifkan kamera atau penyimpanan riwayat.
+
+Fixture memasang privacy-guard sebelum script aplikasi, termasuk pada dokumen baru untuk uji reload. API tersedia yang dipantau: fetch, XHR.open, WebSocket, EventSource, sendBeacon, getUserMedia/getDisplayMedia, Storage.setItem, setter cookie, indexedDB.open, caches.open, serviceWorker.register. Panggilan dicatat sebagai nama API lalu ditolak; pemeriksaan akhir gagal meskipun aplikasi menangkap error. Pemeriksa hanya berada di tests dan tidak masuk preview produksi.
+
+npm test dan test:browser:prepare lulus. Self-test mengirim panggilan contoh ke setiap API tiruan, memastikan API asli tidak berjalan dan payload tidak masuk laporan. Fixture browser terbaru belum dieksekusi; CI setelah push harus memuat privacy API guards PASS. Keterbatasan: tidak mencakup semua jalur jaringan/storage, resource HTML/CSS, aktivitas async setelah skenario selesai, maupun trafik website produksi. Inspeksi Network/storage pada deployment tetap belum digantikan.

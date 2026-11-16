@@ -1,4 +1,4 @@
-# MataCheck v0.15.0
+# MataCheck v0.16.0
 
 Simulasi penglihatan terpandu dengan mode sendiri atau pendamping. Bukan pemeriksaan klinis: tidak menghasilkan ketajaman penglihatan, diagnosis, ukuran kacamata, atau resep.
 
@@ -60,6 +60,12 @@ Posisi peserta berubah menghapus jarak, respons, latihan dan kesiapan. Kacamata/
 
 Data hanya dalam memori tab; refresh/tutup tab menghapus sesi. Tidak ada akun, unggahan jawaban, kamera, mikrofon atau analitik. File unduhan tetap berada di perangkat setelah sesi dihapus.
 
+## Pemeriksaan privasi otomatis
+
+Fixture browser memasang pemeriksa sebelum kode aplikasi untuk mendeteksi pemakaian fetch, XHR, WebSocket/EventSource, beacon, media kamera/layar, penulisan Storage/cookie, IndexedDB, CacheStorage, dan pendaftaran service worker pada alur yang diuji. Panggilan API terpantau membuat tes gagal, termasuk bila aplikasi menangkap error-nya. Pemeriksa ini hanya ada dalam fixture pengujian, tidak diterbitkan bersama aplikasi. Catatan pemeriksa hanya berisi nama API, bukan URL, payload atau respons pengguna.
+
+Tes unit membuktikan pemeriksa memblokir panggilan contoh. Kelulusan fixture browser hanya membuktikan API terpantau tidak dipanggil dalam skenario tersebut; bukan audit seluruh jaringan, seluruh kemungkinan penyimpanan, atau website produksi. Resource HTML/CSS, jalur yang tidak diuji dan kondisi browser nyata tetap perlu diperiksa.
+
 ## Struktur repo
 
 | Lokasi | Fungsi |
@@ -77,7 +83,7 @@ Data hanya dalam memori tab; refresh/tutup tab menghapus sesi. Tidak ada akun, u
 
 Repository: https://github.com/Kafkayara/MataCheck. Website: https://matacheck.vercel.app.
 
-Baseline v0.14 commit `7389449` lulus [CI run 43909663565](https://github.com/Kafkayara/MataCheck/actions/runs/43909663565). Bukti ini tidak mencakup pengujian browser v0.15.0.
+Baseline v0.15 commit `4b93eb4` lulus [CI run 43910212740](https://github.com/Kafkayara/MataCheck/actions/runs/43910212740). Bukti ini tidak mencakup pengujian browser v0.16.0.
 
 Workflow menjalankan tes kode dan browser pada push main, pull request dan pemicu manual. CI belum menghalangi deployment Vercel secara otomatis. Kelulusan CI tidak membuktikan status deployment. Lihat [bukti pengujian](docs/verification.md).
 

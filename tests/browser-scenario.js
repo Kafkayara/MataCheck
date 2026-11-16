@@ -27,6 +27,7 @@
     root.append(button); button.click(); button.remove();
   };
   try {
+    assert(window.__privacyAudit,'Privacy guard was not installed');
     screen(0); fit(); assert(!find('nav'), 'Reviewer navigation present');
     for (const n of [-1,9,1.5,'NaN',2,3,4,5,6,7]) { attempt(n); screen(0); }
     click('[data-go="1"]'); screen(1); heading(); fit();
@@ -231,8 +232,9 @@
     assert(root.querySelectorAll('.response-log li').length===0,'Practice counted as a response');
     assert(find('#incomplete-session'),'Stopped practice missing warning');
     click('#clear-session');screen(0);
+    assert(window.__privacyAudit.calls.length===0,'Unexpected privacy API calls: '+window.__privacyAudit.calls.join(', '));
     const result = document.createElement('pre'); result.id='qa-result';
-    result.textContent='PASS '+count+' assertions; guards, symptoms, retained inputs, both eyes, pause, focus, reset, overflow';
+    result.textContent='PASS '+count+' assertions; guards, symptoms, retained inputs, both eyes, pause, focus, reset, overflow; privacy API guards PASS';
     document.body.append(result);
   } catch (error) {
     const result=document.createElement('pre'); result.id='qa-result';

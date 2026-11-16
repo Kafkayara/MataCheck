@@ -3,7 +3,7 @@
 const steps=[1,2,6,3,4,5];
 const formState={condition:null,consent:false,mode:null,setup:[false,false],practiced:false,switched:false,interruptions:[0,0],qualityResets:{display:0,position:0,correction:0},directions:[[],[]],distance:null,distanceEditing:false,correction:'unrecorded',endedEarly:false,startedAt:null,completedAt:null};
 // SESSION METADATA START
-const APP_VERSION='0.15.0';
+const APP_VERSION='0.16.0';
 function formatSessionTime(iso){
   if(!iso||!Number.isFinite(Date.parse(iso)))return 'Tidak tercatat';
   return new Date(iso).toLocaleString('id-ID',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit',timeZoneName:'short'});
