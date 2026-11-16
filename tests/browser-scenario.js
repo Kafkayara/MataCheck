@@ -109,6 +109,7 @@
     }
     screen(5); fit(); assert(root.querySelectorAll('.response-log li').length===6,'Wrong response log');
     assert(find('#session-quality').textContent.includes('150.5 cm'),'Summary lost distance');
+    assert(!find('#quality-resets li'),'Initial preparation incorrectly counted as discarded responses');
     const started=find('#session-start').getAttribute('datetime'),ended=find('#session-end').getAttribute('datetime');
     assert(Number.isFinite(Date.parse(started))&&Number.isFinite(Date.parse(ended)),'Missing session timestamps');
     assert(find('#session-metadata').textContent.includes('jam perangkat'),'Missing device-clock explanation');
@@ -178,6 +179,7 @@
     click('[data-answer="atas"]');
     click('[data-answer="atas"]');click('[data-answer="atas"]');check('#switch-eye');click('#next');
     click('[data-answer="atas"]');click('[data-answer="atas"]');click('[data-answer="atas"]');screen(5);
+    assert(find('#quality-resets').textContent.includes('Tampilan atau kalibrasi berubah: 1 kali'),'Display reset missing from summary');
     click('#restart');check('[value="no"]');check('#consent');click('#next');
     check('[name=mode][value=solo]');check('.setup');check('label.check:nth-of-type(2) .setup');click('#cal-open');
     match();match();find('#cal-x').value='50';find('#cal-y').value='52';click('#cal-verify');
@@ -194,8 +196,13 @@
     find('#correction').value='contacts';find('#correction').dispatchEvent(new Event('change',{bubbles:true}));
     check('.setup');check('label.check:nth-of-type(2) .setup');click('#next');assert(find('#next').disabled,'Correction change retained practice');
     click('[data-practice="kanan"]');click('#next');click('#ready');
+    click('[data-answer="atas"]');
     click('#position-change');screen(2);assert([...root.querySelectorAll('.setup')].every(e=>!e.checked),'Position change retained setup');
     attempt(4);screen(2);check('.setup');check('label.check:nth-of-type(2) .setup');click('#next');assert(find('#next').disabled,'Position change retained practice');
+    click('#end-session');screen(5);
+    assert(find('#quality-resets').textContent.includes('Kacamata / lensa kontak berubah: 1 kali'),'Correction reset missing');
+    assert(find('#quality-resets').textContent.includes('Posisi atau catatan jarak berubah: 1 kali'),'Position reset missing');
+    assert(root.querySelectorAll('.response-log li').length===0,'Discarded responses leaked into partial summary');
     click('#clear-session');screen(0);
     // Stop midway through the left eye: retain the three right responses and one left response.
     click('[data-go="1"]');check('[value="no"]');check('#consent');click('#next');
@@ -204,6 +211,7 @@
     for(let i=0;i<3;i++)click('[data-answer="atas"]');
     check('#switch-eye');click('#next');click('[data-answer="kiri"]');click('#end-session');screen(5);fit();
     assert(find('#incomplete-session'),'Partial session warning missing');
+    assert(!find('#quality-resets li'),'New session retained old quality resets');
     assert(find('#session-metadata').textContent.includes('Dihentikan'),'Partial report mislabeled as completed');
     assert(root.querySelectorAll('.response-log li').length===4,'Stop lost or invented responses');
     assert(!find('.session-line'),'Stopped session marked all steps complete');

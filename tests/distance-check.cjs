@@ -5,6 +5,7 @@ const fields={'distance-cm':{value:'150,5',focus(){}},'distance-error':{textCont
 for(const id of ['distance-measured','distance-stable','distance-input'])fields[id]={checked:false};
 let click;
 const ctx=vm.createContext({formState:state,page:4,q:1,ready:true,paused:false,interrupted:true,answers:[['a','b','c'],['a']],render(){},go(n){ctx.page=n;},main:{querySelector:s=>fields[s.slice(1)]},root:{addEventListener(type,fn){click=fn;}}});
+vm.runInContext(source.match(/\/\/ QUALITY RESET START([\s\S]*?)\/\/ QUALITY RESET END/)[1],ctx);
 vm.runInContext(source.match(/\/\/ DISTANCE MODEL START([\s\S]*?)\/\/ DISTANCE MODEL END/)[1],ctx);
 for(const [value,expected] of [['150',1500],['150,5',1505],[' 42.25 ',422.5]])assert.equal(ctx.parseDistanceCm(value),expected);
 for(const value of ['',0,-1,'-4','Infinity','NaN','1e2','4 cm','1,2,3','9'.repeat(310)])assert.equal(ctx.parseDistanceCm(value),null);
@@ -19,3 +20,4 @@ ctx.answers=[['a','b','c'],[]];state.practiced=true;press('distance-open');asser
 fields['distance-cm'].value='0';press('distance-save');assert.equal(state.distance,null);assert(state.distanceEditing);
 press('distance-skip');assert.equal(state.distanceEditing,false);assert(ctx.distanceLabel().includes('belum dicatat'));
 console.log('PASS: distance parsing, three confirmations, edits/position changes clear both eyes, explicit skip');
+assert.equal(state.qualityResets.position,2,'Only changes that discard responses should count');

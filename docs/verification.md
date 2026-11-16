@@ -247,3 +247,11 @@ Baseline v0.12 commit 83217cd lulus [run 43743270253](https://github.com/Kafkaya
 Tombol lanjut Persiapan dipindahkan setelah seluruh pengaturan. Status menjelaskan prasyarat yang belum selesai. Handler jawaban kini memeriksa nilai, keterpasangan tombol pada DOM, kesiapan, jeda dan batas trial. Klik pointer berulang dalam 300 ms serta detail multi-click diabaikan; pengulangan native Enter/Spasi pada tombol jawaban dicegah. Batas 300 ms adalah pilihan UX, bukan batas klinis; dapat mengabaikan klik sengaja yang sangat cepat dan perlu uji penggunaan nyata.
 
 npm test dan test:browser:prepare lulus. Unit test memeriksa klik berulang, tombol lama, respons tidak dikenal, jeda, aktivasi keyboard serta status persiapan. Fixture menambah urutan tombol lanjut, pesan editor jarak, klik detail 1/2 berulang dan pencegahan Enter ditahan. Browser versi ini belum dieksekusi. Setelah push, periksa CI dan coba klik ganda/tahan Enter dengan perangkat nyata. Tidak ada perubahan aturan pengukuran atau skor.
+
+## v0.14.0 - alasan pengulangan persiapan
+
+Baseline v0.13 commit 5b542fa lulus [run 43743614595](https://github.com/Kafkayara/MataCheck/actions/runs/43743614595).
+
+Ringkasan menampilkan penghitung perubahan tampilan/kalibrasi, posisi/jarak dan kacamata/lensa kontak yang membuang respons. Perubahan tanpa respons tidak dihitung. Penghitung dipertahankan melewati persiapan ulang, tetapi dibersihkan oleh sesi baru/hapus/perubahan mode. Catatan ini tidak menyimpan respons yang dibuang dan tidak menjadi skor kualitas klinis. Ekspor/cetak memakai isi ringkasan yang sama.
+
+npm test dan test:browser:prepare lulus. Tes terhubung ke handler aktual untuk memeriksa reset kalibrasi berulang tanpa respons, edit jarak, koreksi yang sebelumnya tidak dicatat, serta penghapusan penghitung saat reset sesi. Fixture browser memeriksa alasan di ringkasan setelah invalidasi layar dan perubahan koreksi/posisi, juga tidak bocornya respons lama. Browser v0.14.0 belum dieksekusi; CI setelah push tetap diperlukan.

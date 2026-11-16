@@ -1,4 +1,4 @@
-# MataCheck v0.13.0
+# MataCheck v0.14.0
 
 Simulasi penglihatan terpandu dengan mode sendiri atau pendamping. Bukan pemeriksaan klinis: tidak menghasilkan ketajaman penglihatan, diagnosis, ukuran kacamata, atau resep.
 
@@ -37,6 +37,10 @@ Preview dihasilkan otomatis; jangan diedit terpisah. Tes browser menggunakan Chr
 Tombol lanjut berada setelah seluruh pengaturan Persiapan. Pesan status menyebut pilihan mode, checklist, editor jarak atau kalibrasi yang masih perlu diselesaikan. Pilihan opsional tetap opsional untuk demo.
 
 Klik jawaban berulang dalam 300 ms dan klik lanjutan dalam rangkaian multi-click diabaikan. Input dari tombol yang sudah tidak berada di layar, nilai tidak dikenal, atau sesi dijeda ditolak. Pengulangan Enter/Spasi saat tombol jawaban fokus dicegah; pintasan panah/N tetap memakai aturan lepas tombol. Jeda klik adalah perlindungan antarmuka, bukan ambang respons klinis.
+
+## Pengulangan persiapan dalam catatan
+
+Bagian kualitas sesi mencatat jumlah perubahan tampilan/kalibrasi, posisi/jarak, serta kacamata/lensa kontak yang membuang respons sebelumnya. Perubahan sebelum ada respons tidak dihitung. Pengulangan ini terpisah dari interupsi tab/fokus; bukan skor kualitas klinis. Respons yang dibuang tidak disertakan. Ringkasan, teks dan cetakan menampilkan catatan yang sama. Sesi baru atau perubahan mode membersihkan penghitung.
 
 ## Mengakhiri sesi lebih awal
 

@@ -14,6 +14,7 @@ ctx.recordMatch(c,380);assert.equal(c.status,'blocked');assert.equal(c.failures,
 c=create();ctx.recordMatch(c,380);ctx.recordMatch(c,380);assert.equal(ctx.verifyCalibration(c,'49','51'),true);
 console.log('PASS: calibration scale, two axes, invalid measurements, three-failure lock');
 
+vm.runInContext(source.match(/\/\/ QUALITY RESET START([\s\S]*?)\/\/ QUALITY RESET END/)[1],ctx);
 const invalidate=source.slice(source.indexOf('function invalidateCalibration()'),source.indexOf('function checkCalibration()'));
 const state={distance:{mm:1500},distanceEditing:true,calibration:{status:'valid',scale:3.82,first:380,snapshot:'old'},practiced:true,switched:true};
 Object.assign(ctx,{formState:state,page:4,answers:[['a','b','c'],['a']],q:1,ready:true,paused:false,render(){},main:{querySelector:()=>({focus(){}})}});
@@ -28,3 +29,4 @@ state.calibration={status:'valid',snapshot:'current',scale:3.82};
 vm.runInContext(check,ctx);ctx.checkCalibration();assert.equal(ctx.page,3);
 state.calibration.snapshot='previous';ctx.checkCalibration();assert.equal(ctx.page,8);assert.equal(state.calibration.status,'stale');
 console.log('PASS: unchanged display retained; changed snapshot triggers invalidation');
+assert.equal(state.qualityResets.display,1,'Repeated invalidation without responses must not count again');

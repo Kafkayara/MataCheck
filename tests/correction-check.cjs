@@ -4,6 +4,7 @@ const state={correction:'glasses',distance:{mm:1500},calibration:{status:'valid'
 const handlers={},next={disabled:false};let focused=false;
 const ctx=vm.createContext({formState:state,answers:[['a','b','c'],['a']],page:2,ready:true,paused:true,interrupted:true,q:1,
 root:{addEventListener(type,fn){handlers[type]=fn;}},main:{querySelector:s=>s==='#next'?next:{focus(){focused=true;}}},canEnter:()=>false,go(n){ctx.page=n;}});
+vm.runInContext(source.match(/\/\/ QUALITY RESET START([\s\S]*?)\/\/ QUALITY RESET END/)[1],ctx);
 vm.runInContext(source.match(/\/\/ CORRECTION START([\s\S]*?)\/\/ CORRECTION END/)[1],ctx);
 assert.equal(ctx.changeCorrection('glasses'),false);assert.equal(ctx.answers[0].length,3);
 assert.equal(ctx.changeCorrection('__proto__'),false);assert.equal(state.correction,'glasses');
@@ -17,3 +18,4 @@ for(const correction of ['glasses','unrecorded']){
  assert.equal(ctx.page,2);assert.equal(ctx.answers.flat().length,0);assert.equal(state.correction,'unrecorded');assert.equal(state.practiced,false);assert(state.setup.every(x=>!x));assert(focused);
 }
 console.log('PASS: correction choices, invalid values, no-op selection, reset both eyes even when unrecorded, retain scale/distance');
+assert.equal(state.qualityResets.correction,3,'Each correction reset must count once, including unrecorded');
