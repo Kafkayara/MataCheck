@@ -11,3 +11,14 @@ for(let i=0;i<4;i++){
 }
 for(const value of [-1,4,NaN,undefined,'0'])assert.equal(ctx.demoSymbol(value),'');
 console.log('PASS: independent demo directions, fixed E geometry, four rotations, invalid values rejected');
+ctx.formState={directions:[[0,1,2,3],[3,0,1]]};
+ctx.answers=[['kanan','bawah','kiri','atas'],['tidak terlihat']];
+let log=ctx.trialLog(0);
+for(const label of ['Kanan','Bawah','Kiri','Atas'])assert(log.includes('Simbol: <strong>'+label+'</strong>'));
+assert.equal((log.match(/<li>/g)||[]).length,4);
+log=ctx.trialLog(1);assert.equal((log.match(/<li>/g)||[]).length,1,'Unanswered trials must not appear');
+assert(log.includes('Simbol: <strong>Atas'));assert(log.includes('Respons: <strong>Tidak terlihat'));
+ctx.formState.directions[1]=[];ctx.answers[1]=['<script>'];log=ctx.trialLog(1);
+assert(!log.includes('<script>'));assert(log.includes('Tidak tercatat'));
+ctx.answers[1]=[];assert.equal(ctx.trialLog(1),'');
+console.log('PASS: displayed directions match recorded rotation, partial logs exclude unanswered trials, unknown values are not guessed');

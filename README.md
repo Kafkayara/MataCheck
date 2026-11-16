@@ -1,4 +1,4 @@
-# MataCheck v0.14.0
+# MataCheck v0.15.0
 
 Simulasi penglihatan terpandu dengan mode sendiri atau pendamping. Bukan pemeriksaan klinis: tidak menghasilkan ketajaman penglihatan, diagnosis, ukuran kacamata, atau resep.
 
@@ -38,6 +38,10 @@ Tombol lanjut berada setelah seluruh pengaturan Persiapan. Pesan status menyebut
 
 Klik jawaban berulang dalam 300 ms dan klik lanjutan dalam rangkaian multi-click diabaikan. Input dari tombol yang sudah tidak berada di layar, nilai tidak dikenal, atau sesi dijeda ditolak. Pengulangan Enter/Spasi saat tombol jawaban fokus dicegah; pintasan panah/N tetap memakai aturan lepas tombol. Jeda klik adalah perlindungan antarmuka, bukan ambang respons klinis.
 
+## Catatan simbol dan respons
+
+Ringkasan menampilkan arah simbol dan respons pengguna untuk setiap percobaan yang sudah dijawab. Orientasi berasal dari urutan aktual yang ditampilkan, bukan ditebak dari jawaban. Arah benar tidak dibocorkan selama demo berlangsung. Percobaan yang belum dijawab tidak menghasilkan baris, dan percobaan yang dibuang saat ulang mata tidak ikut dalam catatan akhir. Unduhan/cetakan memakai pasangan yang sama. Tidak ada skor benar/salah atau nilai ketajaman.
+
 ## Pengulangan persiapan dalam catatan
 
 Bagian kualitas sesi mencatat jumlah perubahan tampilan/kalibrasi, posisi/jarak, serta kacamata/lensa kontak yang membuang respons sebelumnya. Perubahan sebelum ada respons tidak dihitung. Pengulangan ini terpisah dari interupsi tab/fokus; bukan skor kualitas klinis. Respons yang dibuang tidak disertakan. Ringkasan, teks dan cetakan menampilkan catatan yang sama. Sesi baru atau perubahan mode membersihkan penghitung.
@@ -73,7 +77,7 @@ Data hanya dalam memori tab; refresh/tutup tab menghapus sesi. Tidak ada akun, u
 
 Repository: https://github.com/Kafkayara/MataCheck. Website: https://matacheck.vercel.app.
 
-Baseline v0.12 commit `83217cd` lulus [CI run 43743270253](https://github.com/Kafkayara/MataCheck/actions/runs/43743270253): 354 assertion per viewport, lima viewport (1770 total), ditambah reload setelah sesi parsial. Ini bukan bukti pengujian browser v0.10.0.
+Baseline v0.14 commit `7389449` lulus [CI run 43909663565](https://github.com/Kafkayara/MataCheck/actions/runs/43909663565). Bukti ini tidak mencakup pengujian browser v0.15.0.
 
 Workflow menjalankan tes kode dan browser pada push main, pull request dan pemicu manual. CI belum menghalangi deployment Vercel secara otomatis. Kelulusan CI tidak membuktikan status deployment. Lihat [bukti pengujian](docs/verification.md).
 

@@ -137,3 +137,4 @@ body{margin:0;background:#e6e8e0}#mata{max-width:1100px;margin:0 auto;min-height
 
 #mata #correction{display:block;max-width:100%;min-height:48px;margin:10px 0;padding:10px;border:1px solid var(--mc-control);background:white;color:var(--mc-ink);font:inherit}
 #mata select:focus-visible{outline:4px solid var(--mc-focus);outline-offset:4px}
+#mata .trial-symbol,#mata .trial-response{display:block}

@@ -255,3 +255,11 @@ Baseline v0.13 commit 5b542fa lulus [run 43743614595](https://github.com/Kafkaya
 Ringkasan menampilkan penghitung perubahan tampilan/kalibrasi, posisi/jarak dan kacamata/lensa kontak yang membuang respons. Perubahan tanpa respons tidak dihitung. Penghitung dipertahankan melewati persiapan ulang, tetapi dibersihkan oleh sesi baru/hapus/perubahan mode. Catatan ini tidak menyimpan respons yang dibuang dan tidak menjadi skor kualitas klinis. Ekspor/cetak memakai isi ringkasan yang sama.
 
 npm test dan test:browser:prepare lulus. Tes terhubung ke handler aktual untuk memeriksa reset kalibrasi berulang tanpa respons, edit jarak, koreksi yang sebelumnya tidak dicatat, serta penghapusan penghitung saat reset sesi. Fixture browser memeriksa alasan di ringkasan setelah invalidasi layar dan perubahan koreksi/posisi, juga tidak bocornya respons lama. Browser v0.14.0 belum dieksekusi; CI setelah push tetap diperlukan.
+
+## v0.15.0 - pasangan simbol dan respons
+
+Baseline v0.14 commit 7389449 lulus [run 43909663565](https://github.com/Kafkayara/MataCheck/actions/runs/43909663565).
+
+Ringkasan per mata memasangkan arah aktual simbol (rotasi 0/90/180/270 derajat = kanan/bawah/kiri/atas) dengan respons untuk setiap trial yang dijawab. Tidak ada skor ketajaman atau penilaian benar/salah. Trial belum dijawab tidak menghasilkan baris. Nilai yang tidak dikenal ditandai Tidak tercatat, tidak ditebak atau dimasukkan sebagai HTML. Catatan hanya muncul setelah sesi selesai/dihentikan; unduhan/cetakan memakai isi yang sama.
+
+npm test dan test:browser:prepare lulus. Unit test mencakup empat orientasi, Tidak terlihat, sesi parsial, metadata hilang dan nilai tidak dikenal. Fixture browser merekam rotasi SVG sebelum setiap jawaban, lalu mencocokkan enam pasangan pada ringkasan setelah pengulangan akibat interupsi. Browser v0.15.0 belum dieksekusi; perlu CI setelah push dan inspeksi keterbacaan cetakan secara manual.

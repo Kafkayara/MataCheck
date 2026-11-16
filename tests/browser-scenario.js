@@ -62,6 +62,7 @@
     window.dispatchEvent(new Event('blur'));assert(find('#next').disabled,'Interrupted practice retained readiness');click('[data-practice="kanan"]');
     click('#next'); screen(3); fit();
     attempt(4); screen(3); attempt(5); screen(3);
+    const recordedPairs=[];
     for (let eye = 3; eye <= 4; eye++) {
       screen(eye);
       if(eye===3){eyeGuide('kanan');assert(find('#ready')&&!find('[data-answer]'),'Right eye confirmation skipped');click('#ready');}
@@ -101,6 +102,8 @@
       assert(find('.kicker').textContent === progress, 'Resume advanced trial');
       assert(find('.demo-e').style.transform===orientation,'Manual pause changed stimulus');
       for (const answer of ['atas','tidak terlihat','kiri']) {
+        const degrees=Number(find('.demo-e').style.transform.match(/rotate\((\d+)deg\)/)[1]);
+        recordedPairs.push({symbol:['Kanan','Bawah','Kiri','Atas'][degrees/90],response:answer.charAt(0).toUpperCase()+answer.slice(1)});
         click('[data-answer="'+answer+'"]'); fit();
         if (answer !== 'kiri') assert(document.activeElement.dataset.answer === answer, 'Answer focus lost');
       }
@@ -109,6 +112,10 @@
     }
     screen(5); fit(); assert(root.querySelectorAll('.response-log li').length===6,'Wrong response log');
     assert(find('#session-quality').textContent.includes('150.5 cm'),'Summary lost distance');
+    [...root.querySelectorAll('.response-log li')].forEach((row,i)=>{
+      assert(row.querySelector('.trial-symbol strong').textContent===recordedPairs[i].symbol,'Summary symbol differs from actual stimulus');
+      assert(row.querySelector('.trial-response strong').textContent===recordedPairs[i].response,'Summary response differs from submitted answer');
+    });
     assert(!find('#quality-resets li'),'Initial preparation incorrectly counted as discarded responses');
     const started=find('#session-start').getAttribute('datetime'),ended=find('#session-end').getAttribute('datetime');
     assert(Number.isFinite(Date.parse(started))&&Number.isFinite(Date.parse(ended)),'Missing session timestamps');
