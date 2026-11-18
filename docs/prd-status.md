@@ -17,6 +17,7 @@ Acuan utama: PRD.pdf v0.1, seluruh 6 halaman, dibaca ulang 18 November 2026. Sta
 
 ## Kriteria penerimaan MVP
 
+- FR-09 kini mencatat pembacaan verifikasi penggaris dua sumbu sebagai detail kondisi sesi pada ringkasan dan ekspor. Ini penambahan rekayasa untuk keterlacakan kondisi; PRD tidak menentukan format atau toleransi angkanya. FR-03 tetap sebagian karena kalibrasi belum mengatur ukuran fisik simbol demo.
 - FR-02 kini mengunci sesi setelah jawaban keluhan Ya/tidak yakin, membuang respons lama dan memerlukan sesi baru. Pertanyaan menyebut ketiga contoh pada PRD bagian 4. Penguncian sampai sesi baru adalah keputusan rekayasa; daftar pengecualian lengkap tetap memerlukan peninjauan profesional.
 - Alur kedua mata, reset dan penguncian ringkasan parsial mempunyai tes kode serta skenario browser. Bukti tiap commit dicatat di [verification.md](verification.md).
 - Penolakan izin kamera belum dapat diuji karena fitur kamera belum tersedia; jangan menandainya selesai hanya karena jalur manual berjalan.
@@ -27,7 +28,7 @@ Acuan utama: PRD.pdf v0.1, seluruh 6 halaman, dibaca ulang 18 November 2026. Sta
 
 ## Urutan berikutnya
 
-1. Pengujian browser commit `354499c` telah dikonfirmasi lulus, tetapi tidak mencakup perubahan lokal pemeriksaan awal. Jalankan CI untuk perubahan ini; Chrome lokal gagal diluncurkan. Lanjutkan uji pengguna memakai [usability-check.md](usability-check.md), termasuk unduhan aktual, dialog cetak/PDF, keyboard fisik dan inspeksi jaringan/penyimpanan.
+1. CI commit `94e1b6b` telah dikonfirmasi lulus melalui [run 44223022584](https://github.com/Kafkayara/MataCheck/actions/runs/44223022584). Bukti ini mencakup perubahan pemeriksaan awal sebelumnya, bukan penambahan lokal pembacaan penggaris. Jalankan CI untuk perubahan terbaru. Lanjutkan uji pengguna memakai [usability-check.md](usability-check.md), termasuk unduhan aktual, dialog cetak/PDF, keyboard fisik dan inspeksi jaringan/penyimpanan.
 2. Uji ukuran fisik kalibrasi pada perangkat nyata dan catat galat dua sumbu.
 3. Tetapkan parameter yang masih terbuka dalam [protocol-and-calibration.md](protocol-and-calibration.md), termasuk populasi, jarak, ukuran, aturan penilaian dan tindak lanjut, melalui peninjauan profesional.
 4. Setelah profil ditetapkan, sambungkan kalibrasi/jarak ke renderer dan mesin trial, lalu evaluasi terhadap pembanding. Jangan mengubah tiga respons demo menjadi nilai ketajaman atau resep.

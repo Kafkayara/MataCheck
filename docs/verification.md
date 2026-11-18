@@ -1,5 +1,12 @@
 # Verifikasi MataCheck
 
+## Detail kondisi kalibrasi pada catatan sesi — 18 November 2026
+
+- GitHub mengonfirmasi [run 44223022584](https://github.com/Kafkayara/MataCheck/actions/runs/44223022584) selesai dengan `success` untuk commit baseline `94e1b6be0803376fe52818cc3df5b4d1ce0bb53e`. Ini bukti perubahan pemeriksaan awal yang telah dipush, bukan perubahan lokal berikut.
+- Pembacaan verifikasi horizontal/vertikal yang diterima kini disimpan dalam memori kalibrasi dan ditampilkan bersama ringkasan/TXT/cetakan. Sumbernya dinyatakan sebagai pembacaan pengguna, dengan acuan 50 mm yang sudah ada; tidak ada parameter klinis baru. Nilai tidak tersedia ditulis demikian, bukan diisi angka tebakan. Kegagalan, skip dan invalidasi tampilan menghapus pembacaan lama. Sesi baru menghapus seluruh kalibrasi seperti sebelumnya.
+- Tes regresi mula-mula gagal karena pembacaan belum disimpan. Setelah implementasi, `npm test` lulus: nilai dua sumbu, desimal koma/titik, kegagalan, status kedaluwarsa/skip/pending, metadata tidak lengkap atau tidak sah, dan penghapusan saat invalidasi. Preview diperbarui; `npm run test:browser:prepare` dan `git diff --check` lulus.
+- Fixture browser ditambah untuk ringkasan/ekspor kalibrasi ulang dengan nilai berbeda, serta ekspor parsial tanpa pembacaan setelah skip. Fixture terbaru belum dieksekusi; perlu CI setelah push. Tidak ada dialog PDF/unduhan nyata atau pengukuran fisik yang diklaim lulus. Uji manual tetap BELUM DIUJI.
+
 ## Penghentian pemeriksaan awal — 18 November 2026
 
 - Baseline `182ab84`. FR-02 kini menghentikan sesi ketika jawaban keluhan Ya/tidak yakin dipilih: respons dan arah simbol dibuang, latihan/kesiapan dibatalkan, input pemeriksaan awal dikunci, dan seluruh rute berikutnya termasuk ringkasan/ekspor ditolak. Memulai sesi baru menghapus penguncian sekaligus seluruh isian. Tiga contoh keluhan berasal dari PRD bagian 4, bukan daftar klinis lengkap baru.

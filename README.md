@@ -29,6 +29,7 @@ Preview dihasilkan otomatis; jangan diedit terpisah. Tes browser menggunakan Chr
 - Mode sendiri: panah untuk arah, N untuk Tidak terlihat, P untuk jeda/lanjut. Pendamping menggunakan tombol layar. Menahan tombol tidak mengisi jawaban berikutnya.
 - SVG E grid 5x5, tetap 120 CSS px. Tiga orientasi acak independen per mata; arah boleh berulang. Jeda manual mempertahankan simbol; ulang setelah interupsi menghasilkan urutan baru.
 - Kalibrasi opsional: cocokkan 100 mm dua kali, lalu verifikasi 50 mm horizontal/vertikal. Batas 2%, 49-51 mm dan tiga kegagalan adalah toleransi rekayasa, bukan validasi klinis. Reset garis tidak menghapus jumlah gagal.
+- Pembacaan penggaris horizontal/vertikal dari kalibrasi yang masih berlaku ikut ringkasan, TXT dan cetakan. Catatan menyebutnya sebagai masukan pengguna, bukan pengukuran otomatis. Nilai dari kalibrasi gagal, dilewati atau kedaluwarsa tidak ditampilkan.
 - Catatan jarak opsional dalam cm, dengan konfirmasi pengukuran fisik, posisi stabil dan alat jawab dapat digunakan tanpa maju. Editor harus disimpan atau dilewati sebelum latihan.
 - Catatan kacamata/lensa kontak opsional sejak pemeriksaan awal, tanpa ukuran resep; dapat diubah di Persiapan. Pilihan ikut dalam ringkasan, unduhan dan cetakan.
 - Ringkasan: pengamatan, kualitas sesi, makna catatan dan tindak lanjut. Unduh teks UTF-8 atau gunakan dialog cetak/simpan PDF browser.

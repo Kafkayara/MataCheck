@@ -25,7 +25,7 @@
       assert(filename==='MataCheck-catatan-simulasi.txt','Export filename missing');
       assert(report.querySelectorAll('.response-log li').length===expectedResponses,'Export report has wrong response count');
       for(const row of report.querySelectorAll('.response-log li'))assert(contents.includes(row.innerText),'Export lost a symbol/response pair');
-      for(const selector of ['#session-start','#session-end','#session-age','#session-quality','#quality-resets'])assert(contents.includes(find(selector).innerText),'Export missing '+selector);
+      for(const selector of ['#session-start','#session-end','#session-age','#calibration-evidence','#session-quality','#quality-resets'])assert(contents.includes(find(selector).innerText),'Export missing '+selector);
       const warning=find('#incomplete-session');
       if(warning)assert(contents.includes(warning.innerText),'Export lost incomplete-session warning');
       assert(!report.querySelector('button'),'Export report contains controls');
@@ -231,12 +231,14 @@
     // Exercise the same invalidation used by display signals.
     window.dispatchEvent(new Event('resize'));assert(find('[data-answer]'),'Unchanged viewport invalidated calibration');
     click('#cal-screen-change');screen(8);assert(find('#cal-retry')&&!find('[data-answer]'),'Manual invalidation did not stop trial');
-    click('#cal-retry');match();match();find('#cal-x').value='50';find('#cal-y').value='50';click('#cal-verify');click('[data-go="2"]');
+    click('#cal-retry');match();match();find('#cal-x').value='49,5';find('#cal-y').value='50.5';click('#cal-verify');click('[data-go="2"]');
     click('#next');assert(find('#next').disabled,'Invalidation retained practice');click('[data-practice="kanan"]');click('#next');click('#ready');
     click('[data-answer="atas"]');
     click('[data-answer="atas"]');click('[data-answer="atas"]');check('#switch-eye');click('#next');
     click('[data-answer="atas"]');click('[data-answer="atas"]');click('[data-answer="atas"]');screen(5);
     assert(find('#quality-resets').textContent.includes('Tampilan atau kalibrasi berubah: 1 kali'),'Display reset missing from summary');
+    assert(find('#calibration-evidence').textContent.includes('horizontal 49,5 mm; vertikal 50,5 mm'),'Report lost current ruler readings');
+    verifyTextExport(6);
     click('#restart');check('[value="no"]');check('#consent');click('#next');
     check('[name=mode][value=solo]');check('.setup');check('label.check:nth-of-type(2) .setup');click('#cal-open');
     match();match();find('#cal-x').value='50';find('#cal-y').value='52';click('#cal-verify');
@@ -260,6 +262,8 @@
     assert(find('#quality-resets').textContent.includes('Kacamata / lensa kontak berubah: 1 kali'),'Correction reset missing');
     assert(find('#quality-resets').textContent.includes('Posisi atau catatan jarak berubah: 1 kali'),'Position reset missing');
     assert(root.querySelectorAll('.response-log li').length===0,'Discarded responses leaked into partial summary');
+    assert(find('#calibration-evidence').textContent==='Pembacaan verifikasi penggaris tidak tersedia.','Skipped calibration leaked readings');
+    verifyTextExport(0);
     click('#clear-session');screen(0);
     // Stop midway through the left eye: retain the three right responses and one left response.
     click('[data-go="1"]');check('[value="no"]');check('#consent');click('#next');

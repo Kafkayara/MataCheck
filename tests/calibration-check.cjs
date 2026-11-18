@@ -6,6 +6,19 @@ const ctx=vm.createContext({});vm.runInContext(block[1],ctx);
 const create=()=>ctx.newCalibration();
 let c=create();ctx.recordMatch(c,380);assert.equal(c.stage,'match2');ctx.recordMatch(c,384);assert.equal(c.stage,'verify');assert.equal(c.scale,3.82);
 assert.equal(ctx.verifyCalibration(c,'50','50'),true);assert.equal(c.status,'valid');
+assert.equal(c.verification.horizontalMm,50);assert.equal(c.verification.verticalMm,50);
+assert(ctx.calibrationEvidence(c).includes('horizontal 50 mm'));
+assert(ctx.calibrationEvidence(c).includes('vertikal 50 mm'));
+assert.equal(ctx.calibrationEvidence({status:'valid'}),'Pembacaan verifikasi penggaris tidak tersedia.');
+assert.equal(ctx.calibrationEvidence({status:'stale',verification:{horizontalMm:50,verticalMm:50}}),'Pembacaan verifikasi penggaris tidak tersedia.');
+const failed=create();ctx.recordMatch(failed,380);ctx.recordMatch(failed,380);
+assert.equal(ctx.verifyCalibration(failed,'50','52'),false);assert.equal(failed.verification,null);
+const decimal=create();ctx.recordMatch(decimal,380);ctx.recordMatch(decimal,380);
+assert.equal(ctx.verifyCalibration(decimal,'49,5','50.5'),true);
+assert.equal(decimal.verification.horizontalMm,49.5);assert.equal(decimal.verification.verticalMm,50.5);
+assert(ctx.calibrationEvidence(decimal).includes('horizontal 49,5 mm; vertikal 50,5 mm'));
+for(const status of ['skipped','blocked','pending'])assert.equal(ctx.calibrationEvidence({...decimal,status}),'Pembacaan verifikasi penggaris tidak tersedia.');
+assert.equal(ctx.calibrationEvidence({status:'valid',verification:{horizontalMm:'<img>',verticalMm:50}}),'Pembacaan verifikasi penggaris tidak tersedia.');
 for(const v of [0,-1,NaN,Infinity]){c=create();ctx.recordMatch(c,v);assert.equal(c.status,'pending');assert.equal(c.failures,1);}
 c=create();ctx.recordMatch(c,380);ctx.recordMatch(c,420);assert.equal(c.failures,1);assert.equal(c.scale,null);
 ctx.recordMatch(c,380);ctx.recordMatch(c,380);assert.equal(ctx.verifyCalibration(c,'50','52'),false);assert.equal(c.failures,2);
@@ -16,10 +29,11 @@ console.log('PASS: calibration scale, two axes, invalid measurements, three-fail
 
 vm.runInContext(source.match(/\/\/ QUALITY RESET START([\s\S]*?)\/\/ QUALITY RESET END/)[1],ctx);
 const invalidate=source.slice(source.indexOf('function invalidateCalibration()'),source.indexOf('function checkCalibration()'));
-const state={distance:{mm:1500},distanceEditing:true,calibration:{status:'valid',scale:3.82,first:380,snapshot:'old'},practiced:true,switched:true};
+const state={distance:{mm:1500},distanceEditing:true,calibration:{status:'valid',verification:{horizontalMm:49.5,verticalMm:50.5},scale:3.82,first:380,snapshot:'old'},practiced:true,switched:true};
 Object.assign(ctx,{formState:state,page:4,answers:[['a','b','c'],['a']],q:1,ready:true,paused:false,render(){},main:{querySelector:()=>({focus(){}})}});
 vm.runInContext(invalidate,ctx);ctx.invalidateCalibration();
 assert.equal(ctx.page,8);assert.equal(state.calibration.status,'stale');assert.equal(state.calibration.scale,null);
+assert.equal(state.calibration.verification,null,'Display invalidation must discard old ruler readings');
 assert.equal(state.distance,null);assert.equal(state.distanceEditing,false);assert.equal(ctx.answers.flat().length,0);assert.equal(ctx.ready,false);assert.equal(state.practiced,false);
 state.calibration.status='skipped';ctx.page=3;ctx.invalidateCalibration();assert.equal(ctx.page,3);
 console.log('PASS: display change clears responses and readiness; skipped demo remains available');
