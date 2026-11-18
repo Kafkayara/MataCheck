@@ -246,8 +246,9 @@
     verifyTextExport(6);
     click('#restart');check('[value="no"]');check('#consent');click('#next');
     check('[name=mode][value=solo]');check('.setup');check('label.check:nth-of-type(2) .setup');click('#cal-open');
-    match();match();find('#cal-x').value='50';find('#cal-y').value='52';click('#cal-verify');
-    assert(find('#cal-message').textContent.includes('belum konsisten'),'Bad vertical measurement accepted');
+    match();match();find('#cal-x').value='0x32';find('#cal-y').value='50';click('#cal-verify');
+    assert(find('#cal-message').textContent.includes('angka desimal biasa'),'Non-decimal measurement has no actionable error');
+    assert(find('#cal-message').textContent.includes('belum konsisten'),'Malformed measurement did not restart calibration');
     click('#cal-reset');
     for(let i=0;i<2;i++){match();match();find('#cal-x').value='52';find('#cal-y').value='50';click('#cal-verify');}
     assert(!find('#cal-match')&&find('#cal-message').textContent.includes('Tiga'),'Failure limit bypassed');

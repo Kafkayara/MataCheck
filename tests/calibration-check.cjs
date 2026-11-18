@@ -4,6 +4,18 @@ const block=source.match(/\/\/ CALIBRATION MODEL START([\s\S]*?)\/\/ CALIBRATION
 assert(block,'Calibration model missing');
 const ctx=vm.createContext({});vm.runInContext(block[1],ctx);
 const create=()=>ctx.newCalibration();
+for(const value of ['0x32','5e1','0b110010','0o62','+50','50 mm','49,5.0','50,0,0',null,undefined,{},[50]]){
+ for(const axis of [0,1]){
+  const invalid=create();ctx.recordMatch(invalid,380);ctx.recordMatch(invalid,380);
+  const readings=['50','50'];readings[axis]=value;
+  assert.equal(ctx.verifyCalibration(invalid,...readings),false,'Non-decimal ruler reading accepted: '+String(value));
+  assert.equal(invalid.failures,1);assert.equal(invalid.scale,null);assert.equal(invalid.verification,null);
+ }
+}
+for(const readings of [[' 49,5 ','50.5'],['049','051'],[50,50]]){
+ const valid=create();ctx.recordMatch(valid,380);ctx.recordMatch(valid,380);
+ assert.equal(ctx.verifyCalibration(valid,...readings),true,'Ordinary decimal ruler reading rejected');
+}
 let c=create();ctx.recordMatch(c,380);assert.equal(c.stage,'match2');ctx.recordMatch(c,384);assert.equal(c.stage,'verify');assert.equal(c.scale,3.82);
 assert.equal(ctx.verifyCalibration(c,'50','50'),true);assert.equal(c.status,'valid');
 assert.equal(c.verification.horizontalMm,50);assert.equal(c.verification.verticalMm,50);

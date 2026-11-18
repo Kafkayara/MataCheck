@@ -122,8 +122,13 @@ function recordMatch(c,pixels){
 }
 function verifyCalibration(c,x,y){
   if(c.status!=='pending'||c.stage!=='verify')return false;
-  const values=[x,y].map(v=>String(v).trim().replace(',','.'));
-  if(values.some(v=>v===''||!Number.isFinite(Number(v))||Number(v)<49||Number(v)>51)){failCalibration(c);return false;}
+  const values=[x,y].map(v=>typeof v==='string'||typeof v==='number'?String(v).trim().replace(',','.'):null);
+  if(values.some(v=>v===null||!/^\d+(?:\.\d+)?$/.test(v))){
+    failCalibration(c);
+    c.message='Masukkan pembacaan penggaris dalam angka desimal biasa (koma atau titik), tanpa satuan, notasi eksponen, atau kode bilangan. '+c.message;
+    return false;
+  }
+  if(values.some(v=>!Number.isFinite(Number(v))||Number(v)<49||Number(v)>51)){failCalibration(c);return false;}
   c.verification={horizontalMm:Number(values[0]),verticalMm:Number(values[1])};c.status='valid';c.stage='done';c.message='Ukuran layar sudah dicocokkan dengan penggaris.';return true;
 }
 function calibrationEvidence(c){

@@ -1,5 +1,12 @@
 # Verifikasi MataCheck
 
+## Validasi format pembacaan penggaris — 18 November 2026
+
+- Baseline `25cc68920de14a5185ce73facd1ba48880b99211` memiliki [CI run 44261019560](https://github.com/Kafkayara/MataCheck/actions/runs/44261019560) berstatus sukses. Working tree bersih saat pekerjaan dimulai.
+- Reproduksi kode membuktikan `0x32` sebelumnya diterima sebagai 50 mm oleh konversi `Number`. Input eksponen `5e1`, biner dan oktal juga dapat melewati batas angka. Verifikasi kini menerima desimal biasa dengan koma/titik saja, memberi pesan format yang jelas, dan menolak tipe non-string/non-number pada model. Tidak ada perubahan toleransi atau kebijakan penghitung kegagalan.
+- Tes regresi awal gagal pada `Non-decimal ruler reading accepted: 0x32`, kemudian lulus. Cakupan kedua sumbu meliputi notasi non-desimal, tanda plus, satuan, pemisah salah, null/undefined/objek/array, serta desimal valid, whitespace, leading zero dan angka langsung. Nilai tidak sah tidak menghasilkan skala atau pembacaan tersimpan.
+- `npm test`, build preview, `npm run test:browser:prepare`, dan `git diff --check` lulus. Fixture browser memeriksa error format dan pengulangan kalibrasi. Fixture baru belum dieksekusi; perlu CI setelah push. Uji penggaris fisik tetap BELUM DIUJI, tanpa klaim validasi klinis.
+
 ## Tindak lanjut OpenCode: interupsi latihan — 18 November 2026
 
 - Baseline laporan cocok dengan HEAD `11ccd7e689ff5b5c73b2c2de51616b6aeeb3eaa6`. [CI run 44232655254](https://github.com/Kafkayara/MataCheck/actions/runs/44232655254) sukses; log job `134561182669` mengonfirmasi 496 assertion pada masing-masing lima viewport, pemeriksa privasi dan reload PASS. Ini tidak mencakup perubahan lokal berikut.
