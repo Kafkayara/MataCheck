@@ -19,3 +19,18 @@ for(const correction of ['glasses','unrecorded']){
 }
 console.log('PASS: correction choices, invalid values, no-op selection, reset both eyes even when unrecorded, retain scale/distance');
 assert.equal(state.qualityResets.correction,3,'Each correction reset must count once, including unrecorded');
+
+// PRD section 5 asks about optical correction during initial screening.
+ctx.page=1;state.correction='unrecorded';ctx.answers=[[],[]];next.disabled=true;
+handlers.change({target:{id:'correction',value:'contacts'}});
+assert.equal(state.correction,'contacts','Screening must record optical correction');
+assert.equal(next.disabled,true,'Correction must not bypass screening eligibility or consent');
+const modeHandler=source.match(/if\(page===2&&e.target.name==='mode'\)\{([\s\S]*?)return;\}/)[1];
+Object.assign(ctx,{e:{target:{name:'mode',value:'helper'}},render(){}});
+state.mode=null;
+vm.runInContext(modeHandler,ctx);
+assert.equal(state.correction,'contacts','First mode choice must retain screening correction');
+ctx.e.target.value='solo';
+vm.runInContext(modeHandler,ctx);
+assert.equal(state.correction,'unrecorded','Changing an existing mode must clear session conditions');
+console.log('PASS: screening correction, unchanged consent guard, first mode retention and later mode reset');

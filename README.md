@@ -29,7 +29,7 @@ Preview dihasilkan otomatis; jangan diedit terpisah. Tes browser menggunakan Chr
 - SVG E grid 5x5, tetap 120 CSS px. Tiga orientasi acak independen per mata; arah boleh berulang. Jeda manual mempertahankan simbol; ulang setelah interupsi menghasilkan urutan baru.
 - Kalibrasi opsional: cocokkan 100 mm dua kali, lalu verifikasi 50 mm horizontal/vertikal. Batas 2%, 49-51 mm dan tiga kegagalan adalah toleransi rekayasa, bukan validasi klinis. Reset garis tidak menghapus jumlah gagal.
 - Catatan jarak opsional dalam cm, dengan konfirmasi pengukuran fisik, posisi stabil dan alat jawab dapat digunakan tanpa maju. Editor harus disimpan atau dilewati sebelum latihan.
-- Catatan kacamata/lensa kontak opsional, tanpa ukuran resep. Pilihan ikut dalam ringkasan, unduhan dan cetakan.
+- Catatan kacamata/lensa kontak opsional sejak pemeriksaan awal, tanpa ukuran resep; dapat diubah di Persiapan. Pilihan ikut dalam ringkasan, unduhan dan cetakan.
 - Ringkasan: pengamatan, kualitas sesi, makna catatan dan tindak lanjut. Unduh teks UTF-8 atau gunakan dialog cetak/simpan PDF browser.
 
 ## Persiapan dan perlindungan input
@@ -56,7 +56,7 @@ Pindah tab/jendela saat demo menyembunyikan simbol dan mengulang mata aktif; mat
 
 Perubahan tampilan yang terdeteksi membatalkan kalibrasi, jarak dan respons kedua mata. Pergantian monitor dengan karakteristik sama mungkin tidak terdeteksi; gunakan tombol perubahan layar. Ringkasan selesai tidak diubah setelah tampilan berubah.
 
-Posisi peserta berubah menghapus jarak, respons, latihan dan kesiapan. Kacamata/lensa kontak berubah menghapus respons, latihan dan kesiapan tetapi mempertahankan kalibrasi serta jarak; bila posisi juga berubah gunakan tombol posisi. Mengubah pilihan koreksi di Persiapan membuang respons dan latihan. Hapus sesi, ulangi simulasi atau perubahan mode membersihkan catatan sesi.
+Posisi peserta berubah menghapus jarak, respons, latihan dan kesiapan. Kacamata/lensa kontak berubah menghapus respons, latihan dan kesiapan tetapi mempertahankan kalibrasi serta jarak; bila posisi juga berubah gunakan tombol posisi. Mengubah pilihan koreksi di pemeriksaan awal atau Persiapan membuang respons dan latihan. Pilihan mode pertama mempertahankan catatan koreksi dari pemeriksaan awal. Hapus sesi, ulangi simulasi atau pergantian mode yang sudah dipilih membersihkan catatan sesi.
 
 Data hanya dalam memori tab; refresh/tutup tab menghapus sesi. Tidak ada akun, unggahan jawaban, kamera, mikrofon atau analitik. File unduhan tetap berada di perangkat setelah sesi dihapus.
 
@@ -86,6 +86,8 @@ Repository: https://github.com/Kafkayara/MataCheck. Website: https://matacheck.v
 Commit `354499c` (v0.16.0, termasuk pengujian ekspor sesi lengkap dan parsial) lulus [CI run 43917525148](https://github.com/Kafkayara/MataCheck/actions/runs/43917525148): 438 assertion per viewport pada lima viewport, termasuk pemeriksa privasi dan reload setelah sesi parsial. Bukti ini berasal dari fixture Chrome, bukan dialog unduh/cetak nyata atau validasi fisik.
 
 Workflow menjalankan tes kode dan browser pada push main, pull request dan pemicu manual. CI belum menghalangi deployment Vercel secara otomatis. Kelulusan CI tidak membuktikan status deployment. Lihat [bukti pengujian](docs/verification.md).
+
+Perubahan lokal catatan koreksi pada pemeriksaan awal belum tercakup CI tersebut. Tes kode dan persiapan fixture lulus; Chrome lokal gagal diluncurkan, sehingga skenario browser baru menunggu CI.
 
 ## Kesesuaian PRD
 

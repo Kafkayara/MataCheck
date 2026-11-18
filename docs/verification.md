@@ -1,5 +1,19 @@
 # Verifikasi MataCheck
 
+## Penyelarasan pemeriksaan awal dengan PRD asli — 18 November 2026
+
+- Seluruh enam halaman PRD v0.1 dibaca; [perbandingan sumber dan implementasi](prd-comparison.md) mencatat kebutuhan wajib, fitur tambahan, usulan stack, serta keputusan prototipe yang tidak berasal dari PRD. FR-02 tetap sebagian.
+- Catatan kacamata/lensa kontak kini tersedia sejak pemeriksaan awal. Pilihan mode pertama mempertahankannya; pergantian mode berikutnya tetap mereset. Kontrol tidak melewati guard keluhan/persetujuan. Pilihan di Persiapan, invalidasi respons, ekspor dan hapus sesi tetap menggunakan state yang sama.
+- Tes baru `tests/correction-check.cjs` terlebih dahulu gagal pada `Screening must record optical correction`, lalu lulus setelah perubahan. `npm test` lulus seluruhnya; preview dibangun ulang dan pemeriksaan kesesuaian sumber lulus. Fixture browser ditambah untuk urutan kontrol, guard, retensi mode pertama dan kembali dari Persiapan.
+- `npm run test:browser` berhasil menjalankan tahap prepare, tetapi Chrome headless keluar dengan `Browser exit 2147483651; signal null` sebelum menghasilkan laporan DOM. Tidak ada PASS browser baru yang diklaim. CI commit `354499c` tidak mencakup perubahan ini; perlu CI setelah pengguna commit/push. `git diff --check` lulus.
+- Pemeriksaan manual tambahan: pada pemeriksaan awal pilih lensa kontak sebelum memilih mode, pastikan Lanjut tetap terkunci tanpa kondisi/persetujuan; pilih mode pertama dan pastikan pilihan bertahan. Ubah menjadi kacamata di Persiapan, kembali ke pemeriksaan awal dan pastikan sama. Mulai sesi baru dan pastikan kembali Tidak dicatat. Semua pemeriksaan fisik tetap BELUM DIUJI.
+
+## Persiapan uji penerimaan manual — 18 November 2026
+
+- [Panduan uji](usability-check.md) diperbarui untuk v0.16.0: sesi lengkap kedua mode, berhenti parsial, file TXT/PDF nyata, penggaris/meteran dan perubahan layar, serta hapus sesi/refresh. Setiap varian memiliki langkah, hasil yang diharapkan, kolom status dan bukti. Seluruh 16 baris manual masih **BELUM DIUJI**; belum ada hasil fisik dari pengguna.
+- `npm test`, `npm run test:browser:prepare`, dan `git diff --check` lulus saat penyusunan. Prepare hanya menyiapkan fixture. Browser lokal, dialog unduh/cetak, file PDF nyata dan pengukuran fisik tidak dijalankan pada pekerjaan ini; mouse/keyboard pengguna tidak diambil alih.
+- Baseline lokal adalah `2f46402`; perubahan sejak commit CI `354499c` sampai baseline hanya dokumentasi. Bukti browser yang tercatat di bawah tetap merujuk kode/skenario yang sama, bukan hasil manual baru. Perubahan kali ini hanya panduan dan catatan verifikasi; tidak ada parameter klinis atau perilaku aplikasi baru.
+
 ## Konfirmasi CI v0.16.0 dan ekspor — 18 November 2026
 
 Prioritas dari PRD adalah mengonfirmasi skenario browser terbaru sebelum menambah perilaku prototipe. Pemeriksaan read-only GitHub mengonfirmasi commit lokal `354499cbeccdad1eb93d7c39fbe4569194835920` telah lulus [run 43917525148](https://github.com/Kafkayara/MataCheck/actions/runs/43917525148), dijalankan pada 17 November 2026 pukul 00:21 UTC+07:00. Catatan historis “belum dieksekusi” di bawah merekam keadaan saat perubahan dibuat; hasil ini menutup kekurangan bukti untuk v0.16.0 dan tambahan ekspor tersebut.

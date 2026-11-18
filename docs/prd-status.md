@@ -1,18 +1,18 @@
 # Pemetaan implementasi terhadap PRD MataCheck v0.1
 
-Acuan: PRD yang diberikan pengguna, bagian 6, 7, 8 dan 10. Status kode: v0.16.0. Status ini memisahkan prototipe yang berfungsi dari persyaratan pengukuran yang belum terpenuhi; bukan persentase kesiapan klinis.
+Acuan utama: PRD.pdf v0.1, seluruh 6 halaman, dibaca ulang 18 November 2026. Status kode: v0.16.0 dengan perubahan lokal pemeriksaan awal. [Perbandingan lengkap](prd-comparison.md) memisahkan kebutuhan PRD, usulan teknis, dan keputusan prototipe. Status ini bukan persentase kesiapan klinis.
 
 | ID | Status | Sudah ada | Masih diperlukan |
 | --- | --- | --- | --- |
 | FR-01 | Terimplementasi untuk prototipe | Penjelasan simulasi, perangkat, batas hasil, tanpa resep/diagnosis | Uji pemahaman pengguna dan peninjauan teks sebelum pengukuran |
-| FR-02 | Sebagian | Cabang keluhan/ketidakpastian menghentikan alur; persetujuan; catatan kacamata/lensa kontak | Usia, populasi dan daftar pengecualian yang ditetapkan profesional; pilihan koreksi saat ini di Persiapan |
+| FR-02 | Sebagian | Cabang keluhan/ketidakpastian menghentikan alur; persetujuan; catatan kacamata/lensa kontak sejak pemeriksaan awal, dapat diubah di Persiapan | Pertanyaan usia belum ada; rentang usia, populasi dan daftar pengecualian perlu ditetapkan profesional |
 | FR-03 | Sebagian | Penggaris dua pencocokan, verifikasi dua sumbu, batas gagal, invalidasi tampilan | Kalibrasi belum mengatur ukuran fisik simbol demo; uji perangkat fisik dan toleransi final |
 | FR-04 | Sebagian | Catatan jarak aktual dengan meteran, konfirmasi posisi dan alat jawab | Target/toleransi protokol belum ditetapkan; jarak belum memengaruhi stimulus |
 | FR-05 | Sebagian | Dua mata terpisah, SVG E, arah acak, latihan dan pasangan arah aktual/respons per percobaan | Tingkat ukuran, jumlah respons, adaptasi, aturan berhenti dan penilaian sesuai protokol |
 | FR-06 | Sebagian | Gangguan tab/fokus, perubahan tampilan/posisi/koreksi, pengulangan, reset, perlindungan klik ganda dan tombol ditahan | Uji perangkat nyata dan ketidakpastian kondisi; browser tidak mendeteksi semua perubahan monitor/posisi |
 | FR-07 | Sebagian | Empat bagian ringkasan dan alasan pengulangan persiapan; sesi parsial ditandai belum lengkap; tidak ada angka tebakan atau kesimpulan klinis | Hasil pengukuran dan tindak lanjut yang ditinjau; aturan kualitas final dan validasi metode |
 | FR-08 | Ditunda, fitur tambahan | Jalur manual tersedia; kamera tidak diminta | Kamera pendamping, izin/penolakan, pengujian posisi dan penghentian stream belum diimplementasikan |
-| FR-09 | Terimplementasi untuk catatan simulasi | Unduh teks dan cetak/PDF berisi tanggal, kondisi, respons dan batasan; label parsial ikut diekspor | Dialog unduh/cetak nyata dan layout PDF masih perlu pemeriksaan manual; bukan hasil pengukuran tervalidasi |
+| FR-09 | Tambahan menurut PRD; terimplementasi untuk catatan simulasi | Unduh teks dan cetak/PDF berisi tanggal, kondisi, respons dan batasan; label parsial ikut diekspor | Dialog unduh/cetak nyata dan layout PDF masih perlu pemeriksaan manual; bukan hasil pengukuran tervalidasi |
 | FR-10 | Ditunda sesuai PRD | Hapus data sesi dalam memori | Riwayat opsional setelah MVP; tidak ada penyimpanan persisten saat ini |
 
 ## Kriteria penerimaan MVP
@@ -26,7 +26,7 @@ Acuan: PRD yang diberikan pengguna, bagian 6, 7, 8 dan 10. Status kode: v0.16.0.
 
 ## Urutan berikutnya
 
-1. Pengujian browser commit `354499c` telah dikonfirmasi lulus. Lanjutkan uji pengguna memakai [usability-check.md](usability-check.md), termasuk unduhan aktual, dialog cetak/PDF, keyboard fisik dan inspeksi jaringan/penyimpanan. Jalankan ulang CI bila kode atau skenario berubah.
+1. Pengujian browser commit `354499c` telah dikonfirmasi lulus, tetapi tidak mencakup perubahan lokal pemeriksaan awal. Jalankan CI untuk perubahan ini; Chrome lokal gagal diluncurkan. Lanjutkan uji pengguna memakai [usability-check.md](usability-check.md), termasuk unduhan aktual, dialog cetak/PDF, keyboard fisik dan inspeksi jaringan/penyimpanan.
 2. Uji ukuran fisik kalibrasi pada perangkat nyata dan catat galat dua sumbu.
 3. Tetapkan parameter yang masih terbuka dalam [protocol-and-calibration.md](protocol-and-calibration.md), termasuk populasi, jarak, ukuran, aturan penilaian dan tindak lanjut, melalui peninjauan profesional.
 4. Setelah profil ditetapkan, sambungkan kalibrasi/jarak ke renderer dan mesin trial, lalu evaluasi terhadap pembanding. Jangan mengubah tiga respons demo menjadi nilai ketajaman atau resep.

@@ -53,6 +53,10 @@
     for (const n of [-1,9,1.5,'NaN',2,3,4,5,6,7]) { attempt(n); screen(0); }
     click('[data-go="1"]'); screen(1); heading(); fit();
     assert(find('#next').disabled, 'Empty form allowed');
+    assert(find('#correction')?.value==='unrecorded','Screening correction missing or retained from old session');
+    assert(find('#correction').compareDocumentPosition(find('#consent'))&Node.DOCUMENT_POSITION_FOLLOWING,'Correction must precede screening consent');
+    find('#correction').value='contacts';find('#correction').dispatchEvent(new Event('change',{bubbles:true}));
+    assert(find('#next').disabled,'Correction bypassed empty screening');
     check('[value="yes"]'); check('#consent');
     assert(!find('#stop').hidden, 'Stop message missing');
     assert(find('#next').disabled, 'Symptoms allowed');
@@ -63,6 +67,7 @@
     assert(find('#preparation-status').textContent.includes('Pilih cara'),'Missing mode explanation');
     assert(find('#cal-open').compareDocumentPosition(find('#next'))&Node.DOCUMENT_POSITION_FOLLOWING,'Continue appears before optional setup');
     attempt(3); screen(2); check('[name=mode][value=helper]'); check('.setup');
+    assert(find('#correction').value==='contacts','First mode choice lost screening correction');
     assert(find('#next').disabled, 'Only one preparation accepted');
     check('label.check:nth-of-type(2) .setup');
     find('#correction').value='glasses';find('#correction').dispatchEvent(new Event('change',{bubbles:true}));
@@ -73,6 +78,7 @@
     check('#distance-measured');check('#distance-stable');check('#distance-input');click('#distance-save');
     assert(find('#distance-open').textContent==='Ubah catatan jarak','Distance not saved');
     click('[data-go="1"]');
+    assert(find('#correction').value==='glasses','Returning to screening lost edited correction');
     assert(find('[value="no"]').checked && find('#consent').checked, 'Initial form lost');
     click('#next');
     assert([...root.querySelectorAll('.setup')].every(e=>e.checked), 'Preparation lost');
