@@ -1,5 +1,16 @@
 # Verifikasi MataCheck
 
+## Konfirmasi CI v0.16.0 dan ekspor — 18 November 2026
+
+Prioritas dari PRD adalah mengonfirmasi skenario browser terbaru sebelum menambah perilaku prototipe. Pemeriksaan read-only GitHub mengonfirmasi commit lokal `354499cbeccdad1eb93d7c39fbe4569194835920` telah lulus [run 43917525148](https://github.com/Kafkayara/MataCheck/actions/runs/43917525148), dijalankan pada 17 November 2026 pukul 00:21 UTC+07:00. Catatan historis “belum dieksekusi” di bawah merekam keadaan saat perubahan dibuat; hasil ini menutup kekurangan bukti untuk v0.16.0 dan tambahan ekspor tersebut.
+
+- [Log job 133475591638](https://github.com/Kafkayara/MataCheck/actions/runs/43917525148/job/133475591638) menunjukkan 438 assertion lulus pada masing-masing viewport 1366 × 768, 768 × 1024, 375 × 812, 320 × 568, dan 812 × 375 (2.190 total). Kelima laporan juga memuat `privacy API guards PASS` dan `reload after partial session PASS`.
+- Langkah tes kode, browser Chrome, serta penyimpanan artefak berhasil. SHA run sama dengan HEAD lokal; tidak ada perubahan terlacak saat pemeriksaan awal. Diff commit terakhir memastikan skenario isi ekspor lengkap (kedua mode, 6 respons) dan parsial (4 serta 0 respons) termasuk dalam commit yang diuji.
+- Pemeriksaan lokal pada 18 November: `npm test` dan `npm run test:browser:prepare` lulus. Prepare hanya membuat fixture; browser lokal tidak dijalankan ulang. Bukti eksekusi browser berasal dari CI di atas.
+- Tindak lanjut ini hanya memperbarui README, status PRD dan bukti verifikasi; tidak mengubah kode produksi, skenario, preview, versi atau parameter prototipe.
+
+Pekerjaan berikutnya: uji pengguna, unduhan yang benar-benar tersimpan, dialog cetak dan layout PDF, keyboard fisik, inspeksi Network/storage produksi, serta pengukuran kalibrasi dua sumbu pada perangkat nyata. Gunakan [panduan uji pengguna](usability-check.md) dan [protokol](protocol-and-calibration.md). Kelulusan fixture tidak membuktikan deployment terbaru, ukuran fisik, akurasi klinis, diagnosis atau resep. Parameter pengukuran tetap menunggu peninjauan profesional.
+
 ## Rilis kalibrasi dan lanjutan interupsi — 16 November 2026
 
 - Commit 72d248a88322c064d44478b9954d954c0c423b00 terverifikasi di produksi Vercel READY.

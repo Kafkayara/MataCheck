@@ -21,12 +21,12 @@ Acuan: PRD yang diberikan pengguna, bagian 6, 7, 8 dan 10. Status kode: v0.16.0.
 - Penolakan izin kamera belum dapat diuji karena fitur kamera belum tersedia; jangan menandainya selesai hanya karena jalur manual berjalan.
 - Invalidasi tampilan berjalan, tetapi kesesuaian milimeter memerlukan penggaris dan perangkat nyata.
 - Ringkasan parsial tidak memberi kesimpulan. Seluruh keluaran tetap simulasi; nilai SPH/CYL/AXIS tidak dihitung.
-- Kode tidak meminta kamera atau mengunggah respons. Fixture kini memantau API jaringan, media dan penyimpanan sebelum aplikasi berjalan, tetapi v0.16 masih menunggu CI. Ini bukan bukti audit trafik produksi; pemeriksaan jaringan browser nyata tetap bagian penerimaan privasi.
+- Kode tidak meminta kamera atau mengunggah respons. Fixture memantau API jaringan, media dan penyimpanan sebelum aplikasi berjalan; pemeriksa privasi v0.16 lulus pada commit `354499c`, bersama skenario ekspor lengkap/parsial dan reload. Lihat [bukti CI](verification.md#konfirmasi-ci-v0160-dan-ekspor--18-november-2026). Ini bukan bukti audit trafik produksi; pemeriksaan jaringan browser nyata tetap bagian penerimaan privasi.
 - Protokol, teks hasil dan tindak lanjut belum memperoleh peninjauan profesional. MVP pengukuran belum dinyatakan siap.
 
 ## Urutan berikutnya
 
-1. Selesaikan pengujian browser versi terbaru dan uji pengguna memakai [usability-check.md](usability-check.md).
+1. Pengujian browser commit `354499c` telah dikonfirmasi lulus. Lanjutkan uji pengguna memakai [usability-check.md](usability-check.md), termasuk unduhan aktual, dialog cetak/PDF, keyboard fisik dan inspeksi jaringan/penyimpanan. Jalankan ulang CI bila kode atau skenario berubah.
 2. Uji ukuran fisik kalibrasi pada perangkat nyata dan catat galat dua sumbu.
 3. Tetapkan parameter yang masih terbuka dalam [protocol-and-calibration.md](protocol-and-calibration.md), termasuk populasi, jarak, ukuran, aturan penilaian dan tindak lanjut, melalui peninjauan profesional.
 4. Setelah profil ditetapkan, sambungkan kalibrasi/jarak ke renderer dan mesin trial, lalu evaluasi terhadap pembanding. Jangan mengubah tiga respons demo menjadi nilai ketajaman atau resep.

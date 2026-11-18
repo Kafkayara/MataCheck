@@ -83,7 +83,7 @@ Tes unit membuktikan pemeriksa memblokir panggilan contoh. Kelulusan fixture bro
 
 Repository: https://github.com/Kafkayara/MataCheck. Website: https://matacheck.vercel.app.
 
-Baseline v0.15 commit `4b93eb4` lulus [CI run 43910212740](https://github.com/Kafkayara/MataCheck/actions/runs/43910212740). Bukti ini tidak mencakup pengujian browser v0.16.0.
+Commit `354499c` (v0.16.0, termasuk pengujian ekspor sesi lengkap dan parsial) lulus [CI run 43917525148](https://github.com/Kafkayara/MataCheck/actions/runs/43917525148): 438 assertion per viewport pada lima viewport, termasuk pemeriksa privasi dan reload setelah sesi parsial. Bukti ini berasal dari fixture Chrome, bukan dialog unduh/cetak nyata atau validasi fisik.
 
 Workflow menjalankan tes kode dan browser pada push main, pull request dan pemicu manual. CI belum menghalangi deployment Vercel secara otomatis. Kelulusan CI tidak membuktikan status deployment. Lihat [bukti pengujian](docs/verification.md).
 
