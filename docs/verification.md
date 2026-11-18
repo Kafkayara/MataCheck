@@ -1,5 +1,11 @@
 # Verifikasi MataCheck
 
+## Penghentian pemeriksaan awal — 18 November 2026
+
+- Baseline `182ab84`. FR-02 kini menghentikan sesi ketika jawaban keluhan Ya/tidak yakin dipilih: respons dan arah simbol dibuang, latihan/kesiapan dibatalkan, input pemeriksaan awal dikunci, dan seluruh rute berikutnya termasuk ringkasan/ekspor ditolak. Memulai sesi baru menghapus penguncian sekaligus seluruh isian. Tiga contoh keluhan berasal dari PRD bagian 4, bukan daftar klinis lengkap baru.
+- Tes baru terlebih dahulu gagal karena perilaku penghentian belum tersedia, kemudian lulus. `npm test` lulus, termasuk penghapusan respons, penolakan navigasi setelah jawaban diubah, penghentian berulang dan reset. Preview dibangun ulang; `npm run test:browser:prepare` dan `git diff --check` lulus.
+- Fixture browser menambahkan pemeriksaan input terkunci, fokus penjelasan, upaya mengganti jawaban, dan sesi baru. Fixture ini belum dieksekusi pada browser; kegagalan peluncuran Chrome lokal telah tercatat pada pengerjaan sebelumnya, bukan hasil assertion skenario ini. CI setelah push masih diperlukan. Uji manual tetap BELUM DIUJI.
+
 ## Pertanyaan usia sesuai PRD bagian 5 — 18 November 2026
 
 - Baseline `67ba90e`. Implementasi menambahkan usia tahun penuh pada pemeriksaan awal, opsional untuk demo dan tanpa ambang kelayakan. Input bukan bilangan bulat nonnegatif atau melebihi representasi integer tepat JavaScript ditolak sebagai format data, bukan kriteria klinis. Isian kosong tetap diperbolehkan.

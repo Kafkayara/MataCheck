@@ -61,7 +61,15 @@
     check('[value="yes"]'); check('#consent');
     assert(!find('#stop').hidden, 'Stop message missing');
     assert(find('#next').disabled, 'Symptoms allowed');
+    assert(find('#age').disabled&&find('#consent').disabled,'Stopped screening remains editable');
+    assert(document.activeElement===find('#stop'),'Stop explanation did not receive focus');
     for (const n of [2,3,4,5,6,7]) { attempt(n); screen(1); }
+    check('[value="no"]');check('#consent');attempt(2);screen(1);
+    assert(find('#next').disabled,'Changing an answer resumed stopped screening');
+    click('#screening-restart');screen(1);
+    assert(!find('[name=condition]:checked')&&!find('#consent').checked,'New screening retained answers');
+    assert(!find('#age').disabled&&!find('#screening-restart'),'New screening remained locked');
+    find('#correction').value='contacts';find('#correction').dispatchEvent(new Event('change',{bubbles:true}));
     check('[value="no"]'); check('#consent', false);
     assert(find('#next').disabled, 'Consent missing');
     check('#consent');

@@ -17,6 +17,7 @@ Acuan utama: PRD.pdf v0.1, seluruh 6 halaman, dibaca ulang 18 November 2026. Sta
 
 ## Kriteria penerimaan MVP
 
+- FR-02 kini mengunci sesi setelah jawaban keluhan Ya/tidak yakin, membuang respons lama dan memerlukan sesi baru. Pertanyaan menyebut ketiga contoh pada PRD bagian 4. Penguncian sampai sesi baru adalah keputusan rekayasa; daftar pengecualian lengkap tetap memerlukan peninjauan profesional.
 - Alur kedua mata, reset dan penguncian ringkasan parsial mempunyai tes kode serta skenario browser. Bukti tiap commit dicatat di [verification.md](verification.md).
 - Penolakan izin kamera belum dapat diuji karena fitur kamera belum tersedia; jangan menandainya selesai hanya karena jalur manual berjalan.
 - Invalidasi tampilan berjalan, tetapi kesesuaian milimeter memerlukan penggaris dan perangkat nyata.

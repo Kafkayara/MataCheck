@@ -35,6 +35,8 @@ Preview dihasilkan otomatis; jangan diedit terpisah. Tes browser menggunakan Chr
 
 ## Persiapan dan perlindungan input
 
+Pemeriksaan awal menyebut kehilangan penglihatan mendadak, nyeri mata berat, dan cedera mata sesuai contoh PRD. Jawaban Ya/tidak yakin menghentikan sesi, membuang respons sebelumnya, dan mengunci alur berikutnya. Jika salah memilih, gunakan Mulai sesi baru untuk mengisi ulang; mengganti jawaban tidak melanjutkan sesi yang dihentikan. Daftar ini belum menjadi kriteria kelayakan klinis lengkap.
+
 Tombol lanjut berada setelah seluruh pengaturan Persiapan. Pesan status menyebut pilihan mode, checklist, editor jarak atau kalibrasi yang masih perlu diselesaikan. Pilihan opsional tetap opsional untuk demo.
 
 Klik jawaban berulang dalam 300 ms dan klik lanjutan dalam rangkaian multi-click diabaikan. Input dari tombol yang sudah tidak berada di layar, nilai tidak dikenal, atau sesi dijeda ditolak. Pengulangan Enter/Spasi saat tombol jawaban fokus dicegah; pintasan panah/N tetap memakai aturan lepas tombol. Jeda klik adalah perlindungan antarmuka, bukan ambang respons klinis.
