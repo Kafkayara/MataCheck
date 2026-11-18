@@ -102,7 +102,12 @@
     attempt(3); screen(6);
     click('[data-practice="atas"]'); assert(find('#next').disabled, 'Wrong practice unlocked');
     click('[data-practice="kanan"]'); assert(!find('#next').disabled, 'Practice did not unlock');
-    window.dispatchEvent(new Event('blur'));assert(find('#next').disabled,'Interrupted practice retained readiness');click('[data-practice="kanan"]');
+    window.dispatchEvent(new Event('blur'));assert(find('#next').disabled,'Interrupted practice retained readiness');
+    assert(find('#practice-feedback').textContent.includes('meninggalkan halaman atau jendela'),'Practice reset has no explanation');
+    window.dispatchEvent(new Event('focus'));assert(document.activeElement===find('[data-practice="kanan"]'),'Practice recovery lost focus');
+    click('[data-practice="atas"]');assert(find('#next').disabled,'Wrong retry unlocked practice');
+    click('[data-practice="kanan"]');assert(!find('#next').disabled,'Correct retry did not unlock practice');
+    assert(!find('#practice-feedback').textContent.includes('terhenti'),'Successful practice retained interruption message');
     click('#next'); screen(3); fit();
     attempt(4); screen(3); attempt(5); screen(3);
     const recordedPairs=[];

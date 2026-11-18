@@ -26,6 +26,31 @@ ctx.interruptSession();assert.equal(ctx.formState.calibration.scale,null);
 ctx.formState.calibration.status='valid';ctx.formState.calibration.scale=3.8;
 ctx.interruptSession();assert.equal(ctx.formState.calibration.scale,3.8);
 ctx.page=6;ctx.formState.practiced=true;ctx.interruptSession();assert.equal(ctx.formState.practiced,false);
+assert.equal(ctx.formState.practiceInterrupted,true,'Interrupted practice must retain a reason for the disabled continue button');
 ctx.page=7;ctx.formState.switched=true;ctx.answers=[['a','b','c'],[]];ctx.interruptSession();
 assert.equal(ctx.formState.switched,false);assert.equal(ctx.answers[0].length,3);
 console.log('PASS: interrupted calibration restarts without penalty; practice and eye switch require reconfirmation');
+
+// Exercise the actual practice click handler, including the reported click-then-blur sequence.
+const feedback={textContent:''},next={disabled:true};let clickHandler,focused;
+Object.assign(ctx,{page:6,interrupted:false,checkCalibration(){},main:{querySelector(selector){
+ if(selector==='#next')return next;
+ if(selector==='#practice-feedback')return feedback;
+ return {focus(){focused=selector;}};
+}},root:{addEventListener(type,fn){clickHandler=fn;}}});
+vm.runInContext(source.match(/\/\/ PRACTICE FEEDBACK START([\s\S]*?)\/\/ PRACTICE FEEDBACK END/)[1],ctx);
+const start=source.indexOf("root.addEventListener('click',e=>{const b=e.target.closest('button');");
+vm.runInContext(source.slice(start,source.indexOf("root.addEventListener('change'",start)),ctx);
+const practice=direction=>clickHandler({target:{closest:()=>({dataset:{practice:direction}})}});
+practice('kanan');assert.equal(ctx.formState.practiced,true);assert.equal(next.disabled,false);
+ctx.interruptSession();assert.equal(ctx.formState.practiced,false);assert.equal(ctx.formState.practiceInterrupted,true);
+assert(ctx.practiceFeedback().includes('meninggalkan halaman atau jendela'));
+ctx.interruptSession();assert(ctx.practiceFeedback().includes('Ulangi latihan'));
+vm.runInContext(source.match(/function restoreSessionFocus\(\)\{[^\n]+/)[0],ctx);
+ctx.restoreSessionFocus();assert.equal(focused,'[data-practice="kanan"]');
+practice('atas');assert.equal(ctx.formState.practiced,false);
+practice('kanan');assert.equal(ctx.formState.practiced,true);assert.equal(ctx.formState.practiceInterrupted,false);assert.equal(next.disabled,false);
+assert(!ctx.practiceFeedback().includes('terhenti'));
+vm.runInContext(source.match(/\/\/ SESSION END START([\s\S]*?)\/\/ SESSION END END/)[1],ctx);
+ctx.go=()=>{};ctx.formState.practiceInterrupted=true;ctx.resetSession(1);assert.equal(ctx.formState.practiceInterrupted,false);
+console.log('PASS: practice click unlocks, interruption has explanation and focus recovery, retry and reset clear the reason');

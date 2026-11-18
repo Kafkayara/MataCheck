@@ -1,7 +1,7 @@
 
 (()=>{const root=document.getElementById('mata'),main=root.querySelector('main');let page=0,q=0,ready=false,paused=false,interrupted=false,answers=[[],[]];const names=['Beranda','Pemeriksaan awal','Persiapan','Mata kanan','Mata kiri','Ringkasan','Latihan menjawab','Jeda pergantian mata'];
 const steps=[1,2,6,3,4,5];
-const formState={screeningStopped:false,age:null,ageInput:'',ageInvalid:false,condition:null,consent:false,mode:null,setup:[false,false],practiced:false,switched:false,interruptions:[0,0],qualityResets:{display:0,position:0,correction:0},directions:[[],[]],distance:null,distanceEditing:false,correction:'unrecorded',endedEarly:false,startedAt:null,completedAt:null};
+const formState={screeningStopped:false,age:null,ageInput:'',ageInvalid:false,condition:null,consent:false,mode:null,setup:[false,false],practiced:false,practiceInterrupted:false,switched:false,interruptions:[0,0],qualityResets:{display:0,position:0,correction:0},directions:[[],[]],distance:null,distanceEditing:false,correction:'unrecorded',endedEarly:false,startedAt:null,completedAt:null};
 // SESSION METADATA START
 const APP_VERSION='0.16.0';
 function formatSessionTime(iso){
@@ -36,6 +36,12 @@ function submitAnswer(button,event){
   else{render();main.querySelector('[data-answer="'+answer+'"]')?.focus();}
 }
 // ANSWER INPUT END
+// PRACTICE FEEDBACK START
+function practiceFeedback(){
+  if(formState.practiceInterrupted)return 'Latihan terhenti karena kamu meninggalkan halaman atau jendela. Ulangi latihan dengan memilih Kanan sebelum menyiapkan mata kanan.';
+  return formState.practiced?'Latihan selesai. Jawaban latihan tidak masuk catatan sesi.':'Latihan ini menjelaskan tombol, bukan menilai penglihatan.';
+}
+// PRACTICE FEEDBACK END
 // PREPARATION STATUS START
 function preparationMessage(){
   if(!['solo','helper'].includes(formState.mode))return 'Pilih cara mencoba: sendiri atau dengan pendamping.';
@@ -63,7 +69,7 @@ function correctionLabel(){return correctionLabels[formState.correction]??correc
 function changeCorrection(value){
   if(!Object.hasOwn(correctionLabels,value)||value===formState.correction)return false;
   recordQualityReset('correction');formState.correction=value;answers=[[],[]];formState.directions=[[],[]];
-  formState.practiced=false;formState.switched=false;ready=false;paused=false;interrupted=false;q=0;
+  formState.practiced=false;formState.practiceInterrupted=false;formState.switched=false;ready=false;paused=false;interrupted=false;q=0;
   return true;
 }
 // CORRECTION END
@@ -93,7 +99,7 @@ function parseDistanceCm(value){
 }
 function clearPositionProgress(){
   recordQualityReset('position');
-  answers=[[],[]];formState.directions=[[],[]];formState.practiced=false;formState.switched=false;
+  answers=[[],[]];formState.directions=[[],[]];formState.practiced=false;formState.practiceInterrupted=false;formState.switched=false;
   formState.distance=null;ready=false;paused=false;interrupted=false;q=0;
 }
 function distanceLabel(){return formState.distance?`Jarak mata ke layar ${formState.distance.mm/10} cm, dikonfirmasi pengguna. Browser tidak memverifikasi posisi atau jarak secara otomatis.`:'Jarak mata ke layar belum dicatat atau diverifikasi pada demo ini.';}
@@ -149,7 +155,7 @@ function invalidateCalibration(){
   if(page===5)return;
   recordQualityReset('display');
   c.status='stale';c.verification=null;c.scale=null;c.first=null;c.snapshot=null;c.message='Tampilan berubah. Cocokkan ulang ukuran layar sebelum melanjutkan, atau pilih demo tanpa kalibrasi.';
-  formState.distance=null;formState.distanceEditing=false;answers=[[],[]];formState.practiced=false;formState.switched=false;ready=false;paused=false;interrupted=false;q=0;
+  formState.distance=null;formState.distanceEditing=false;answers=[[],[]];formState.practiced=false;formState.practiceInterrupted=false;formState.switched=false;ready=false;paused=false;interrupted=false;q=0;
   if(page>=3)page=8;
   render();main.querySelector('h1')?.focus({preventScroll:true});
 }
@@ -172,7 +178,7 @@ if(page===0)main.innerHTML=`<div class="grid"><section><div class="kicker">Satu 
 if(page===1)main.innerHTML=`<div class="kicker">01 / Sebelum mulai</div><h1 tabindex="-1">Periksa kesiapanmu.</h1><p>Pilih kondisi untuk mencoba alur prototipe.</p><fieldset style="border:0;padding:0"><legend>Apakah ada kehilangan penglihatan mendadak, nyeri mata berat, atau cedera mata?</legend><label class="check"><input type="radio" name="condition" value="no">Tidak ada keluhan tersebut, lanjut mencoba simulasi</label><label class="check"><input type="radio" name="condition" value="yes">Ya, atau saya tidak yakin</label></fieldset><div id="stop" role="alert" tabindex="-1" class="note" hidden>Hentikan tes mandiri. Jangan gunakan simulasi untuk menilai keluhan; cari bantuan tenaga medis. Sesi ini dihentikan dan respons sebelumnya dihapus. Jika jawaban dipilih keliru, mulai sesi baru dan isi pemeriksaan awal kembali.</div><label class="check"><input id="consent" type="checkbox">Saya memahami bahwa ini simulasi, bukan ukuran kacamata atau pemeriksaan kesehatan mata.</label><div class="actions">${action(0,'Kembali',false)}<button class="primary" id="next" data-go="2" disabled>Lanjut ke persiapan →</button></div>`;
 if(page===2)main.innerHTML=`<div class="kicker">02 / Persiapan</div><h1 tabindex="-1">Atur tempatmu dulu.</h1><fieldset><legend>Bagaimana kamu ingin mencoba?</legend><label class="check"><input type="radio" name="mode" value="solo">Coba sendiri</label><label class="check"><input type="radio" name="mode" value="helper">Dengan pendamping</label></fieldset><div class="grid"><section><h2>${solo()?'Lihat dan jawab sendiri.':'Laptop untuk melihat. Pendamping untuk menjawab.'}</h2><p>Letakkan laptop dengan stabil. ${solo()?'Kenali tombol panah sebelum menutup satu mata.':'Pendamping memasukkan arah yang kamu sebutkan.'}</p><label class="check"><input class="setup" type="checkbox">Laptop siap dan layar terlihat tanpa pantulan mengganggu.</label><label class="check"><input class="setup" type="checkbox">${solo()?'Saya siap menggunakan keyboard atau tombol layar sendiri.':'Pendamping siap memasukkan jawaban.'}</label></section><aside><h2>${solo()?'Cara mencoba sendiri':'Siapa melakukan apa?'}</h2>${solo()?'<p>Lihat simbol dan masukkan arah kaki E. Gunakan satu tangan untuk menutup mata tanpa menekannya dan tangan lain untuk menjawab. Buka kembali mata atau berhenti jika posisi tidak nyaman.</p><p>'+keyboardHelp+'</p>':'<ol><li><strong>Peserta:</strong> duduk menghadap layar dan sebutkan arah kaki huruf E.</li><li><strong>Pendamping:</strong> baca instruksi, lalu klik jawaban yang disebutkan peserta.</li><li>Jika perlu berhenti, gunakan tombol Jeda.</li></ol>'}</aside></div><div class="note">Tidak perlu mundur ke jarak tertentu pada demo ini. Jarak dan kalibrasi harus ditetapkan sebelum tes sungguhan.</div><div class="actions">${action(1,'Kembali',false)}<button id="next" class="primary" data-go="6" disabled>Coba latihan menjawab →</button></div>`;
 
-if(page===6)main.innerHTML=`<div class="kicker">${solo()?'Latihan sendiri':'Latihan bersama pendamping'}</div><h1 tabindex="-1">Kenali arah kaki huruf E.</h1><p>Kaki adalah tiga garis pendek pada huruf E. Pada contoh ini, semuanya mengarah ke <strong>kanan</strong>. Kedua mata boleh terbuka saat latihan.</p><div class="grid"><section><div class="symbol" aria-label="Contoh huruf E dengan kaki ke kanan">${demoSymbol(0)}</div><p>${solo()?'Tekan panah kanan pada keyboard, atau klik tombol Kanan.':'Peserta menyebut kanan. Pendamping menekan tombol Kanan.'}</p></section><aside><h2>Coba masukkan jawaban</h2><div class="actions">${['Atas','Kiri','Kanan','Bawah'].map(t=>'<button data-practice="'+t.toLowerCase()+'">'+t+'</button>').join('')}</div><p id="practice-feedback" role="status">${formState.practiced?'Latihan selesai. Jawaban latihan tidak masuk catatan sesi.':'Latihan ini menjelaskan tombol, bukan menilai penglihatan.'}</p></aside></div><div class="actions">${action(2,'Kembali ke persiapan',false)}<button id="next" class="primary" data-go="3" ${formState.practiced?'':'disabled'}>Siapkan mata kanan →</button></div>`;
+if(page===6)main.innerHTML=`<div class="kicker">${solo()?'Latihan sendiri':'Latihan bersama pendamping'}</div><h1 tabindex="-1">Kenali arah kaki huruf E.</h1><p>Kaki adalah tiga garis pendek pada huruf E. Pada contoh ini, semuanya mengarah ke <strong>kanan</strong>. Kedua mata boleh terbuka saat latihan.</p><div class="grid"><section><div class="symbol" aria-label="Contoh huruf E dengan kaki ke kanan">${demoSymbol(0)}</div><p>${solo()?'Tekan panah kanan pada keyboard, atau klik tombol Kanan.':'Peserta menyebut kanan. Pendamping menekan tombol Kanan.'}</p></section><aside><h2>Coba masukkan jawaban</h2><div class="actions">${['Atas','Kiri','Kanan','Bawah'].map(t=>'<button data-practice="'+t.toLowerCase()+'">'+t+'</button>').join('')}</div><p id="practice-feedback" role="status">${practiceFeedback()}</p></aside></div><div class="actions">${action(2,'Kembali ke persiapan',false)}<button id="next" class="primary" data-go="3" ${formState.practiced?'':'disabled'}>Siapkan mata kanan →</button></div>`;
 if(page===7)main.innerHTML=`<div class="kicker">Mata kanan selesai</div><h1 tabindex="-1">Jeda dulu, lalu ganti mata.</h1><p>Tiga respons mata kanan sudah dicatat. Beristirahatlah sebelum melanjutkan.</p>${eyeGuide('kiri')}<ol><li>Buka kembali mata kiri.</li><li>Tutup mata kanan dengan lembut tanpa menekannya.</li><li>Biarkan mata kiri terbuka untuk demo berikutnya.</li></ol><label class="check"><input id="switch-eye" type="checkbox" ${formState.switched?'checked':''}>Peserta siap: mata kanan tertutup, mata kiri terbuka.</label><div class="actions"><button id="next" class="primary" data-go="4" ${formState.switched?'':'disabled'}>Mulai demo mata kiri →</button></div>`;
 
 if(page===3||page===4){const eye=page===3?'kanan':'kiri',closed=page===3?'kiri':'kanan';if(!ready)main.innerHTML=`<div class="kicker">Demo mata ${eye}</div><h1 tabindex="-1">Sekarang, mata ${eye}.</h1><p>Tutup mata ${closed} dengan lembut, tanpa menekannya. Biarkan mata ${eye} terbuka.</p>${eyeGuide(eye)}<aside><h2>${solo()?'Untuk kamu':'Untuk pendamping'}</h2><p>${solo()?keyboardHelp:'Minta peserta menyebutkan arah kaki huruf E. Masukkan jawaban tanpa petunjuk. Pilih Tidak terlihat jika peserta tidak dapat menyebutkan arahnya.'}</p></aside><div class="actions">${action(2,'Kembali ke persiapan',false)}<button class="primary" id="ready">Siap, mulai demo →</button></div>`;else main.innerHTML=`<div class="kicker">Mata ${eye} · Percobaan ${q+1} dari 3 · Simulasi</div><h1 tabindex="-1">Ke arah mana?</h1><div class="grid"><section><div class="symbol">${paused?'Sesi dijeda':demoSymbol(formState.directions[page-3][q])}</div><p class="muted">${paused?'Simbol disembunyikan sampai sesi dilanjutkan.':`Mata ${closed} tertutup. Sebutkan arah kaki huruf E.`}</p></section><aside><h2>${solo()?'Masukkan jawabanmu':'Pendamping: masukkan jawaban'}</h2><div class="pad"><span></span><button data-answer="atas" aria-label="Atas" ${paused?'disabled':''}>↑</button><span></span><button data-answer="kiri" aria-label="Kiri" ${paused?'disabled':''}>←</button><span></span><button data-answer="kanan" aria-label="Kanan" ${paused?'disabled':''}>→</button><span></span><button data-answer="bawah" aria-label="Bawah" ${paused?'disabled':''}>↓</button></div><div class="actions"><button data-answer="tidak terlihat" aria-describedby="unseen-help" ${paused?'disabled':''}>Tidak terlihat</button><button id="pause">${interrupted?'Ulangi mata ini':paused?'Lanjutkan':'Jeda'}</button></div><p id="unseen-help" class="helper">Pilih Tidak terlihat jika arah kaki E tidak dapat dikenali. Tidak perlu menebak.${solo()?' Pintasan keyboard: N.':''}</p></aside></div>`}
@@ -204,8 +210,8 @@ if(page===1&&formState.screeningStopped){
 const step=steps.indexOf(page===8?2:page===7?4:page)+1;
 if(page>0&&!(page===5&&formState.endedEarly))main.insertAdjacentHTML('afterbegin','<div class="step-label"><span>Langkah '+step+' dari '+steps.length+'</span><span>'+names[page===8?2:page===7?4:page]+'</span></div><div class="session-line" aria-label="Langkah '+step+' dari '+steps.length+'">'+steps.map((_,i)=>'<span class="'+(i<step?'done':'')+'"></span>').join('')+'</div>');
 }
-root.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled)return;checkCalibration();if(b.id==='clear-session'){resetSession(0);return;}if(b.id==='screening-restart'&&page===1&&formState.screeningStopped){resetSession(1);return;}if(b.dataset.go!==undefined){if(page===0&&b.dataset.go==='1')return resetSession(1);return go(+b.dataset.go);}if(b.dataset.practice&&page===6){if(b.dataset.practice==='kanan'){formState.practiced=true;main.querySelector('#next').disabled=false;main.querySelector('#practice-feedback').textContent='Benar untuk contoh ini: kaki huruf E mengarah ke kanan. Latihan selesai; lanjutkan saat siap.';}else{main.querySelector('#practice-feedback').textContent='Coba lagi: tiga garis pendek pada contoh ini mengarah ke kanan. Pilih tombol Kanan.';}return;}if(b.id==='ready'){checkCalibration();if(!canEnter(page)||page===8)return;ready=true;answers[page-3]=[];formState.directions[page-3]=newDirections();if(page===3){answers[1]=[];formState.switched=false;}render();main.querySelector('h1')?.focus()}if(b.id==='pause'){if(interrupted)formState.directions[page-3]=newDirections();paused=!paused;interrupted=false;render();main.querySelector('#pause')?.focus()}if(b.dataset.answer)submitAnswer(b,e);if(b.id==='restart')resetSession(1)});
-root.addEventListener('change',e=>{if(page===1&&formState.screeningStopped)return;if(page===2&&e.target.name==='mode'){if(formState.mode!==null)formState.correction='unrecorded';formState.mode=e.target.value;formState.interruptions=[0,0];formState.qualityResets={display:0,position:0,correction:0};formState.directions=[[],[]];formState.distance=null;formState.distanceEditing=false;formState.calibration=null;formState.setup=[false,false];formState.practiced=false;formState.switched=false;answers=[[],[]];render();main.querySelector('[name=mode]:checked')?.focus();return;}if(page===7){formState.switched=root.querySelector('#switch-eye').checked;root.querySelector('#next').disabled=!formState.switched;}if(page===1){formState.condition=root.querySelector('[name=condition]:checked')?.value??null;formState.consent=root.querySelector('#consent').checked;if(formState.condition==='yes'){stopScreening();render();main.querySelector('#stop')?.focus();return;}}if(page===2){formState.setup=[...root.querySelectorAll('.setup')].map(c=>c.checked)}if(page===1){const s=root.querySelector('[name=condition]:checked');root.querySelector('#stop').hidden=!(s&&s.value==='yes');root.querySelector('#next').disabled=!(s&&s.value==='no'&&root.querySelector('#consent').checked&&!formState.ageInvalid)}if(page===2){root.querySelector('#next').disabled=!canEnter(6);root.querySelector('#preparation-status').textContent=preparationMessage();}});const heldKeys=new Set();
+root.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled)return;checkCalibration();if(b.id==='clear-session'){resetSession(0);return;}if(b.id==='screening-restart'&&page===1&&formState.screeningStopped){resetSession(1);return;}if(b.dataset.go!==undefined){if(page===0&&b.dataset.go==='1')return resetSession(1);return go(+b.dataset.go);}if(b.dataset.practice&&page===6){if(b.dataset.practice==='kanan'){formState.practiced=true;formState.practiceInterrupted=false;main.querySelector('#next').disabled=false;main.querySelector('#practice-feedback').textContent='Benar untuk contoh ini: kaki huruf E mengarah ke kanan. Latihan selesai; lanjutkan saat siap.';}else{main.querySelector('#practice-feedback').textContent='Coba lagi: tiga garis pendek pada contoh ini mengarah ke kanan. Pilih tombol Kanan.';}return;}if(b.id==='ready'){checkCalibration();if(!canEnter(page)||page===8)return;ready=true;answers[page-3]=[];formState.directions[page-3]=newDirections();if(page===3){answers[1]=[];formState.switched=false;}render();main.querySelector('h1')?.focus()}if(b.id==='pause'){if(interrupted)formState.directions[page-3]=newDirections();paused=!paused;interrupted=false;render();main.querySelector('#pause')?.focus()}if(b.dataset.answer)submitAnswer(b,e);if(b.id==='restart')resetSession(1)});
+root.addEventListener('change',e=>{if(page===1&&formState.screeningStopped)return;if(page===2&&e.target.name==='mode'){if(formState.mode!==null)formState.correction='unrecorded';formState.mode=e.target.value;formState.interruptions=[0,0];formState.qualityResets={display:0,position:0,correction:0};formState.directions=[[],[]];formState.distance=null;formState.distanceEditing=false;formState.calibration=null;formState.setup=[false,false];formState.practiced=false;formState.practiceInterrupted=false;formState.switched=false;answers=[[],[]];render();main.querySelector('[name=mode]:checked')?.focus();return;}if(page===7){formState.switched=root.querySelector('#switch-eye').checked;root.querySelector('#next').disabled=!formState.switched;}if(page===1){formState.condition=root.querySelector('[name=condition]:checked')?.value??null;formState.consent=root.querySelector('#consent').checked;if(formState.condition==='yes'){stopScreening();render();main.querySelector('#stop')?.focus();return;}}if(page===2){formState.setup=[...root.querySelectorAll('.setup')].map(c=>c.checked)}if(page===1){const s=root.querySelector('[name=condition]:checked');root.querySelector('#stop').hidden=!(s&&s.value==='yes');root.querySelector('#next').disabled=!(s&&s.value==='no'&&root.querySelector('#consent').checked&&!formState.ageInvalid)}if(page===2){root.querySelector('#next').disabled=!canEnter(6);root.querySelector('#preparation-status').textContent=preparationMessage();}});const heldKeys=new Set();
 function handleKey(e){
   if(e.repeat&&['Enter',' ','Spacebar'].includes(e.key)&&e.target?.matches('button[data-answer]')){e.preventDefault();return;}
   if(!solo()||e.ctrlKey||e.altKey||e.metaKey||e.shiftKey||e.isComposing||e.target?.matches('input,select,textarea,[contenteditable]'))return;
@@ -227,7 +233,7 @@ document.addEventListener('keyup',e=>heldKeys.delete(e.key.length===1?e.key.toLo
 function stopScreening(){
   formState.screeningStopped=true;formState.consent=false;
   answers=[[],[]];formState.directions=[[],[]];
-  formState.practiced=false;formState.switched=false;formState.completedAt=null;
+  formState.practiced=false;formState.practiceInterrupted=false;formState.switched=false;formState.completedAt=null;
   heldKeys.clear();ready=false;paused=false;interrupted=false;q=0;
 }
 // SCREENING STOP END
@@ -235,7 +241,7 @@ function stopScreening(){
 function resetSession(target){
   formState.screeningStopped=false;
   formState.age=null;formState.ageInput='';formState.ageInvalid=false;
-  formState.calibration=null;answers=[[],[]];formState.correction='unrecorded';formState.interruptions=[0,0];formState.qualityResets={display:0,position:0,correction:0};formState.directions=[[],[]];formState.distance=null;formState.distanceEditing=false;formState.condition=null;formState.consent=false;formState.mode=null;formState.setup=[false,false];formState.practiced=false;formState.switched=false;lastPointerAnswerAt=-Infinity;formState.endedEarly=false;formState.startedAt=target===1?new Date().toISOString():null;formState.completedAt=null;heldKeys.clear();ready=false;paused=false;interrupted=false;q=0;go(target);
+  formState.calibration=null;answers=[[],[]];formState.correction='unrecorded';formState.interruptions=[0,0];formState.qualityResets={display:0,position:0,correction:0};formState.directions=[[],[]];formState.distance=null;formState.distanceEditing=false;formState.condition=null;formState.consent=false;formState.mode=null;formState.setup=[false,false];formState.practiced=false;formState.practiceInterrupted=false;formState.switched=false;lastPointerAnswerAt=-Infinity;formState.endedEarly=false;formState.startedAt=target===1?new Date().toISOString():null;formState.completedAt=null;heldKeys.clear();ready=false;paused=false;interrupted=false;q=0;go(target);
 }
 function endSession(){
   checkCalibration();
@@ -259,7 +265,7 @@ root.addEventListener('click',e=>{
   if(formState.correction==='unrecorded')recordQualityReset('correction');
   changeCorrection('unrecorded');
   // Even an unrecorded change must discard responses made under the previous conditions.
-  answers=[[],[]];formState.directions=[[],[]];formState.practiced=false;formState.switched=false;
+  answers=[[],[]];formState.directions=[[],[]];formState.practiced=false;formState.practiceInterrupted=false;formState.switched=false;
   ready=false;paused=false;interrupted=false;q=0;formState.setup=[false,false];
   go(2);main.querySelector('#correction')?.focus();
 });
@@ -323,7 +329,7 @@ function interruptSession(){
     formState.calibration.message='Pencocokan terhenti. Mulai lagi dari garis pertama agar kedua ukuran diambil dalam kondisi yang sama.';
     render();return;
   }
-  if(page===6&&formState.practiced){formState.practiced=false;render();return;}
+  if(page===6&&formState.practiced){formState.practiced=false;formState.practiceInterrupted=true;render();return;}
   if(page===7&&formState.switched){formState.switched=false;render();return;}
   if(!ready||![3,4].includes(page)||interrupted)return;
   formState.interruptions[page-3]++;
@@ -331,7 +337,7 @@ function interruptSession(){
 }
 // INTERRUPTION END
 window.addEventListener('blur',interruptSession);
-function restoreSessionFocus(){checkCalibration();if(interrupted)main.querySelector('#pause')?.focus({preventScroll:true});}
+function restoreSessionFocus(){checkCalibration();if(interrupted)main.querySelector('#pause')?.focus({preventScroll:true});else if(page===6&&formState.practiceInterrupted)main.querySelector('[data-practice="kanan"]')?.focus({preventScroll:true});}
 document.addEventListener('visibilitychange',()=>{if(document.hidden)interruptSession();else restoreSessionFocus();});
 
 root.addEventListener('input',e=>{if(e.target.id==='cal-width'){const c=formState.calibration;if(c?.status!=='pending')return;c.width=Number(e.target.value);main.querySelector('#cal-area').innerHTML=calibrationLine(c.width);fitCalibration();}});

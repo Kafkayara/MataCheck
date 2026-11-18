@@ -56,6 +56,8 @@ Pilih **Berhenti & lihat catatan** pada latihan, persiapan mata, demo atau perga
 
 ## Perubahan kondisi dan privasi
 
+Jika latihan yang selesai dibatalkan karena meninggalkan halaman/jendela, pesan menjelaskan penyebabnya dan meminta latihan Kanan diulang. Saat kembali, fokus menuju tombol Kanan; jawaban benar membuka lanjut kembali.
+
 Pindah tab/jendela saat demo menyembunyikan simbol dan mengulang mata aktif; mata yang selesai dipertahankan. Pilih Ulangi mata ini; P tidak melewati konfirmasi. Gangguan kalibrasi parsial mengulang pencocokan tanpa penalti. Latihan/pergantian mata perlu dikonfirmasi lagi setelah gangguan.
 
 Perubahan tampilan yang terdeteksi membatalkan kalibrasi, jarak dan respons kedua mata. Pergantian monitor dengan karakteristik sama mungkin tidak terdeteksi; gunakan tombol perubahan layar. Ringkasan selesai tidak diubah setelah tampilan berubah.

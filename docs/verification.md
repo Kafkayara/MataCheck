@@ -1,5 +1,12 @@
 # Verifikasi MataCheck
 
+## Tindak lanjut OpenCode: interupsi latihan — 18 November 2026
+
+- Baseline laporan cocok dengan HEAD `11ccd7e689ff5b5c73b2c2de51616b6aeeb3eaa6`. [CI run 44232655254](https://github.com/Kafkayara/MataCheck/actions/runs/44232655254) sukses; log job `134561182669` mengonfirmasi 496 assertion pada masing-masing lima viewport, pemeriksa privasi dan reload PASS. Ini tidak mencakup perubahan lokal berikut.
+- [Pemeriksaan setiap temuan](opencode-review.md) menemukan kurangnya penjelasan saat latihan dibatalkan oleh blur. Pesan interupsi dan pemulihan fokus kini ditambahkan, tanpa melemahkan prasyarat latihan. Kegagalan klik Kanan normal tidak terkonfirmasi; handler aktual membuka lanjut, lalu interupsi dapat menguncinya kembali.
+- Tes regresi mula-mula gagal pada alasan interupsi yang hilang, kemudian lulus. `npm test`, build preview, `npm run test:browser:prepare`, dan `git diff --check` lulus. `npm run test:browser` gagal meluncurkan Chrome dengan `Browser exit 2147483651; signal null`; tidak ada hasil DOM baru. Fixture menambah pesan, fokus, jawaban salah dan ulang latihan benar.
+- Seluruh uji fisik dan PDF nyata tetap BELUM DIUJI. Tidak ada perubahan parameter klinis atau klaim validasi.
+
 ## Detail kondisi kalibrasi pada catatan sesi — 18 November 2026
 
 - GitHub mengonfirmasi [run 44223022584](https://github.com/Kafkayara/MataCheck/actions/runs/44223022584) selesai dengan `success` untuk commit baseline `94e1b6be0803376fe52818cc3df5b4d1ce0bb53e`. Ini bukti perubahan pemeriksaan awal yang telah dipush, bukan perubahan lokal berikut.
