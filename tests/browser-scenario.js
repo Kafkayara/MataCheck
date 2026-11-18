@@ -25,7 +25,7 @@
       assert(filename==='MataCheck-catatan-simulasi.txt','Export filename missing');
       assert(report.querySelectorAll('.response-log li').length===expectedResponses,'Export report has wrong response count');
       for(const row of report.querySelectorAll('.response-log li'))assert(contents.includes(row.innerText),'Export lost a symbol/response pair');
-      for(const selector of ['#session-start','#session-end','#session-quality','#quality-resets'])assert(contents.includes(find(selector).innerText),'Export missing '+selector);
+      for(const selector of ['#session-start','#session-end','#session-age','#session-quality','#quality-resets'])assert(contents.includes(find(selector).innerText),'Export missing '+selector);
       const warning=find('#incomplete-session');
       if(warning)assert(contents.includes(warning.innerText),'Export lost incomplete-session warning');
       assert(!report.querySelector('button'),'Export report contains controls');
@@ -53,6 +53,7 @@
     for (const n of [-1,9,1.5,'NaN',2,3,4,5,6,7]) { attempt(n); screen(0); }
     click('[data-go="1"]'); screen(1); heading(); fit();
     assert(find('#next').disabled, 'Empty form allowed');
+    assert(find('#age')?.value==='','New session retained age');
     assert(find('#correction')?.value==='unrecorded','Screening correction missing or retained from old session');
     assert(find('#correction').compareDocumentPosition(find('#consent'))&Node.DOCUMENT_POSITION_FOLLOWING,'Correction must precede screening consent');
     find('#correction').value='contacts';find('#correction').dispatchEvent(new Event('change',{bubbles:true}));
@@ -63,7 +64,12 @@
     for (const n of [2,3,4,5,6,7]) { attempt(n); screen(1); }
     check('[value="no"]'); check('#consent', false);
     assert(find('#next').disabled, 'Consent missing');
-    check('#consent'); click('#next'); screen(2); fit();
+    check('#consent');
+    find('#age').value='2.5';find('#age').dispatchEvent(new Event('input',{bubbles:true}));
+    assert(find('#next').disabled&&find('#age-error').textContent,'Malformed age allowed');
+    check('#consent',false);check('#consent');attempt(2);screen(1);
+    find('#age').value='24';find('#age').dispatchEvent(new Event('input',{bubbles:true}));
+    click('#next'); screen(2); fit();
     assert(find('#preparation-status').textContent.includes('Pilih cara'),'Missing mode explanation');
     assert(find('#cal-open').compareDocumentPosition(find('#next'))&Node.DOCUMENT_POSITION_FOLLOWING,'Continue appears before optional setup');
     attempt(3); screen(2); check('[name=mode][value=helper]'); check('.setup');
@@ -79,6 +85,7 @@
     assert(find('#distance-open').textContent==='Ubah catatan jarak','Distance not saved');
     click('[data-go="1"]');
     assert(find('#correction').value==='glasses','Returning to screening lost edited correction');
+    assert(find('#age').value==='24','Returning to screening lost age');
     assert(find('[value="no"]').checked && find('#consent').checked, 'Initial form lost');
     click('#next');
     assert([...root.querySelectorAll('.setup')].every(e=>e.checked), 'Preparation lost');
@@ -149,6 +156,7 @@
     assert(Number.isFinite(Date.parse(started))&&Number.isFinite(Date.parse(ended)),'Missing session timestamps');
     assert(find('#session-metadata').textContent.includes('jam perangkat'),'Missing device-clock explanation');
     assert(find('#session-quality').textContent.includes('Memakai kacamata'),'Summary lost correction');
+    assert(find('#session-age').textContent.includes('24 tahun penuh'),'Summary lost age');
       assert(find('#interruption-summary').textContent.includes('mata kanan 1 kali; mata kiri 1 kali'),'Wrong interruption counts');
       for(const title of ['Pengamatan','Kualitas sesi','Makna catatan','Tindak lanjut'])assert([...root.querySelectorAll('h2')].some(e=>e.textContent===title),'Missing summary section: '+title);
     assert([...root.querySelectorAll('.results strong')].every(e=>e.textContent==='3 dari 3 respons'), 'Wrong counts');
@@ -169,6 +177,7 @@
       assert(find('#session-start').getAttribute('datetime')===started&&find('#session-end').getAttribute('datetime')===ended,'Export changed session time');
     }finally{URL.createObjectURL=originalCreate;HTMLAnchorElement.prototype.click=originalClick;window.print=originalPrint;}
     click('#restart'); screen(1);
+    assert(find('#age').value==='','Restart retained age');
     assert(!find('#consent').checked && !find('[name=condition]:checked'), 'Restart retained form');
     attempt(5); screen(1);
     check('[value="no"]'); check('#consent'); click('#next');

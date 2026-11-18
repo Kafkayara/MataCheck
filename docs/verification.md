@@ -1,5 +1,12 @@
 # Verifikasi MataCheck
 
+## Pertanyaan usia sesuai PRD bagian 5 — 18 November 2026
+
+- Baseline `67ba90e`. Implementasi menambahkan usia tahun penuh pada pemeriksaan awal, opsional untuk demo dan tanpa ambang kelayakan. Input bukan bilangan bulat nonnegatif atau melebihi representasi integer tepat JavaScript ditolak sebagai format data, bukan kriteria klinis. Isian kosong tetap diperbolehkan.
+- Usia bertahan saat kembali ke pemeriksaan awal atau memilih mode. Nilai masuk ringkasan dan ekspor artikel, termasuk catatan parsial; tidak dicatat bila kosong. Reset sesi membersihkan nilai, teks input dan error. Tidak ada penyimpanan persisten, analitik, atau skor baru.
+- Tes baru terlebih dahulu gagal karena perilaku usia belum tersedia, lalu lulus setelah implementasi. `npm test` lulus termasuk input kosong/nol, integer, leading zero, desimal, negatif, eksponen, input berbahaya, overflow, guard keluhan/persetujuan, ringkasan terkunci, dan reset. Preview dibangun ulang. Fixture memeriksa kesalahan format tidak dapat dilewati, retensi navigasi/mode, ringkasan, ekspor dan reset.
+- `npm run test:browser:prepare` lulus. Percobaan `npm run test:browser` gagal meluncurkan Chrome (`Browser exit 2147483651; signal null`), bukan laporan assertion DOM. Browser perubahan ini belum terverifikasi; perlu CI setelah push. Uji manual tetap BELUM DIUJI. `git diff --check` lulus.
+
 ## Penyelarasan pemeriksaan awal dengan PRD asli — 18 November 2026
 
 - Seluruh enam halaman PRD v0.1 dibaca; [perbandingan sumber dan implementasi](prd-comparison.md) mencatat kebutuhan wajib, fitur tambahan, usulan stack, serta keputusan prototipe yang tidak berasal dari PRD. FR-02 tetap sebagian.

@@ -5,7 +5,7 @@ Acuan utama: PRD.pdf v0.1, seluruh 6 halaman, dibaca ulang 18 November 2026. Sta
 | ID | Status | Sudah ada | Masih diperlukan |
 | --- | --- | --- | --- |
 | FR-01 | Terimplementasi untuk prototipe | Penjelasan simulasi, perangkat, batas hasil, tanpa resep/diagnosis | Uji pemahaman pengguna dan peninjauan teks sebelum pengukuran |
-| FR-02 | Sebagian | Cabang keluhan/ketidakpastian menghentikan alur; persetujuan; catatan kacamata/lensa kontak sejak pemeriksaan awal, dapat diubah di Persiapan | Pertanyaan usia belum ada; rentang usia, populasi dan daftar pengecualian perlu ditetapkan profesional |
+| FR-02 | Sebagian | Pertanyaan usia dengan validasi format, retensi dan penghapusan; cabang keluhan/ketidakpastian menghentikan alur; persetujuan; catatan kacamata/lensa kontak sejak pemeriksaan awal | Usia masih opsional untuk demo dan tidak menentukan kelayakan; rentang usia, populasi dan daftar pengecualian perlu ditetapkan profesional |
 | FR-03 | Sebagian | Penggaris dua pencocokan, verifikasi dua sumbu, batas gagal, invalidasi tampilan | Kalibrasi belum mengatur ukuran fisik simbol demo; uji perangkat fisik dan toleransi final |
 | FR-04 | Sebagian | Catatan jarak aktual dengan meteran, konfirmasi posisi dan alat jawab | Target/toleransi protokol belum ditetapkan; jarak belum memengaruhi stimulus |
 | FR-05 | Sebagian | Dua mata terpisah, SVG E, arah acak, latihan dan pasangan arah aktual/respons per percobaan | Tingkat ukuran, jumlah respons, adaptasi, aturan berhenti dan penilaian sesuai protokol |

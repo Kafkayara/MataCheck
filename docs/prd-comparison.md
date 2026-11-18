@@ -37,6 +37,8 @@ Kode saat ini berada pada tahap prototipe alur (bagian 12, hlm. 6): respons simu
 
 ## Perubahan yang dapat dilakukan sekarang
 
+Pembaruan setelah implementasi koreksi: pertanyaan usia pada bagian 5 kini juga tersedia. Isian tahun penuh bersifat opsional untuk demo; jika diisi, formatnya harus berupa bilangan bulat nonnegatif yang dapat direpresentasikan tepat oleh JavaScript. Ini aturan format data, bukan batas populasi klinis. Usia disertakan pada ringkasan/ekspor, dipertahankan saat navigasi/pemilihan mode, dan dibersihkan saat hapus atau sesi baru. Catatan “usia belum ada” dalam tabel perbandingan di atas menggambarkan baseline sebelum perubahan ini. Rentang kelayakan tetap belum ditetapkan, sehingga FR-02 belum lengkap.
+
 Subkebutuhan bagian 5: pertanyaan kacamata/lensa kontak pada pemeriksaan awal. Kontrol yang sudah ada kini ditampilkan pada pemeriksaan awal sebelum persetujuan, dan tetap tersedia di Persiapan untuk perubahan kondisi. Pilihan pertama mode mempertahankan catatan pemeriksaan awal; mengganti mode yang sudah dipilih tetap membersihkan kondisi/respons sesuai kebijakan reset prototipe. Hapus atau mulai sesi baru tetap menghapus catatan.
 
 Perubahan memakai kategori yang sudah ada, tanpa ukuran resep, ambang usia, skor, diagnosis, kamera atau penyimpanan baru. Pilihan tetap opsional untuk demo, bukan penetapan protokol kelayakan. Guard keluhan/persetujuan tetap berlaku. FR-02 tetap sebagian karena pertanyaan usia dan kriteria profesional belum tersedia. Tes state ditambah; fixture browser menguji keberadaan/urutan kontrol, retensi mode pertama dan kembali dari Persiapan. Status eksekusinya dicatat di `verification.md`.

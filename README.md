@@ -24,6 +24,7 @@ Preview dihasilkan otomatis; jangan diedit terpisah. Tes browser menggunakan Chr
 
 ## Fitur saat ini
 
+- Pertanyaan usia dalam tahun penuh pada pemeriksaan awal, opsional untuk demo. Format salah perlu diperbaiki atau dikosongkan. Usia yang diisi ikut ringkasan/TXT/cetakan, hanya disimpan dalam memori sesi, dan dihapus saat sesi baru atau Hapus sesi. Tidak ada ambang usia atau keputusan kelayakan klinis.
 - Enam langkah: pemeriksaan awal, persiapan, latihan, mata kanan, mata kiri dan ringkasan. Pergantian mata hanya meminta satu konfirmasi.
 - Mode sendiri: panah untuk arah, N untuk Tidak terlihat, P untuk jeda/lanjut. Pendamping menggunakan tombol layar. Menahan tombol tidak mengisi jawaban berikutnya.
 - SVG E grid 5x5, tetap 120 CSS px. Tiga orientasi acak independen per mata; arah boleh berulang. Jeda manual mempertahankan simbol; ulang setelah interupsi menghasilkan urutan baru.
