@@ -56,6 +56,8 @@ Pilih **Berhenti & lihat catatan** pada latihan, persiapan mata, demo atau perga
 
 ## Perubahan kondisi dan privasi
 
+Meninggalkan tab/jendela saat editor jarak terbuka membatalkan ketiga konfirmasinya. Angka yang diketik tetap ada; periksa ulang pengukuran, posisi dan alat jawab sebelum menyimpan. Interupsi biasa di luar editor tidak menghapus catatan jarak yang sudah disimpan.
+
 Jika latihan yang selesai dibatalkan karena meninggalkan halaman/jendela, pesan menjelaskan penyebabnya dan meminta latihan Kanan diulang. Saat kembali, fokus menuju tombol Kanan; jawaban benar membuka lanjut kembali.
 
 Pindah tab/jendela saat demo menyembunyikan simbol dan mengulang mata aktif; mata yang selesai dipertahankan. Pilih Ulangi mata ini; P tidak melewati konfirmasi. Gangguan kalibrasi parsial mengulang pencocokan tanpa penalti. Latihan/pergantian mata perlu dikonfirmasi lagi setelah gangguan.

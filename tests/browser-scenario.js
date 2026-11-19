@@ -89,6 +89,12 @@
     assert(find('#preparation-status').textContent.includes('catatan jarak'),'Missing unfinished distance explanation');
     click('#distance-save');assert(find('#distance-error').textContent.includes('positif'),'Empty distance accepted');
     find('#distance-cm').value='150,5';click('#distance-save');assert(find('#distance-error').textContent.includes('ketiga'),'Distance accepted without confirmations');
+    check('#distance-measured');check('#distance-stable');check('#distance-input');
+    window.dispatchEvent(new Event('blur'));
+    assert(['distance-measured','distance-stable','distance-input'].every(id=>!find('#'+id).checked),'Interrupted distance retained confirmations');
+    assert(find('#distance-cm').value==='150,5','Interrupted distance lost typed value');
+    assert(find('#distance-error').textContent.includes('terhenti'),'Interrupted distance has no explanation');
+    click('#distance-save');assert(find('#distance-cm')&&find('#next').disabled,'Interrupted distance allowed continuation');
     check('#distance-measured');check('#distance-stable');check('#distance-input');click('#distance-save');
     assert(find('#distance-open').textContent==='Ubah catatan jarak','Distance not saved');
     click('[data-go="1"]');

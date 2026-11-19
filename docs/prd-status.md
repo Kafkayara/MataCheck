@@ -17,6 +17,7 @@ Acuan utama: PRD.pdf v0.1, seluruh 6 halaman, dibaca ulang 18 November 2026. Sta
 
 ## Kriteria penerimaan MVP
 
+- FR-04/06: interupsi tab/jendela saat editor jarak terbuka kini membatalkan ketiga konfirmasi. Angka yang diketik dipertahankan, tetapi simpan dan lanjut tetap memerlukan konfirmasi ulang. Catatan jarak yang sudah disimpan tidak dibatalkan oleh interupsi biasa. Ini kebijakan kesiapan prototipe, bukan verifikasi posisi otomatis.
 - FR-03: pembacaan verifikasi penggaris kini menolak notasi eksponen/hex/biner/oktal dan teks bersatuan; hanya desimal biasa dengan koma/titik diterima. Perbaikan validasi format ini tidak mengubah toleransi rekayasa atau memenuhi kebutuhan ukuran fisik stimulus yang masih terbuka. CI baseline `25cc689` [lulus](https://github.com/Kafkayara/MataCheck/actions/runs/44261019560); perubahan format terbaru belum tercakup.
 - FR-06: interupsi setelah latihan selesai kini menjelaskan alasan tombol lanjut terkunci dan mengarahkan fokus ke pengulangan latihan. [Evaluasi temuan OpenCode](opencode-review.md) memisahkan bug UX, keterbatasan alat dan sisa kebutuhan PRD. CI baseline `11ccd7e` lulus; skenario perubahan lokal masih menunggu CI.
 - FR-09 kini mencatat pembacaan verifikasi penggaris dua sumbu sebagai detail kondisi sesi pada ringkasan dan ekspor. Ini penambahan rekayasa untuk keterlacakan kondisi; PRD tidak menentukan format atau toleransi angkanya. FR-03 tetap sebagian karena kalibrasi belum mengatur ukuran fisik simbol demo.

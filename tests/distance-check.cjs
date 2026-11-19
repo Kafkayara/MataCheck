@@ -15,7 +15,18 @@ press('position-change');assert.equal(ctx.page,2);assert.equal(ctx.answers.flat(
 press('distance-open');assert(state.distanceEditing);
 press('distance-save');assert.equal(state.distance,null);assert(fields['distance-error'].textContent.includes('ketiga'));
 for(const id of ['distance-measured','distance-stable','distance-input'])fields[id].checked=true;
+ctx.heldKeys=new Set();
+vm.runInContext(source.match(/\/\/ INTERRUPTION START([\s\S]*?)\/\/ INTERRUPTION END/)[1],ctx);
+ctx.interruptSession();
+for(const id of ['distance-measured','distance-stable','distance-input'])assert.equal(fields[id].checked,false,'Interrupted distance editor retained confirmation: '+id);
+assert.equal(fields['distance-cm'].value,'150,5','Interruption must preserve the typed distance');
+assert(fields['distance-error'].textContent.includes('terhenti'));
+press('distance-save');assert.equal(state.distance,null,'Interrupted confirmations allowed saving');
+assert(state.distanceEditing);
+ctx.interruptSession();
+for(const id of ['distance-measured','distance-stable','distance-input'])fields[id].checked=true;
 press('distance-save');assert.equal(state.distance.mm,1505);assert.equal(state.distanceEditing,false);assert(ctx.distanceLabel().includes('150.5 cm'));
+ctx.interruptSession();assert.equal(state.distance.mm,1505,'Interruption outside the editor must preserve saved distance');
 ctx.answers=[['a','b','c'],[]];state.practiced=true;press('distance-open');assert.equal(ctx.answers[0].length,0);assert.equal(state.distance,null);assert.equal(state.practiced,false);
 fields['distance-cm'].value='0';press('distance-save');assert.equal(state.distance,null);assert(state.distanceEditing);
 press('distance-skip');assert.equal(state.distanceEditing,false);assert(ctx.distanceLabel().includes('belum dicatat'));

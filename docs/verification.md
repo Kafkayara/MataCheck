@@ -1,5 +1,12 @@
 # Verifikasi MataCheck
 
+## Interupsi saat mengisi jarak — 19 November 2026
+
+- Baseline `be6d482`; working tree bersih saat pemeriksaan awal. Tes regresi membuktikan ketiga konfirmasi editor jarak sebelumnya tetap tercentang setelah interupsi jendela.
+- Handler interupsi bersama untuk blur/visibilitychange kini mengosongkan ketiga konfirmasi pada editor aktif, mempertahankan angka yang diketik dan menjelaskan langkah pemeriksaan ulang. Validasi simpan yang sudah ada menolak penyimpanan sampai seluruh konfirmasi diperbarui. Interupsi di luar editor tidak menghapus jarak tersimpan.
+- Tes awal gagal pada `Interrupted distance editor retained confirmation: distance-measured`, kemudian lulus. Tes mencakup retensi input, penolakan simpan, interupsi berulang, simpan setelah konfirmasi ulang, dan retensi jarak tersimpan. `npm test`, build preview, `npm run test:browser:prepare`, serta `git diff --check` lulus.
+- Fixture browser menambahkan jalur blur saat editor aktif dan pemeriksaan bahwa lanjut tetap terkunci sampai simpan berhasil. Fixture terbaru belum dieksekusi pada browser; perlu CI setelah push. Uji fisik tetap BELUM DIUJI; tidak ada parameter klinis baru.
+
 ## Validasi format pembacaan penggaris — 18 November 2026
 
 - Baseline `25cc68920de14a5185ce73facd1ba48880b99211` memiliki [CI run 44261019560](https://github.com/Kafkayara/MataCheck/actions/runs/44261019560) berstatus sukses. Working tree bersih saat pekerjaan dimulai.

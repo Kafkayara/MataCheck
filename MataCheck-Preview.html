@@ -468,6 +468,11 @@ root.addEventListener('click',e=>{
 // INTERRUPTION START
 function interruptSession(){
   heldKeys.clear();
+  if(page===2&&formState.distanceEditing){
+    for(const id of ['distance-measured','distance-stable','distance-input'])main.querySelector('#'+id).checked=false;
+    main.querySelector('#distance-error').textContent='Persiapan jarak terhenti karena kamu meninggalkan halaman atau jendela. Angka jarak tetap tersimpan di isian; periksa kembali pengukuran, posisi, dan alat jawab sebelum mencentang ketiga konfirmasi.';
+    return;
+  }
   const c=formState.calibration;
   if(page===8&&c?.status==='pending'&&(c.first!==null||c.stage==='verify')){
     const failures=c.failures;formState.calibration=newCalibration();formState.calibration.failures=failures;
