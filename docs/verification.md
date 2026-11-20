@@ -1,5 +1,13 @@
 # Verifikasi MataCheck
 
+## Penguncian sesi lengkap — 20 November 2026
+
+- Baseline `ce45d5f465d5c3f067bff36fe3349b0c855fb39a` terkonfirmasi sukses pada [CI run 44556767780](https://github.com/Kafkayara/MataCheck/actions/runs/44556767780). Working tree bersih sebelum perubahan.
+- Tes membuktikan guard sesi lengkap masih menerima rute pemeriksaan awal/persiapan/trial. Rute tersebut kini ditolak setelah waktu selesai tercatat; ringkasan dan beranda tetap tersedia. Sesi parsial juga tidak dapat kembali mengedit pemeriksaan awal. Reset sesi baru membuka alur dengan data kosong.
+- Tes tambahan membuktikan kembali ke beranda lalu invalidasi layar dapat membuang respons dari sesi selesai. Invalidasi kini mempertahankan catatan yang sudah berakhir di semua halaman, bukan hanya saat ringkasan sedang tampil.
+- Kedua regresi gagal sebelum perbaikan lalu lulus. `npm test`, build preview, `npm run test:browser:prepare`, dan `git diff --check` lulus. Cakupan meliputi penguncian navigasi, retensi respons/waktu, reset sesi, serta invalidasi setelah beranda. Fixture browser memeriksa artikel ringkasan tetap sama setelah navigasi ditolak; fixture terbaru belum dieksekusi dan memerlukan CI setelah push.
+- Uji fisik tetap BELUM DIUJI. Tidak ada perubahan parameter pengukuran, skor atau klaim klinis.
+
 ## Interupsi saat mengisi jarak — 19 November 2026
 
 - Baseline `be6d482`; working tree bersih saat pemeriksaan awal. Tes regresi membuktikan ketiga konfirmasi editor jarak sebelumnya tetap tercentang setelah interupsi jendela.

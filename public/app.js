@@ -157,7 +157,7 @@ function fitCalibration(){
 }
 function invalidateCalibration(){
   const c=formState.calibration;if(!c||c.status==='skipped'||c.status==='blocked')return;
-  if(page===5)return;
+  if(page===5||formState.completedAt||formState.endedEarly)return;
   recordQualityReset('display');
   c.status='stale';c.verification=null;c.scale=null;c.first=null;c.snapshot=null;c.message='Tampilan berubah. Cocokkan ulang ukuran layar sebelum melanjutkan, atau pilih demo tanpa kalibrasi.';
   formState.distance=null;formState.distanceEditing=false;answers=[[],[]];formState.practiced=false;formState.practiceInterrupted=false;formState.switched=false;ready=false;paused=false;interrupted=false;q=0;
@@ -166,7 +166,7 @@ function invalidateCalibration(){
 }
 function checkCalibration(){const c=formState.calibration;if(c?.snapshot&&c.snapshot!==displaySnapshot())invalidateCalibration();if(page===8)fitCalibration();}
 const action=(n,t,primary=true)=>`<button class="${primary?'primary':''}" data-go="${n}">${t}</button>`;
-function canEnter(n){if(!Number.isInteger(n)||n<0||n>8)return false;if(n<=1)return true;if(formState.screeningStopped||formState.condition!=='no'||!formState.consent||formState.ageInvalid)return false;if(formState.endedEarly)return n===5;if(n===2)return true;if(n===8)return !!formState.calibration;if(formState.distanceEditing)return false;if(!['solo','helper'].includes(formState.mode)||!formState.setup.every(Boolean))return false;if(formState.calibration&& !['valid','skipped'].includes(formState.calibration.status))return false;if(n===6)return true;if(!formState.practiced)return false;if(n===3)return true;if(answers[0].length!==3)return false;if(n===7)return true;if(!formState.switched)return false;if(n===4)return true;return answers[1].length===3;}
+function canEnter(n){if(!Number.isInteger(n)||n<0||n>8)return false;if(n<=1)return n===0||(!formState.completedAt&&!formState.endedEarly);if(formState.screeningStopped||formState.condition!=='no'||!formState.consent||formState.ageInvalid)return false;if(formState.endedEarly||formState.completedAt)return n===5;if(n===2)return true;if(n===8)return !!formState.calibration;if(formState.distanceEditing)return false;if(!['solo','helper'].includes(formState.mode)||!formState.setup.every(Boolean))return false;if(formState.calibration&& !['valid','skipped'].includes(formState.calibration.status))return false;if(n===6)return true;if(!formState.practiced)return false;if(n===3)return true;if(answers[0].length!==3)return false;if(n===7)return true;if(!formState.switched)return false;if(n===4)return true;return answers[1].length===3;}
 function go(n){checkCalibration();if(!canEnter(n))return;if((page===3||page===4)&&ready&&q<3&&n!==5)answers[page-3]=[];const startLeft=page===7&&n===4;if(n===5&&!formState.completedAt)formState.completedAt=new Date().toISOString();page=n;q=0;ready=startLeft;paused=false;interrupted=false;if(startLeft){answers[1]=[];formState.directions[1]=newDirections();}render();main.querySelector("h1")?.focus({preventScroll:true})}
 const solo=()=>formState.mode==='solo';
 const keyboardHelp='Panah: arah E. N: Tidak terlihat. P: Jeda atau lanjutkan. Lepaskan tombol sebelum menjawab lagi.';

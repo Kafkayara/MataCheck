@@ -56,3 +56,8 @@ vm.runInContext(check,ctx);ctx.checkCalibration();assert.equal(ctx.page,3);
 state.calibration.snapshot='previous';ctx.checkCalibration();assert.equal(ctx.page,8);assert.equal(state.calibration.status,'stale');
 console.log('PASS: unchanged display retained; changed snapshot triggers invalidation');
 assert.equal(state.qualityResets.display,1,'Repeated invalidation without responses must not count again');
+state.completedAt='2026-11-20T00:00:00.000Z';state.calibration={status:'valid',scale:3.82,snapshot:'old'};
+ctx.page=0;ctx.answers=[['atas','kanan','kiri'],['atas','kanan','kiri']];
+ctx.invalidateCalibration();
+assert.equal(state.calibration.status,'valid','Leaving summary for home must not unfreeze a completed report');
+assert.equal(ctx.answers.flat().length,6);

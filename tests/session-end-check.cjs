@@ -11,7 +11,7 @@ for(const page of [3,4,6,7]){
   const ctx=session(page),before=JSON.stringify(ctx.answers);ctx.endSession();
   assert.equal(ctx.page,5);assert.equal(ctx.formState.endedEarly,true);assert.equal(ctx.ready,false);
   assert.equal(JSON.stringify(ctx.answers),before,'Stop must retain submitted responses');assert.equal(ctx.heldKeys.size,0);
-  assert.equal(ctx.canEnter(5),true);for(const n of [2,3,4,6,7,8])assert.equal(ctx.canEnter(n),false,'Ended session must not resume');
+  assert.equal(ctx.canEnter(5),true);for(const n of [1,2,3,4,6,7,8])assert.equal(ctx.canEnter(n),false,'Ended session must not resume');
   ctx.endSession();assert.equal(JSON.stringify(ctx.answers),before);
   ctx.resetSession(1);assert.equal(ctx.page,1);assert.equal(ctx.formState.endedEarly,false);assert.equal(ctx.answers.flat().length,0);
   assert.equal(Object.values(ctx.formState.qualityResets).reduce((a,b)=>a+b,0),0);assert.equal(ctx.formState.distance,null);assert.equal(ctx.formState.calibration,null);assert.equal(ctx.formState.correction,'unrecorded');assert.equal(ctx.formState.consent,false);

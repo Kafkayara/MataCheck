@@ -182,6 +182,9 @@
     assert(!find('#incomplete-session'),'Completed helper session marked incomplete');
     assert(!find('#end-session'),'Completed session still offers early stop');
     verifyTextExport(6);
+    const frozenReport=find('#session-report').innerText;
+    for(const target of [1,2,3,4,6,7,8]){attempt(target);screen(5);}
+    assert(find('#session-report').innerText===frozenReport,'Completed report changed after rejected navigation');
     // Verify DOM wiring without starting a real download or opening a print dialog.
     const originalCreate=URL.createObjectURL,originalClick=HTMLAnchorElement.prototype.click,originalPrint=window.print;
     let exportedBlob,downloadName,printCalls=0;

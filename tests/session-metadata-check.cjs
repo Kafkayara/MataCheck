@@ -13,6 +13,14 @@ vm.runInContext(source.match(/function canEnter\(n\)\{[\s\S]*?(?=const solo)/)[0
 vm.runInContext(source.match(/\/\/ SESSION END START([\s\S]*?)\/\/ SESSION END END/)[1],ctx);
 now='2026-11-15T17:05:00.000Z';ctx.go(5);assert.equal(state.completedAt,now);assert.equal(state.startedAt,'2026-11-15T17:00:00.000Z');
 now='2026-11-15T18:00:00.000Z';ctx.go(5);assert.equal(state.completedAt,'2026-11-15T17:05:00.000Z','Revisiting summary must not update end time');
+const completedAnswers=JSON.stringify(ctx.answers);
+for(const target of [1,2,3,4,6,7,8]){
+ assert.equal(ctx.canEnter(target),false,'Completed session must reject editing or restarting a trial');
+ ctx.go(target);assert.equal(ctx.page,5);
+ assert.equal(JSON.stringify(ctx.answers),completedAnswers);
+ assert.equal(state.completedAt,'2026-11-15T17:05:00.000Z');
+}
+assert.equal(ctx.canEnter(0),true);assert.equal(ctx.canEnter(5),true);
 ctx.resetSession(0);assert.equal(state.startedAt,null);assert.equal(state.completedAt,null);
 ctx.resetSession(1);assert.equal(state.startedAt,now);assert.equal(state.completedAt,null);
 Object.assign(state,{condition:'no',consent:true,mode:'solo',setup:[true,true]});ctx.page=6;
