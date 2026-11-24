@@ -97,6 +97,11 @@
     click('#distance-save');assert(find('#distance-cm')&&find('#next').disabled,'Interrupted distance allowed continuation');
     check('#distance-measured');check('#distance-stable');check('#distance-input');click('#distance-save');
     assert(find('#distance-open').textContent==='Ubah catatan jarak','Distance not saved');
+    click('#distance-open');
+    assert(find('#distance-cm').value==='150,5','Editor did not prefill saved distance');
+    find('#distance-cm').value='200';click('#distance-cancel');
+    assert(document.activeElement===find('#distance-open'),'Cancel did not return focus to the distance editor button');
+    click('#distance-open');assert(find('#distance-cm').value==='150,5','Cancelled edit changed saved distance');
     click('[data-go="1"]');
     assert(find('#correction').value==='glasses','Returning to screening lost edited correction');
     assert(find('#age').value==='24','Returning to screening lost age');
@@ -174,7 +179,16 @@
         if (answer !== 'kiri') assert(document.activeElement.dataset.answer === answer, 'Answer focus lost');
       }
       heading();
-      if (eye===3) { screen(7); eyeGuide('kiri'); fit(); attempt(4); screen(7); assert(find('#next').disabled,'Switch confirmation missing'); check('#switch-eye'); window.dispatchEvent(new Event('blur'));assert(find('#next').disabled&&!find('#switch-eye').checked,'Interrupted switch remained confirmed');check('#switch-eye'); click('#next'); screen(4); }
+      if(eye===3){
+        screen(7);eyeGuide('kiri');fit();attempt(4);screen(7);
+        assert(find('#next').disabled,'Switch confirmation missing');
+        check('#switch-eye');window.dispatchEvent(new Event('blur'));
+        assert(find('#next').disabled&&!find('#switch-eye').checked,'Interrupted switch remained confirmed');
+        assert(find('#switch-status').textContent.includes('centang ulang'),'Missing switch recovery explanation');
+        window.dispatchEvent(new Event('focus'));
+        assert(document.activeElement===find('#switch-eye'),'Switch recovery did not focus the confirmation');
+        check('#switch-eye');click('#next');screen(4);
+      }
     }
     screen(5); fit(); assert(root.querySelectorAll('.response-log li').length===6,'Wrong response log');
     assert(find('#session-quality').textContent.includes('150.5 cm'),'Summary lost distance');
@@ -197,6 +211,8 @@
     const frozenReport=find('#session-report').innerText;
     for(const target of [1,2,3,4,6,7,8]){attempt(target);screen(5);}
     assert(find('#session-report').innerText===frozenReport,'Completed report changed after rejected navigation');
+    click('[data-go="0"]');screen(0);click('[data-go="5"]');screen(5);
+    assert(find('#session-report').innerText===frozenReport,'Reopening a completed report changed its contents');
     // Verify DOM wiring without starting a real download or opening a print dialog.
     const originalCreate=URL.createObjectURL,originalClick=HTMLAnchorElement.prototype.click,originalPrint=window.print;
     let exportedBlob,downloadName,printCalls=0;
@@ -306,14 +322,18 @@
     assert(!find('.session-line'),'Stopped session marked all steps complete');
     assert(!find('[data-answer]'),'Ended session still accepts answers');
     attempt(4);screen(5);
+    click('[data-go="0"]');click('[data-go="5"]');screen(5);verifyTextExport(4);
     click('[data-go="0"]');click('[data-go="1"]');screen(1);
     assert(!find('#consent').checked&&!find('[name=condition]:checked'),'Home start retained session');
+    click('[data-go="0"]');screen(0);assert(!find('[data-go="5"]'),'New session left old report accessible');
+    click('[data-go="1"]');screen(1);
     check('[value="no"]');check('#consent');click('#next');check('[name=mode][value=helper]');
     check('.setup');check('label.check:nth-of-type(2) .setup');click('#next');click('#end-session');screen(5);
     assert(root.querySelectorAll('.response-log li').length===0,'Practice counted as a response');
     assert(find('#incomplete-session'),'Stopped practice missing warning');
     verifyTextExport(0);
-    click('#clear-session');screen(0);
+    click('[data-go="0"]');screen(0);assert(!find('#clear-session').hidden,'Home hid clear-session while retaining a report');
+    click('#clear-session');screen(0);assert(!find('[data-go="5"]'),'Clearing from home left old report accessible');
     assert(window.__privacyAudit.calls.length===0,'Unexpected privacy API calls: '+window.__privacyAudit.calls.join(', '));
     const result = document.createElement('pre'); result.id='qa-result';
     result.textContent='PASS '+count+' assertions; guards, symptoms, retained inputs, both eyes, pause, focus, reset, overflow; privacy API guards PASS';

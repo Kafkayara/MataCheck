@@ -1,5 +1,13 @@
 # Verifikasi MataCheck
 
+## Edit jarak, pergantian mata, dan buka ulang ringkasan — 24 November 2026
+
+- Baseline `19222cb`. Membuka editor jarak menampilkan nilai tersimpan dan mempertahankan progres. Simpan yang tidak valid, batal, atau kembali ke pemeriksaan awal tidak mengubah catatan. Menyimpan jarak atau memilih lanjut tanpa catatan tetap membuang progres sesuai aturan posisi. Interupsi saat mengedit masih meminta ketiga konfirmasi ulang.
+- Setelah interupsi saat pergantian mata, tombol lanjut dikunci, konfirmasi dikosongkan, dan status menjelaskan cara melanjutkan. Fokus kembali ke konfirmasi saat jendela aktif. Respons mata kanan dipertahankan.
+- Ringkasan lengkap dan parsial dapat dibuka ulang dari beranda dengan isi dan waktu semula. Hapus sesi tersedia dari beranda saat ada ringkasan. Mulai baru, hapus, dan muat ulang tetap menghapus data sesi dari aplikasi.
+- `npm run build:preview`, `npm test`, dan `npm run test:browser` lulus. Chrome headless di luar sandbox menjalankan 573 asersi pada masing-masing dari lima ukuran layar (2.865 total), ditambah pemeriksaan privasi dan muat ulang sesi parsial. Chrome di dalam sandbox gagal diluncurkan dengan exit `2147483651`.
+- Uji fisik, file unduhan aktual, dialog cetak/PDF, dan evaluasi klinis tetap BELUM DIUJI.
+
 ## Proteksi tombol jeda dari keyboard ditahan — 24 November 2026
 
 - Baseline `fee0927`; README.md sudah memiliki perubahan lokal dan tidak diubah dalam pekerjaan ini.

@@ -27,8 +27,13 @@ ctx.formState.calibration.status='valid';ctx.formState.calibration.scale=3.8;
 ctx.interruptSession();assert.equal(ctx.formState.calibration.scale,3.8);
 ctx.page=6;ctx.formState.practiced=true;ctx.interruptSession();assert.equal(ctx.formState.practiced,false);
 assert.equal(ctx.formState.practiceInterrupted,true,'Interrupted practice must retain a reason for the disabled continue button');
+const switchFields={'#switch-eye':{checked:true,focus(){focused='#switch-eye';}},'#switch-status':{textContent:''},'#next':{disabled:false}};
+ctx.main={querySelector:selector=>switchFields[selector]};
 ctx.page=7;ctx.formState.switched=true;ctx.answers=[['a','b','c'],[]];ctx.interruptSession();
 assert.equal(ctx.formState.switched,false);assert.equal(ctx.answers[0].length,3);
+assert.equal(switchFields['#switch-eye'].checked,false);
+assert.equal(switchFields['#next'].disabled,true);
+assert.match(switchFields['#switch-status'].textContent,/centang ulang/);
 console.log('PASS: interrupted calibration restarts without penalty; practice and eye switch require reconfirmation');
 
 // Exercise the actual practice click handler, including the reported click-then-blur sequence.
@@ -46,8 +51,11 @@ practice('kanan');assert.equal(ctx.formState.practiced,true);assert.equal(next.d
 ctx.interruptSession();assert.equal(ctx.formState.practiced,false);assert.equal(ctx.formState.practiceInterrupted,true);
 assert(ctx.practiceFeedback().includes('meninggalkan halaman atau jendela'));
 ctx.interruptSession();assert(ctx.practiceFeedback().includes('Ulangi latihan'));
-vm.runInContext(source.match(/function restoreSessionFocus\(\)\{[^\n]+/)[0],ctx);
+vm.runInContext(source.match(/function restoreSessionFocus\(\)\{[\s\S]*?\n\}/)[0],ctx);
 ctx.restoreSessionFocus();assert.equal(focused,'[data-practice="kanan"]');
+const practiceMain=ctx.main;ctx.page=7;ctx.main={querySelector:selector=>switchFields[selector]};
+ctx.restoreSessionFocus();assert.equal(focused,'#switch-eye');
+ctx.page=6;ctx.main=practiceMain;
 practice('atas');assert.equal(ctx.formState.practiced,false);
 practice('kanan');assert.equal(ctx.formState.practiced,true);assert.equal(ctx.formState.practiceInterrupted,false);assert.equal(next.disabled,false);
 assert(!ctx.practiceFeedback().includes('terhenti'));

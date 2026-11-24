@@ -17,6 +17,8 @@ Acuan utama: PRD.pdf v0.1, seluruh 6 halaman, dibaca ulang 18 November 2026. Sta
 
 ## Kriteria penerimaan MVP
 
+- FR-04/06: membuka atau membatalkan edit jarak mempertahankan catatan dan progres. Menyimpan ulang atau memilih lanjut tanpa jarak mengulang progres sesuai aturan posisi yang ada. Setelah interupsi saat pergantian mata, aplikasi menjelaskan langkah pemulihan dan memfokuskan konfirmasi ulang. Respons mata kanan tetap tersimpan.
+- FR-07/09: beranda menyediakan akses kembali ke ringkasan lengkap atau parsial selama sesi masih ada di tab. Hapus sesi dan mulai sesi baru menghapus akses ke catatan lama. Tes kode dan browser lima ukuran layar lulus untuk perubahan ini.
 - FR-06: pengulangan native Enter/Spasi pada tombol Jeda, Lanjutkan, dan Ulangi mata ini kini dicegah pada kedua mode. Penekanan baru tetap tersedia. Tes kode lulus; skenario browser disiapkan tetapi browser lokal gagal diluncurkan. Keyboard fisik tetap BELUM DIUJI.
 - FR-06/07/09: sesi lengkap dan parsial kini sama-sama menolak kembali ke isian atau trial setelah berakhir. Invalidasi tampilan tidak mengubah catatan selesai, termasuk setelah kembali ke beranda. Memulai sesi baru tetap menghapus catatan lama. Ini penguncian data prototipe, bukan validasi hasil klinis.
 - FR-04/06: interupsi tab/jendela saat editor jarak terbuka kini membatalkan ketiga konfirmasi. Angka yang diketik dipertahankan, tetapi simpan dan lanjut tetap memerlukan konfirmasi ulang. Catatan jarak yang sudah disimpan tidak dibatalkan oleh interupsi biasa. Ini kebijakan kesiapan prototipe, bukan verifikasi posisi otomatis.
