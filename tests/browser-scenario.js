@@ -142,12 +142,24 @@
       Object.defineProperty(document,'hidden',{configurable:true,value:true});
       document.dispatchEvent(new Event('visibilitychange'));delete document.hidden;
       window.dispatchEvent(new Event('focus'));assert(document.activeElement===find('#pause'),'Interruption recovery focus missing');
+      for(const key of ['Enter',' ']){
+        const held=new KeyboardEvent('keydown',{key,repeat:true,bubbles:true,cancelable:true});
+        find('#pause').dispatchEvent(held);
+        assert(held.defaultPrevented,'Held activation can restart an interrupted eye');
+        assert(find('#pause').textContent==='Ulangi mata ini','Held activation restarted the eye');
+      }
       assert([...root.querySelectorAll('[data-answer]')].every(e=>e.disabled),'Interruption accepted responses');
       click('#pause');
       assert(find('.kicker').textContent===progress,'Interrupted eye did not restart at first trial');
       const orientation=find('.demo-e').style.transform;
       click('#pause'); fit();
       assert(document.activeElement.id === 'pause', 'Pause focus lost');
+      for(const key of ['Enter',' ']){
+        const held=new KeyboardEvent('keydown',{key,repeat:true,bubbles:true,cancelable:true});
+        find('#pause').dispatchEvent(held);
+        assert(held.defaultPrevented,'Held activation can resume a paused eye');
+        assert(find('#pause').textContent==='Lanjutkan','Held activation resumed the eye');
+      }
       assert([...root.querySelectorAll('[data-answer]')].every(e=>e.disabled), 'Paused answers enabled');
       assert(!find('.symbol b'), 'Paused symbol visible');
       click('[data-answer="kanan"]');

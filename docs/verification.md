@@ -1,5 +1,14 @@
 # Verifikasi MataCheck
 
+## Proteksi tombol jeda dari keyboard ditahan — 24 November 2026
+
+- Baseline `fee0927`; README.md sudah memiliki perubahan lokal dan tidak diubah dalam pekerjaan ini.
+- Guard keyboard sebelumnya hanya mencegah pengulangan native pada tombol jawaban. Saat fokus berada pada Jeda/Lanjutkan/Ulangi mata ini, Enter yang ditahan dapat mengaktifkan tombol kembali, termasuk setelah fokus dipulihkan dari interupsi.
+- Guard yang sama kini mencakup tombol tersebut sebelum pemeriksaan mode, sehingga berlaku pada mode sendiri maupun pendamping. Penekanan baru tetap memakai aktivasi native browser.
+- Regresi gagal sebelum perbaikan dengan `Held activation must not resume or restart through the pause button`, lalu lulus. Tes mencakup kedua mode, kondisi interupsi/noninterupsi, Enter/Spasi/Spacebar, dan penekanan baru. Fixture DOM memeriksa pembatalan default pengulangan keyboard saat jeda dan setelah interupsi.
+- `npm run build:preview`, `npm test`, dan `npm run test:browser:prepare` lulus. `npm run test:browser` gagal meluncurkan browser dengan exit `2147483651`; tidak ada klaim skenario browser terbaru lulus. Jalankan CI setelah push.
+- Keyboard fisik, uji perangkat, dan validasi klinis tetap BELUM DIUJI. Parameter simulasi tidak berubah.
+
 ## Penguncian sesi lengkap — 20 November 2026
 
 - Baseline `ce45d5f465d5c3f067bff36fe3349b0c855fb39a` terkonfirmasi sukses pada [CI run 44556767780](https://github.com/Kafkayara/MataCheck/actions/runs/44556767780). Working tree bersih sebelum perubahan.

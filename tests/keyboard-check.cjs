@@ -22,5 +22,19 @@ console.log('PASS: keyboard mapping, held keys, pause, confirmation, form and mo
 context.solo=()=>true;context.page=3;context.ready=true;context.interrupted=true;context.heldKeys.clear();
 const before=clicked.length;press('p');assert.equal(clicked.length,before,'P resumed interrupted session without confirmation');
 let prevented=0;
-for(const key of ['Enter',' '])context.handleKey({key,repeat:true,preventDefault(){prevented++;},target:{matches:selector=>selector==='button[data-answer]'}});
+for(const key of ['Enter',' '])context.handleKey({key,repeat:true,preventDefault(){prevented++;},target:{matches:selector=>selector.split(',').includes('button[data-answer]')}});
 assert.equal(prevented,2,'Native held activation must be prevented on answer buttons');
+for(const solo of [true,false]){
+  context.solo=()=>solo;
+  for(const interrupted of [true,false]){
+    context.interrupted=interrupted;
+    for(const key of ['Enter',' ','Spacebar']){
+      let blocked=false;
+      context.handleKey({key,repeat:true,preventDefault(){blocked=true;},target:{matches:selector=>selector.split(',').includes('#pause')}});
+      assert(blocked,'Held activation must not resume or restart through the pause button');
+      blocked=false;
+      context.handleKey({key,repeat:false,preventDefault(){blocked=true;},target:{matches:selector=>selector.split(',').includes('#pause')}});
+      assert.equal(blocked,false,'Fresh pause activation must remain available');
+    }
+  }
+}
